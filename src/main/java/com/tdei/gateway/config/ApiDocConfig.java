@@ -1,14 +1,16 @@
 package com.tdei.gateway.config;
 
-import io.swagger.v3.oas.models.info.*;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.tdei.gateway.middleware.LogInterceptor;
 
 
 @Configuration
@@ -17,11 +19,9 @@ public class ApiDocConfig implements WebMvcConfigurer {
     @Autowired
     private ApplicationProperties applicationProperties;
 
-    @Autowired
-    LogInterceptor logInterceptor;
-
     @Bean
-    public OpenAPI springShopOpenAPI() {
+    public OpenAPI springOpenAPI() {
+        final String securitySchemeName = "Access Token";
         return new OpenAPI()
                 .info(new Info().title(applicationProperties.getSwagger().getTitle())
                         .description(applicationProperties.getSwagger().getDescription())
@@ -29,11 +29,25 @@ public class ApiDocConfig implements WebMvcConfigurer {
                         .contact(new Contact().name(applicationProperties.getSwagger().getContact().getName())
                                 .email(applicationProperties.getSwagger().getContact().getEmail())
                                 .url(applicationProperties.getSwagger().getContact().getUrl())))
-                ;
+                .addSecurityItem(new SecurityRequirement().addList("ApiKey"))
+                .addSecurityItem(new SecurityRequirement().addList("AuthorizationToken"))
+                .components(new Components()
+                        .addSecuritySchemes("AuthorizationToken", oauthSecurityRequirement())
+                        .addSecuritySchemes("ApiKey", apikeySecurityRequirement()));
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-         registry.addInterceptor(logInterceptor);
+    private SecurityScheme oauthSecurityRequirement() {
+        return new SecurityScheme()
+                .scheme("bearer")
+                .type(SecurityScheme.Type.HTTP)
+                .in(SecurityScheme.In.HEADER)
+                .name(HttpHeaders.AUTHORIZATION);
+    }
+
+    private SecurityScheme apikeySecurityRequirement() {
+        return new SecurityScheme()
+                .type(SecurityScheme.Type.APIKEY)
+                .in(SecurityScheme.In.HEADER)
+                .name("x-api-key");
     }
 }

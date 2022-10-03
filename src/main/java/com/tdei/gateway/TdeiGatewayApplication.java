@@ -1,28 +1,27 @@
 package com.tdei.gateway;
 
+import com.microsoft.applicationinsights.attach.ApplicationInsights;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-
-import com.microsoft.applicationinsights.attach.ApplicationInsights;
 
 @SpringBootApplication
 @EnableConfigurationProperties
 @Slf4j
 public class TdeiGatewayApplication {
 
-	public static void main(String[] args) {
+    public static void main(String[] args) {
 
-		ApplicationInsights.attach();
-		SpringApplication.run(TdeiGatewayApplication.class, args);
-		log.info("TDEI Gateway API Started Successfully !");
-		log.info("^^^");
-	}
+        ApplicationInsights.attach();
+        SpringApplication.run(TdeiGatewayApplication.class, args);
+        log.info("TDEI Gateway API Started Successfully !");
+        log.info("^^^");
+    }
 
-	//Diagnostic logs - info, trace, debug, error - Bug resolutions - Short persistance - App Insights - POC - Dev driven
-	//Audit logs  - Event levels - Long persistance  - Internal system will make calls
-	//Analytics logs - Ip tracking, user logged in, data usage, no. of data publish - Internal system will make calls
+    //Diagnostic logs - info, trace, debug, error - Bug resolutions - Short persistance - App Insights - POC - Dev driven
+    //Audit logs  - Event levels - Long persistance  - Internal system will make calls
+    //Analytics logs - Ip tracking, user logged in, data usage, no. of data publish - Internal system will make calls
 
-	// Audit/Analytics store
+    // Audit/Analytics store
 }

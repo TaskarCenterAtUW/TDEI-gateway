@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties
 @Component
 @Data
- public class ApplicationProperties {
+public class ApplicationProperties {
     private SwaggerProperties swagger;
+    private String appname;
 
     @Data
     @NoArgsConstructor
-    public static  class SwaggerProperties
-    {
+    public static class SwaggerProperties {
         private SwaggerContact contact;
         private String title;
         private String description;
@@ -22,13 +22,11 @@ import org.springframework.stereotype.Component;
 
         @Data
         @NoArgsConstructor
-        public static  class SwaggerContact
-        {
+        public static class SwaggerContact {
             private String name = "";
             private String email = "";
             private String url = "";
         }
     }
-    private String appname;
 }
 
