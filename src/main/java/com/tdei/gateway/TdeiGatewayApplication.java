@@ -5,6 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
+import com.microsoft.applicationinsights.attach.ApplicationInsights;
+
 @SpringBootApplication
 @EnableConfigurationProperties
 @Slf4j
@@ -12,8 +14,10 @@ public class TdeiGatewayApplication {
 
 	public static void main(String[] args) {
 
+		ApplicationInsights.attach();
 		SpringApplication.run(TdeiGatewayApplication.class, args);
 		log.info("TDEI Gateway API Started Successfully !");
+		log.info("^^^");
 	}
 
 	//Diagnostic logs - info, trace, debug, error - Bug resolutions - Short persistance - App Insights - POC - Dev driven
