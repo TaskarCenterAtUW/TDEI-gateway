@@ -5,18 +5,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * List of API Versions.
- */
-@Schema(description = "List of API Versions.")
+@Schema(description = "information included when providing a list.")
 @Validated
 @Data
-public class VersionList {
-    @JsonProperty("versions")
-    @Schema(description = "versions")
-    @Valid
-    private List<String> versions = null;
+public class PageableResponse<T> {
+    @JsonProperty("pageable")
+    private Pageable pageable = null;
+
+    @JsonProperty("list")
+    private List<T> list = new ArrayList<>();
 }

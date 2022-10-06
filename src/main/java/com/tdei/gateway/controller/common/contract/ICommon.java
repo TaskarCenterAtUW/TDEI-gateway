@@ -6,8 +6,9 @@
 package com.tdei.gateway.controller.common.contract;
 
 import com.tdei.gateway.model.dto.common.Agency;
+import com.tdei.gateway.model.dto.common.PageableResponse;
 import com.tdei.gateway.model.dto.common.Station;
-import com.tdei.gateway.model.dto.common.VersionList;
+import com.tdei.gateway.model.dto.common.VersionSpec;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,39 +25,43 @@ import java.util.List;
 
 @Validated
 public interface ICommon {
-    @Operation(summary = "List Agencies", description = "Returns a list of all `agency` entities. See endpoint description for detail.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {})
+    @Operation(summary = "List Agencies", description = "Path used to retrieve the list of agencies with data in the TDEI system. Allows callers to get the tdei_agency_id id for an agency.  Returns the tdei_agency_id and agency information for all agencies with data in the TDEI system. ", security = {
+            @SecurityRequirement(name = "ApiKey")}, tags = {"General"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `Agency` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Agency.class)))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "agencies", produces = {"application/json"}, method = RequestMethod.GET)
-    ResponseEntity<List<Agency>> listAgencies();
+            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+    @RequestMapping(value = "agencies",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<PageableResponse<Agency>> listAgencies();
 
-
-    @Operation(summary = "List available API versions", description = "Lists the versions of the TDEI  API which are available.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {})
+    @Operation(summary = "List available API versions", description = "Returns a json list of the versions of the TDEI API which are available.", security = {
+            @SecurityRequirement(name = "ApiKey")}, tags = {"General"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns a list of versions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionList.class))),
+            @ApiResponse(responseCode = "200", description = "Returns a list of versions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "/api", produces = {"application/json"}, method = RequestMethod.GET)
-    ResponseEntity<VersionList> listApiVersions();
+            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+    @RequestMapping(value = "api",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<PageableResponse<VersionSpec>> listApiVersions();
 
-
-    @Operation(summary = "List Stations", description = "Returns a list of all `Station` entities. See endpoint description for detail.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {})
+    @Operation(summary = "List Stations", description = "Path used to retrieve the list of stations with data in the TDEI system. Allows callers to get the tdei_station_id id for a station.  Returns the tdei_station_id and station information for all stations with data in the TDEI system. ", security = {
+            @SecurityRequirement(name = "ApiKey")}, tags = {"General"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns an array of `Station` entities. ", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Station.class)))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.")})
-    @RequestMapping(value = "stations", produces = {"application/json"}, method = RequestMethod.GET)
+    @RequestMapping(value = "stations",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
     ResponseEntity<List<Station>> listStations();
 }
 

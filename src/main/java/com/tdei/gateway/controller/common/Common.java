@@ -2,8 +2,9 @@ package com.tdei.gateway.controller.common;
 
 import com.tdei.gateway.controller.common.contract.ICommon;
 import com.tdei.gateway.model.dto.common.Agency;
+import com.tdei.gateway.model.dto.common.PageableResponse;
 import com.tdei.gateway.model.dto.common.Station;
-import com.tdei.gateway.model.dto.common.VersionList;
+import com.tdei.gateway.model.dto.common.VersionSpec;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,12 +18,12 @@ import java.util.List;
 public class Common implements ICommon {
 
     @Override
-    public ResponseEntity<List<Agency>> listAgencies() {
+    public ResponseEntity<PageableResponse<Agency>> listAgencies() {
         return null;
     }
 
     @Override
-    public ResponseEntity<VersionList> listApiVersions() {
+    public ResponseEntity<PageableResponse<VersionSpec>> listApiVersions() {
         return null;
     }
 

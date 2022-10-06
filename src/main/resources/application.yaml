@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: tdei-gateway
+server:
+  port: '8080'
+spring-doc:
+  swagger-ui:
+    operationsSorter: alpha
+    tagsSorter: alpha
+    disable-swagger-default-url: 'true'
+  writer-with-default-pretty-printer: 'true'
+swagger:
+  description: This is an API for applications consuming data from and publishing
+    data to the Transportation Data Equity Initiative (TDEI) data system. This API
+    supports consuming and publishing of GTFS-Pathways, GTFS-Flex v2 and OpenSidewalks
+    data from and to the TDEI.
+  contact:
+    name: TDEI Support
+    email: placeholder_support@transequity.cs.washington.edu
+    url: https://placeholder.transequity.cs.washington.edu/support
+  title: TDEI API
+  version: 0.0.1
+keycloak:
+  auth-server-url: https://tdei-keycloak.azurewebsites.net:8080/
+  realm: tdei
+  enabled: true
+  bearer-only: true
+  resource: tdei-gateway
+  credentials:
+    secret: A71N884x3HbU2g4KKIsww8pt5VXxxNNH
+  use-resource-role-mappings: true
+logging:
+  level:
+    org.keycloak: DEBUG
+#    root: DEBUG
+#    web: DEBUG
