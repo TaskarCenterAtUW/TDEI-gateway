@@ -1,20 +1,27 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+This repository hosts all the internal documentation for the TDEI project. While the project wiki holds all the communication shared 
+across with TDEI, this repository will hold all the internal documentation that happens during the process of project.
+
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+All the documents are stored as markdown pages. All the markdown language usage will be appropriately used.
+If there are any attachments to be put up, these will be under the `.assets` directory of the same folder.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# Project structure
+
+- general
+Any general information is put up in this folder.
+- howto
+All the howto information along with the screenshots will be put up here. (Eg. AppInsights creating and configuring)
+- research
+All the research work pertaining to the project. Eg. database options, pricing models
+
+- adr (architectural decisions)
+All the architectural decisions will be put up here.
+
+Each folder will have a template to start with and can be extended appropriately.
+
 
 # Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
-
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+ Either write the documentation locally and directly push to master branch or 
+ edit the page in the browser.
