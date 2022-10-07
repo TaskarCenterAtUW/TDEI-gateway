@@ -38,10 +38,11 @@ Apart from the above, there needs to be research on the visualization tools that
 ## Visualization
 
 For this comparision, we have taken up about 4 visualization tools into consideration
-- Tableau
+- [Tableau](https://www.tableau.com/)
 - PowerBI
-- Metabase
+- [Metabase](https://www.metabase.com/)
 - [Domo](https://www.domo.com)
+- [Qlik Sense](https://www.qlik.com/us/products/qlik-sense)
 
 
 ### Connectivity
@@ -51,6 +52,21 @@ For this comparision, we have taken up about 4 visualization tools into consider
 | Tableau [Connectors](https://help.tableau.com/current/pro/desktop/en-us/exampleconnections_overview.htm) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:|
 | PowerBI [Connectors](https://learn.microsoft.com/en-us/power-query/connectors/) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  :white_check_mark:|
 | Domo [Connectors](https://www.domo.com/appstore/apps?q=azure)| :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Metabase [Data sources](https://www.metabase.com/data_sources/)| :x:  | :x: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
+| Qlik Sense [Data sources](https://www.qlik.com/us/products/qlik-sense/data-sources) | :x: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:|:white_check_mark:|
+
+### Pricing
+
+| | Tableau | PowerBI | Domo | Metabase | Qlik Sense |
+|-|-|-|-|-|-|
+| Link | [NA]() | [Pricing](https://powerbi.microsoft.com/en-us/pricing/) | [NA](https://www.domo.com/pricing) | [Pricing](https://www.metabase.com/pricing) | |
+| Approximate | - | $20 per user/month | | $85 for 5 users per month | $30/user/month |
+
+### Other alternatives
+- [Microstrategy](https://www.microstrategy.com/en)
+- Google Data studio
+- Visual.ly
+- Building own dashboard with d3 or any other charting library.
 
 
 
