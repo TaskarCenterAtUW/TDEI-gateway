@@ -16,6 +16,8 @@ After seggregating them as per the needs, we need to figure out the options for 
 
 For the above problems, we looked at all the database options that Azure offers along with other popular options of database.
 
+## Databases 
+
 The pricing is calculated with the following requirement:
 Data to be stored is 8GB
 RUs are about 8 Million per month.
@@ -32,6 +34,23 @@ Redundancy is limited to LRU
 | Throughput | Can take upto 10M operations per second | Limited to 20,000 operations per second | <> | <> | <> | 100k operations per second|
 
 Apart from the above, there needs to be research on the visualization tools that will be used. We will also talk about the visualization tools.
+
+## Visualization
+
+For this comparision, we have taken up about 4 visualization tools into consideration
+- Tableau
+- PowerBI
+- Metabase
+- [Domo](https://www.domo.com)
+
+
+### Connectivity
+
+| | Cosmos DB | Azure Table Storage | PostgreSQL | SQL | MySQL | MongoDB |
+|-|-|-|-|-|-|-|
+| Tableau [Connectors](https://help.tableau.com/current/pro/desktop/en-us/exampleconnections_overview.htm) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:|
+| PowerBI [Connectors](https://learn.microsoft.com/en-us/power-query/connectors/) | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |  :white_check_mark:|
+| Domo [Connectors](https://www.domo.com/appstore/apps?q=azure)| :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
 
 
 
