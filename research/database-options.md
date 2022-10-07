@@ -37,7 +37,7 @@ Apart from the above, there needs to be research on the visualization tools that
 
 ## Visualization
 
-For this comparision, we have taken up about 4 visualization tools into consideration
+For this comparision, we have taken up about 5 visualization tools into consideration
 - [Tableau](https://www.tableau.com/)
 - PowerBI
 - [Metabase](https://www.metabase.com/)
