@@ -1,4 +1,4 @@
-# Database options for audit and event logging
+# Database and visualization options for audit and event logging
 
 Author: Naresh
 
