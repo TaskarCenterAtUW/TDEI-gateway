@@ -7,7 +7,7 @@ There are about 4 options to choose from and these depend directly on the requir
 To understand the terminology, we have to understand the topography of how these server farms (cloud) is distributed across the globe. The heirarchy goes like Region, Zone and Datacenter. 
 
 This is depicted by the diagram below
-()[./assets/sample-board-azure-redundancy.jpg]
+![Redundancy](./.assets/sample-board-azure-redundancy1.jpg)
 
 Each resource is set to have a primary region and an optional secondary region for storage and redundancy
 
