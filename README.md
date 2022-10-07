@@ -10,13 +10,19 @@ If there are any attachments to be put up, these will be under the `.assets` dir
 # Project structure
 
 - general
+
 Any general information is put up in this folder.
+
 - howto
+
 All the howto information along with the screenshots will be put up here. (Eg. AppInsights creating and configuring)
+
 - research
+
 All the research work pertaining to the project. Eg. database options, pricing models
 
 - adr (architectural decisions)
+
 All the architectural decisions will be put up here.
 
 Each folder will have a template to start with and can be extended appropriately.
