@@ -12,4 +12,10 @@ All the information will be sent to a queue which will be named `<env>-logger` w
 - Gateway (API)
 - Each of the microservices in the system
 
+![Log Information flow](./.assets/adr-log-flow-1.jpg)
+
+
+## Databases to be used 
+
+Based on the comparison done in the research, it would be better to have both Analytics and Audit information stored under Azure Storage Tables. 
 
