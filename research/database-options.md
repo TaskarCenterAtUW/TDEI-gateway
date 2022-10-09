@@ -4,7 +4,7 @@ Author: Naresh
 
 ## Problem statement
 The current TDEI system needs a robust, scalable mechanism for data storage (structured and unstructured). There are multiple logging requirements as discussed in #50 which will need to be addressed.
-After seggregating them as per the needs, we need to figure out the options for hosting the data in cloud. The research will have to evaluate the following parameters
+After seggregating them per the needs, we need to figure out the options for hosting the data in cloud. The research will have to evaluate the following parameters
 
 - Consistency of the data
 - Flexibility to serve for multiple evolving storage structures
@@ -14,7 +14,7 @@ After seggregating them as per the needs, we need to figure out the options for 
 
 ## Research findings
 
-For the above problems, we looked at all the database options that Azure offers along with other popular options of database.
+For the above problems, we looked at the following database options that Azure offers along with other popular options of database.
 
 ## Databases 
 
