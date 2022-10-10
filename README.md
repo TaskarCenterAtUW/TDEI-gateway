@@ -21,7 +21,7 @@ All the howto information along with the screenshots will be put up here. (Eg. A
 
 All the research work pertaining to the project. Eg. database options, pricing models
 
-- adr (architectural decisions)
+- [adr](./adr) (architectural decisions)
 
 All the architectural decisions will be put up here.
 
