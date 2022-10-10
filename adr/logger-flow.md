@@ -15,6 +15,12 @@ All the information will be sent to a queue which will be named `<env>-logger` w
 ![Log Information flow](./.assets/adr-log-flow-1.jpg)
 
 
+## Queries and decisions
+
+1. Can we keep both the storages as tables at a single Azure Storage account ?
+2. Do we need to be specific on the azure app service for logging service or can we go with azure functions (since it is a simple job) ?
+3. Does the above mean that we will have to refactor the core to enhance the logger methods?
+
 ## Databases to be used 
 
 Based on the comparison done in the research, it would be better to have both Analytics and Audit information stored under Azure Storage Tables. 
