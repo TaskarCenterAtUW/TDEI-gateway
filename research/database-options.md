@@ -71,3 +71,8 @@ For this comparision, we have taken up about 5 visualization tools into consider
 
 
 ## Conclusion
+For the logging information, since the export capability is inbuilt for Azure table storage, it would be a good choice to start logging into the Azure Table storage and eventually move
+to cosmosdb based on the need.
+
+For visualization, based on the need of the user, we may be able to figure out how the visualization has to be done. This may eventually lead to building a dashboard with any 
+of the charting libraries.
