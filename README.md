@@ -9,15 +9,15 @@ If there are any attachments to be put up, these will be under the `.assets` dir
 
 # Project structure
 
-- general
+- [general](./general)
 
 Any general information is put up in this folder.
 
-- howto
+- [howto](./howto)
 
 All the howto information along with the screenshots will be put up here. (Eg. AppInsights creating and configuring)
 
-- research
+- [research](./research)
 
 All the research work pertaining to the project. Eg. database options, pricing models
 
