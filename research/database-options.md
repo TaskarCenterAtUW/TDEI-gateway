@@ -15,6 +15,7 @@ After seggregating them per the needs, we need to figure out the options for hos
 ## Research findings
 
 For the above problems, we looked at the following database options that Azure offers along with other popular options of database.
+[Reference link ](https://microsoft.github.io/AzureTipsAndTricks/blog/tip166.html)
 
 ## Databases 
 
