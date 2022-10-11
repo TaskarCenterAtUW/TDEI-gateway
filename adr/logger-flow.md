@@ -32,6 +32,21 @@ All the information will be sent to a queue which will be named `<env>-logger` w
 
 Based on the comparison done in the research, it would be better to have both Analytics and Audit information stored under Azure Storage Tables. 
 
+## Logger API targets information 
+
+| API Method | Current Target location | Proposed Target Location |
+|-|-|-|
+| log() | AppInsights | AppInsights |
+| debug() | AppInsights | AppInsights|
+| info() | AppInsights | AppInsights |
+| trace() | AppInsights | AppInsights |
+| recordRequest() | AppInsights | Log DB (API) |
+| recordMetric() | AppInsights | Log DB (Metric) |
+| analytics.record() | NA | Log DB (Analytics) |
+| recordMessage() | NA | Log DB (Queue) |
+| audit.* | NA | Log DB (Request + Event) |
+| sendAll() | AppInsights | NA |
+
 # Decisions made 
 
 - Logging will have single separate queue with multiple topics for `audit` `metric` `analytic` `info` `debug` `error` `trace`
