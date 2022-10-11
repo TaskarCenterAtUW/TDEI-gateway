@@ -12,7 +12,7 @@ All the information will be sent to a queue which will be named `<env>-logger` w
 - Gateway (API)
 - Each of the microservices in the system
 
-![Log Information flow](./.assets/adr-log-flow-1.jpg)
+![Log Information flow](./.assets/logging-overview.jpg)
 
 
 ## Queries and decisions
@@ -32,3 +32,8 @@ All the information will be sent to a queue which will be named `<env>-logger` w
 
 Based on the comparison done in the research, it would be better to have both Analytics and Audit information stored under Azure Storage Tables. 
 
+# Decisions made 
+
+- Logging will have single separate queue with multiple topics for `audit` `metric` `analytic` `info` `debug` `error` `trace`
+- Logs (audit, metric and analytic) will be stored in a single separate storage account with tables for each.
+- Logger in the core package will be enhanced to support for the changes
