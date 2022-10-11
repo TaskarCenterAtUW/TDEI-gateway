@@ -18,8 +18,15 @@ All the information will be sent to a queue which will be named `<env>-logger` w
 ## Queries and decisions
 
 1. Can we keep both the storages as tables at a single Azure Storage account ?
+- Yes. The audit and analytics data will be stored in separate tables of the same storage account.
 2. Do we need to be specific on the azure app service for logging service or can we go with azure functions (since it is a simple job) ?
+- Since logging may also updates and pushes, it is needed to have app service instead of function. A function can be used if there is only data adding.
 3. Does the above mean that we will have to refactor the core to enhance the logger methods?
+- Yes the logger logic will have to accomodate the changes appropriately. This means adding new methodology as well.
+ - Audit will be different object but available within Logger object.
+ - Analytics will be another method to add any kind of data into the database.
+ - Current methods will remain the same.
+ - recordMessage (method missing currently) will be added.
 
 ## Databases to be used 
 
