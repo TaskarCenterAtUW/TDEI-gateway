@@ -1,4 +1,4 @@
-FROM openjdk:17-jdk-slim-buster
+FROM openjdk:17-jdk-slim-buster as builder
 WORKDIR application 
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} application.jar
