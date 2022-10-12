@@ -14,7 +14,7 @@ variables:
   imageRepository: 'gateway'
   containerRegistry: 'tdeidocker.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
-  tag: '$(Build.BuildId)'
+  tag: '1.1.4'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
