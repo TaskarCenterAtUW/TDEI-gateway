@@ -13,10 +13,12 @@ public class SecurityConfig {
     @Order(1)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
-                .antMatcher("/api/**")
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll()
-                );
+                .csrf()
+                .disable()
+                .authorizeRequests()
+                //.antMatchers(HttpMethod.GET, "/api/v1/agencies").hasAnyAuthority("app-user")
+                .anyRequest()
+                .permitAll();
         return http.build();
     }
 }

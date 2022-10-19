@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationProperties {
     private SwaggerProperties swagger;
     private String appname;
+    private String authServerUrl;
 
     @Data
     @NoArgsConstructor

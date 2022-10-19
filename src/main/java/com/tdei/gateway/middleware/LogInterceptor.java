@@ -15,9 +15,9 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
-        System.out.println("Prehandle called");
-        System.out.println(request.getRequestURI());
-        System.out.println(request.getMethod());
+//        System.out.println("Prehandle called");
+//        System.out.println(request.getRequestURI());
+//        System.out.println(request.getMethod());
 
         return true;
     }
@@ -25,9 +25,9 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            @Nullable ModelAndView modelAndView) throws Exception {
-        System.out.println("Post handle called");
-        System.out.println(request.getRequestURI());
-        System.out.println(request.getMethod());
+//        System.out.println("Post handle called");
+//        System.out.println(request.getRequestURI());
+//        System.out.println(request.getMethod());
 
 
         // appInsightsClient.trackHttpRequest(request.getRequestURI(),new Date(), 0, "200", true);
@@ -40,6 +40,6 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
                                 @Nullable Exception ex) throws Exception {
-        System.out.println("After completion called");
+        // System.out.println("After completion called");
     }
 }

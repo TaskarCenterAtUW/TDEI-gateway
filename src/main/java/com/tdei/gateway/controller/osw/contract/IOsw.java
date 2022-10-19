@@ -25,11 +25,11 @@ public interface IOsw {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the osw file - will be geojson. I wasn't sure what should be returned here - I set the type geojson, but was not sure how this is typically done. "),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland."),
+            @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland.", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}/",
             //produces = {"geojson"},
             method = RequestMethod.GET)
@@ -41,11 +41,11 @@ public interface IOsw {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `osw_download` entities.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OswDownload.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland."),
+            @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland.", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/json", "multipart/form-data"},
             method = RequestMethod.GET)
@@ -56,9 +56,9 @@ public interface IOsw {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns list of OSW versions supported by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
@@ -69,11 +69,11 @@ public interface IOsw {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "Successful file creation. returns tdei_record_id of new file.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
 
-            @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed."),
+            @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed.", content = @Content),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/json"},
             consumes = {"application/json"},

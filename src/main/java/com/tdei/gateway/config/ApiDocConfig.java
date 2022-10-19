@@ -41,6 +41,7 @@ public class ApiDocConfig implements WebMvcConfigurer {
                 .scheme("bearer")
                 .type(SecurityScheme.Type.HTTP)
                 .in(SecurityScheme.In.HEADER)
+                //.bearerFormat("JWT")
                 .name(HttpHeaders.AUTHORIZATION);
     }
 

@@ -29,11 +29,11 @@ public interface IGtfsPathways {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success. Returns the file as application/octet-stream."),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "404", description = "A GTFS pathways file that matches the specified parameters (combination of agencyid, stationid, confidence level, and version) was not found."),
+            @ApiResponse(responseCode = "404", description = "A GTFS pathways file that matches the specified parameters (combination of agencyid, stationid, confidence level, and version) was not found.", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}/",
             produces = {"application/octet-stream"},
             method = RequestMethod.GET)
@@ -44,9 +44,9 @@ public interface IGtfsPathways {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `gtfs_pathways_download` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsPathwaysDownload.class)))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/json"},
             method = RequestMethod.GET)
@@ -57,9 +57,9 @@ public interface IGtfsPathways {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of GTFS Pathways versions suppored by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
@@ -70,11 +70,11 @@ public interface IGtfsPathways {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "Successful file creation. returns tdei_record_id of new file.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
 
-            @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed."),
+            @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed.", content = @Content),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
-            @ApiResponse(responseCode = "500", description = "An server error occurred.")})
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/json"},
             consumes = {"application/json", "multipart/form-data"},

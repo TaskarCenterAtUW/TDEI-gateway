@@ -3,6 +3,7 @@ spring:
     name: tdei-gateway
 server:
   port: '8080'
+auth-server-url: http://localhost:8081
 spring-doc:
   swagger-ui:
     operationsSorter: alpha
@@ -20,17 +21,3 @@ swagger:
     url: https://placeholder.transequity.cs.washington.edu/support
   title: TDEI API
   version: 0.0.1
-keycloak:
-  auth-server-url: https://tdei-keycloak.azurewebsites.net:8080/
-  realm: tdei
-  enabled: true
-  bearer-only: true
-  resource: tdei-gateway
-  credentials:
-    secret: A71N884x3HbU2g4KKIsww8pt5VXxxNNH
-  use-resource-role-mappings: true
-logging:
-  level:
-    org.keycloak: DEBUG
-#    root: DEBUG
-#    web: DEBUG

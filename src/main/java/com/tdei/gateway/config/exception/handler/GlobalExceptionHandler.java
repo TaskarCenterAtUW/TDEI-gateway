@@ -1,5 +1,7 @@
 package com.tdei.gateway.config.exception.handler;
 
+import com.tdei.gateway.config.exception.handler.exceptions.InvalidAccessTokenException;
+import com.tdei.gateway.config.exception.handler.exceptions.InvalidCredentialsException;
 import com.tdei.gateway.config.exception.handler.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
+import java.security.InvalidKeyException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,6 +140,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntityBuilder.build(err);
 
+    }
+
+    @ExceptionHandler(InvalidKeyException.class)
+    public ResponseEntity<Object> handleInvalidKeyException(InvalidKeyException ex) {
+
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND, "Unauthorized request", details);
+
+        return ResponseEntityBuilder.build(err);
+    }
+
+    @ExceptionHandler(InvalidAccessTokenException.class)
+    public ResponseEntity<Object> handleInvalidAccessTokenException(InvalidAccessTokenException ex) {
+
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND, "Invalid Access Token", details);
+
+        return ResponseEntityBuilder.build(err);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<Object> handleAuthenticationException(InvalidCredentialsException ex) {
+
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.UNAUTHORIZED, "Unauthorized request", details);
+
+        return ResponseEntityBuilder.build(err);
     }
 
 }
