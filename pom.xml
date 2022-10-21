@@ -117,35 +117,28 @@
     </dependencies>
     <build>
         <plugins>
-            <!-- exclude from jar-->
-            <!--            <plugin>-->
-            <!--                <groupId>org.springframework.boot</groupId>-->
-            <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-            <!--                <configuration>-->
-            <!--                    <layers>-->
-            <!--                        <enabled>true</enabled>-->
-            <!--                    </layers>-->
-
-            <!--                    <excludes>-->
-            <!--                        <exclude>-->
-            <!--                            <groupId>org.projectlombok</groupId>-->
-            <!--                            <artifactId>lombok</artifactId>-->
-            <!--                        </exclude>-->
-            <!--                        <exclude>-->
-            <!--                            <groupId>org.projectlombok</groupId>-->
-            <!--                            <artifactId>lombok-mapstruct-binding</artifactId>-->
-            <!--                        </exclude>-->
-            <!--                        <exclude>-->
-            <!--                            <groupId>org.mapstruct</groupId>-->
-            <!--                            <artifactId>mapstruct</artifactId>-->
-            <!--                        </exclude>-->
-            <!--                    </excludes>-->
-            <!--                </configuration>-->
-            <!--            </plugin>-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.4</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                    <mainClass>com.tdei.gateway.TdeiGatewayApplication</mainClass>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.1</version>
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
