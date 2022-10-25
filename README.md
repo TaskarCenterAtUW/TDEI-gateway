@@ -5,17 +5,17 @@ across with TDEI, this repository will hold all the internal documentation that 
 
 # Getting Started
 All the documents are stored as markdown pages. All the markdown language usage will be appropriately used.
-If there are any attachments to be put up, these will be under the `.assets` directory of the same folder.
+If there are any attachments to be added, these will be under the `.assets` directory of the same folder.
 
 # Project structure
 
 - [general](./general)
 
-Any general information is put up in this folder.
+Any general information is added in this folder.
 
 - [howto](./howto)
 
-All the howto information along with the screenshots will be put up here. (Eg. AppInsights creating and configuring)
+All the howto information along with the screenshots will be here. (Eg. AppInsights creating and configuring)
 
 - [research](./research)
 
@@ -23,7 +23,7 @@ All the research work pertaining to the project. Eg. database options, pricing m
 
 - [adr](./adr) (architectural decisions)
 
-All the architectural decisions will be put up here.
+All the architectural decisions will be here.
 
 Each folder will have a template to start with and can be extended appropriately.
 
