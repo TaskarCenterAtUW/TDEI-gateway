@@ -3,10 +3,14 @@ package com.tdei.gateway.config.exception.handler;
 import com.tdei.gateway.config.exception.handler.exceptions.InvalidAccessTokenException;
 import com.tdei.gateway.config.exception.handler.exceptions.InvalidCredentialsException;
 import com.tdei.gateway.config.exception.handler.exceptions.ResourceNotFoundException;
+import com.tdei.gateway.utils.Utils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -17,7 +21,11 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -25,7 +33,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler implements AuthenticationEntryPoint {
 
     // handleHttpMediaTypeNotSupported : triggers when the JSON is invalid
     @Override
@@ -63,7 +71,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         List<String> details = new ArrayList<>();
-        details = ex.getBindingResult().getFieldErrors().stream().map(error -> error.getObjectName() + " : " + error.getDefaultMessage()).collect(Collectors.toList());
+        details = ex.getBindingResult().getFieldErrors().stream().map(error -> error.getField() + " : " + error.getDefaultMessage()).collect(Collectors.toList());
 
         ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.BAD_REQUEST, "Validation Errors", details);
 
@@ -175,4 +183,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntityBuilder.build(err);
     }
 
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getOutputStream().println("{ \"error\": \"" + authException.getMessage() + "\" }");
+    }
+
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public void commence(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex) throws IOException {
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.UNAUTHORIZED, "Unauthorized request", details);
+        response.getOutputStream().println(Utils.asJsonString(err));
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.time.OffsetDateTime;
 
 @RestController
@@ -20,22 +21,22 @@ import java.time.OffsetDateTime;
 public class GtfsFlex implements IGtfsFlex {
 
     @Override
-    public ResponseEntity<Void> getFlexFile(String tdeiRecordId) {
+    public ResponseEntity<Void> getFlexFile(Principal principal, String tdeiRecordId) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PageableResponse<GtfsFlexDownload>> listFlexFiles(String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiAgencyId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
+    public ResponseEntity<PageableResponse<GtfsFlexDownload>> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiAgencyId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PageableResponse<VersionSpec>> listFlexVersions() {
+    public ResponseEntity<PageableResponse<VersionSpec>> listFlexVersions(Principal principal) {
         return null;
     }
 
     @Override
-    public ResponseEntity<String> uploadFlexFile(GtfsFlexUpload body) {
-        return null;
+    public ResponseEntity<String> uploadFlexFile(Principal principal, String agencyId, GtfsFlexUpload body) {
+        return ResponseEntity.ok("File uploaded successfully !");
     }
 }

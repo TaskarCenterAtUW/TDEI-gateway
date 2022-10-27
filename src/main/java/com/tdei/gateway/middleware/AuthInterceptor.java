@@ -1,12 +1,15 @@
 package com.tdei.gateway.middleware;
 
 import com.tdei.gateway.model.MutableHttpServletRequest;
+import com.tdei.gateway.model.authclient.UserProfile;
 import com.tdei.gateway.service.AuthService;
 import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -15,10 +18,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 class AuthInterceptor extends OncePerRequestFilter {
 
     private static final String[] AUTH_WHITELIST = {
@@ -32,6 +37,19 @@ class AuthInterceptor extends OncePerRequestFilter {
     @Autowired
     AuthService authService;
 
+    private void setSecurityContext(UserProfile userProfile) {
+        Authentication auth = new UsernamePasswordAuthenticationToken(userProfile, null, getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+
+    private Collection<GrantedAuthority> getAuthorities() {
+        //All authenticated user are application user
+        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        GrantedAuthority grantedAuthority = () -> "TDEI_USER";
+        grantedAuthorities.add(grantedAuthority);
+        return grantedAuthorities;
+    }
+
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
@@ -44,13 +62,14 @@ class AuthInterceptor extends OncePerRequestFilter {
         HttpServletRequest req = request;
         HttpServletResponse res = response;
         MutableHttpServletRequest mutableRequest = new MutableHttpServletRequest(req);
-
+        UserProfile userProfile = null;
         String authorizationKey = req.getHeader("Authorization");
         if (authorizationKey == null) {
             String apiKey = req.getHeader("x-api-key");
             if (apiKey != null) {
                 try {
-                    authService.validateApiKey(apiKey);
+                    userProfile = authService.validateApiKey(apiKey);
+                    setSecurityContext(userProfile);
                 } catch (FeignException e) {
                     if (e.status() == HttpStatus.NOT_FOUND.value()) {
                         response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid API-KEY");
@@ -72,7 +91,8 @@ class AuthInterceptor extends OncePerRequestFilter {
                 if (authorizationKey.contains("Bearer")) {
                     authorizationKey = authorizationKey.split("Bearer")[1];
                 }
-                authService.validateAccessToken(authorizationKey.trim());
+                userProfile = authService.validateAccessToken(authorizationKey.trim());
+                setSecurityContext(userProfile);
             } catch (FeignException e) {
                 if (e.status() == HttpStatus.NOT_FOUND.value()) {
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid Access Token");

@@ -19,15 +19,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
+
 @Validated
 public interface ICommon {
     @Operation(summary = "List available API versions", description = "Returns a json list of the versions of the TDEI API which are available.",
-            tags = {"Authentication"})
+            tags = {"General"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - Returns the access token for the validated user.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TokenResponse.class)))),
 
@@ -50,7 +53,8 @@ public interface ICommon {
     @RequestMapping(value = "agencies",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<PageableResponse<Agency>> listAgencies();
+    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+    ResponseEntity<PageableResponse<Agency>> listAgencies(Principal principal);
 
     @Operation(summary = "List available API versions", description = "Returns a json list of the versions of the TDEI API which are available.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
@@ -63,7 +67,8 @@ public interface ICommon {
     @RequestMapping(value = "api",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<PageableResponse<VersionSpec>> listApiVersions();
+    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+    ResponseEntity<PageableResponse<VersionSpec>> listApiVersions(Principal principal);
 
     @Operation(summary = "List Stations", description = "Path used to retrieve the list of stations with data in the TDEI system. Allows callers to get the tdei_station_id id for a station.  Returns the tdei_station_id and station information for all stations with data in the TDEI system. ", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
@@ -76,6 +81,7 @@ public interface ICommon {
     @RequestMapping(value = "stations",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<PageableResponse<Station>> listStations();
+    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+    ResponseEntity<PageableResponse<Station>> listStations(Principal principal);
 }
 

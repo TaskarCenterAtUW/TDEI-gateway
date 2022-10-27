@@ -2,12 +2,16 @@ package com.tdei.gateway.service.contract;
 
 import com.tdei.gateway.model.authclient.LoginModel;
 import com.tdei.gateway.model.authclient.TokenResponse;
+import com.tdei.gateway.model.authclient.UserProfile;
 import feign.Feign;
 import feign.Headers;
+import feign.Param;
 import feign.RequestLine;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 import feign.slf4j.Slf4jLogger;
+
+import java.util.List;
 
 @Headers("Accept: application/json")
 public interface AuthServiceClient {
@@ -26,9 +30,12 @@ public interface AuthServiceClient {
 
     @RequestLine("POST /api/v1/validateAccessToken")
     @Headers({"Content-Type: text/plain"})
-    TokenResponse validateAccessToken(String token);
+    UserProfile validateAccessToken(String token);
 
     @RequestLine("POST /api/v1/validateApiKey")
     @Headers({"Content-Type: text/plain"})
-    TokenResponse validateApiKey(String apiKey);
+    UserProfile validateApiKey(String apiKey);
+
+    @RequestLine("GET /api/v1/hasPermission?userId={userId}&agencyId={agencyId}&affirmative={affirmative}&roles={roles}")
+    Boolean hasPermission(@Param("userId") String userId, @Param("agencyId") String agencyId, @Param("roles") List<String> roles, @Param("affirmative") Boolean affirmative);
 }

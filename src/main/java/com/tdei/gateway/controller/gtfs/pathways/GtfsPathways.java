@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.time.OffsetDateTime;
 
 @RestController
@@ -20,22 +21,22 @@ import java.time.OffsetDateTime;
 public class GtfsPathways implements IGtfsPathways {
 
     @Override
-    public ResponseEntity<Void> getPathwaysFile(String tdeiRecordId) {
+    public ResponseEntity<Void> getPathwaysFile(Principal principal, String tdeiRecordId) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PageableResponse<GtfsPathwaysDownload>> listPathwaysFiles(String bbox, Integer confidenceLevel, String pathwaysSchemaVersion, OffsetDateTime dateTime, String tdeiAgencyId, String tdeiRecordId, Integer pageNo, Integer pageSize) {
+    public ResponseEntity<PageableResponse<GtfsPathwaysDownload>> listPathwaysFiles(Principal principal, String bbox, Integer confidenceLevel, String pathwaysSchemaVersion, OffsetDateTime dateTime, String tdeiAgencyId, String tdeiRecordId, Integer pageNo, Integer pageSize) {
         return null;
     }
 
     @Override
-    public ResponseEntity<PageableResponse<VersionSpec>> listPathwaysVersions() {
+    public ResponseEntity<PageableResponse<VersionSpec>> listPathwaysVersions(Principal principal) {
         return null;
     }
 
     @Override
-    public ResponseEntity<String> uploadPathwaysFile(GtfsPathwaysUpload body) {
-        return null;
+    public ResponseEntity<String> uploadPathwaysFile(Principal principal, String agencyId, GtfsPathwaysUpload body) {
+        return ResponseEntity.ok("File uploaded successfully !");
     }
 }

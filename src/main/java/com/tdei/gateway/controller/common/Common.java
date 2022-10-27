@@ -3,14 +3,17 @@ package com.tdei.gateway.controller.common;
 import com.tdei.gateway.controller.common.contract.ICommon;
 import com.tdei.gateway.model.authclient.LoginModel;
 import com.tdei.gateway.model.authclient.TokenResponse;
+import com.tdei.gateway.model.authclient.UserProfile;
 import com.tdei.gateway.model.dto.common.*;
 import com.tdei.gateway.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.Arrays;
 
 @RestController
@@ -26,7 +29,9 @@ public class Common implements ICommon {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<Agency>> listAgencies() {
+    public ResponseEntity<PageableResponse<Agency>> listAgencies(Principal principal) {
+
+        UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         PageableResponse response = new PageableResponse();
         Agency agency = new Agency();
@@ -42,7 +47,7 @@ public class Common implements ICommon {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<VersionSpec>> listApiVersions() {
+    public ResponseEntity<PageableResponse<VersionSpec>> listApiVersions(Principal principal) {
 
         PageableResponse response = new PageableResponse();
         VersionSpec vspec = new VersionSpec();
@@ -58,7 +63,7 @@ public class Common implements ICommon {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<Station>> listStations() {
+    public ResponseEntity<PageableResponse<Station>> listStations(Principal principal) {
 
         PageableResponse response = new PageableResponse();
         Station station = new Station();
