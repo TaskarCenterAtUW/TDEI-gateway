@@ -150,3 +150,7 @@ NOTE:
 | PostGIS | UW | Postgresql on Azure* |
 
 
+## Message queues/Topics
+Some of the inter micro-service communication if presumed asynchronous is done via message topics. As of now, all the message topics are named based on the micro-service that ingests 
+the messages.
+Azure provides messaging topics as part of an Azure service bus namespace. As of now, there is only one Azure service bus per environment. This can be changed based on further requirement.
