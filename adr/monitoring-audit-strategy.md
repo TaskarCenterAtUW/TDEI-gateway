@@ -14,6 +14,7 @@ NOTE: Diagram to change the queue
 - Log DB is hosted as Azure Storage tables with different tables handling different types of logs. However, it is under a single Storage account. Thus, its considered single entity on cloud.
 - App Insights is configured within Log service
 - All the API requirements for monitoring or notifications are exposed via `Reporting service`
+- The differentiation of logs along with their details is explained in the next section.
 
 
 
@@ -27,3 +28,29 @@ for development and debugging usage.
 There are two ways in which the logs can be captured.
 1. Using the Core() methods . (eg. `Core.getLogger().info("xxxx")`)
 2. Using the regular `console.x` methods. (eg. `console.log("xxx")`)
+
+- The logs captured with `Core` methods are available under a centralized AppInsights which is common for all micro-services.
+- The logs captured with regular `console.x` may not be available in the centralized AppInsights. However, if the azure resource is configured in cloud with AppInsights, the logs
+ may be available in that particular AppInsights.
+ - The diagnostic logs captured either way in AppInsights are **retained for 90 days**.
+
+ ### Audit Logs
+ These are the logs used for tracing the system. Typical usage includes the number of API keys generated for an agency, users created, files ingested and the amount of time it took.
+ These are exposed to the developer via `Core.getLogger().getAuditor()` object. 
+ - For any audit that requires a trail of events, an audit request is created and is updated appropriately.
+ - An audit request may have different stages based on the work flow. (eg. gtfs-flex ingestion or user api key generation)
+ - An audit request gets updated in different stages and the log of each stage is captured as an audit event (linked to audit request)
+ - An audit request may or may not have events associated with it based on the stage and the work flow.
+
+ Typical use cases of audit logs
+ - API Key request 
+ - Data ingestion 
+ - API authorization
+ - API access to the gateway requests
+
+ As part of `Core` it exposes three methods for creating and updating the audit requests and events.
+ - `Core.getLogger().getAuditor().addRequest`
+ - `Core.getLogger().getAuditor().updateRequest`
+ - `Core.getLogger().getAuditor().addEvent`
+
+ 
