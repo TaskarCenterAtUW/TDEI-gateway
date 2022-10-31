@@ -78,7 +78,14 @@ http://localhost:8080/swagger-ui/index.html
 $ mvn test
 ```
 
-## Deployment
+## CI/CD [Azure Pipeline]
+
+### Continuous Integration (CI)
+
+Currently CI is not implemented as part of Azure pipeline. Test automated integration will be taken up in next
+development cycle.
+
+### Continuous Deployment (CD)
 
 Check-in to the master branch triggers the Azure pipeline [gateway] CI/CD process which will build the source code,
 generate the package and create the docker image. Docker image will then be deployed to Azure app services.
