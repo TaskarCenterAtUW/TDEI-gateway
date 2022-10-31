@@ -41,6 +41,7 @@ There are two ways in which the logs can be captured.
  - An audit request may have different stages based on the work flow. (eg. gtfs-flex ingestion or user api key generation)
  - An audit request gets updated in different stages and the log of each stage is captured as an audit event (linked to audit request)
  - An audit request may or may not have events associated with it based on the stage and the work flow.
+ - Analytics logs are persisted in Azure Storage tables with **no limit on retention**
 
  Typical use cases of audit logs
  - API Key request 
@@ -53,4 +54,23 @@ There are two ways in which the logs can be captured.
  - `Core.getLogger().getAuditor().updateRequest`
  - `Core.getLogger().getAuditor().addEvent`
 
+ #### Audit DB structure
+ The following is the structure along with examples for Audit Request and Audit Event.
+
+ ![Audit DB structure](./.assets/audit-db-structure.jpg)
+
  
+ ### Analytics logs 
+ These are the logs used for statistical and metrics calculation within the system. These include the logs about the request and response times, the metrics about the API key issues,
+ number of API calls for a given org/API key etc. `Core` exposes three methods to add to analytics logs 
+ - `recordMetric` : to record any specific metric. This will be tracked per user token level and is by default cumulative (meaning it keeps incrementing the value)
+ - `recordRequest` : to record the in-out time for an API request. This is to figure out the average time and the success rate of the API calls made throughout the system.
+ - `analytics.record`: this is an implementation for adding additional analytical information to the system. This does not have any structure and is typical JSON storage that can be 
+ used by the system for further processing.
+
+ The data for analytic logs is stored in Azure Storage tables which has ** no limit on retention **
+
+ #### Default metrics structure is as below:
+
+ ![Metrics structure](./.assets/metrics-structure.jpg)
+
