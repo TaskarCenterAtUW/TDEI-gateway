@@ -130,3 +130,23 @@ NOTE:
 
 
 
+## Component ownership + Azure resource 
+
+| Component name | Ownership | Azure Resource Used |
+|-|-|-|
+| API Gateway | GS | App Service |
+| Auth-service | GS | App Service |
+| Keycloak | GS | App Service |
+| File servie | GS | App Service |
+| Blob Storage | GS + UW | Azure Blob Storage |
+| Event Orchestrator | GS | App Service |
+| Notification service | GS + UW | App Service |
+| Schema microservices | UW | App Service |
+| Logger service | GS | App Service |
+| Reporting Service | GS | App Service | 
+| Data service | GS + UW | App Service |
+| App Insights + Workspace | GS + UW | App Insights + Analytics workspace |
+| TDEI Users | GS | Postgresql on azure |
+| PostGIS | UW | Postgresql on Azure* |
+
+
