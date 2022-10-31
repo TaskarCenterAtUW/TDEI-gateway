@@ -84,7 +84,30 @@ There are two ways in which the logs can be captured.
 
  The data for analytic logs is stored in Azure Storage tables which has **no limit on retention**
 
+
+ ### Queue logs
+ Apart from the above three, there is a separate log for Queue which are basically all the logs within all the queues of the system. These are logged by default within Core package 
+ and have no dependency on the developer. These are basically all the messages transferred/ received by the system that are logged into a separate table. Except for the ms-logger-queue,
+ all the other queue/topic messages are logged in this.
+
  #### Default metrics structure is as below:
 
  ![Metrics structure](./.assets/metrics-structure.jpg)
+
+ ## Method mapping with Core package
+
+ The following table explains how different methods in Core package end up in the whole monitoring system.
+
+ | Core Logger API Method | Type of log | Target location (via logger service) |
+|-|-|-|
+| log() | Diagnostic | AppInsights |
+| debug() | Diagnostic | AppInsights|
+| info() | Diagnostic | AppInsights |
+| trace() | Diagnostic | AppInsights |
+| recordRequest() | Analytic | Log DB (API) |
+| recordMetric() | Analytic | Log DB (Metric) |
+| analytics.record() | Analytic | Log DB (Analytics) |
+| recordMessage() | Queue | Log DB (Queue) |
+| audit.* | Audit | Log DB (Request + Event) |
+
 
