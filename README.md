@@ -77,3 +77,12 @@ http://localhost:8080/swagger-ui/index.html
 ```
 $ mvn test
 ```
+
+## Deployment
+
+Check-in to the master branch triggers the Azure pipeline [gateway] CI/CD process which will build the source code,
+generate the package and create the docker image. Docker image will then be deployed to Azure app services.
+
+Development API documentation link
+
+https://tdei-gateway.azurewebsites.net/swagger-ui/index.html

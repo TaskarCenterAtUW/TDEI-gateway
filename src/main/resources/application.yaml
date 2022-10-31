@@ -3,7 +3,7 @@ spring:
     name: tdei-gateway
 server:
   port: '8080'
-auth-server-url: http://localhost:8081
+auth-server-url: http://localhost:8082
 spring-doc:
   swagger-ui:
     operationsSorter: alpha
@@ -20,4 +20,4 @@ swagger:
     email: placeholder_support@transequity.cs.washington.edu
     url: https://placeholder.transequity.cs.washington.edu/support
   title: TDEI API
-  version: 0.0.1
+  version: v0.1
