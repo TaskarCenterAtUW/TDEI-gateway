@@ -48,7 +48,7 @@ Throughout the system there are three ways of communicating between the componen
 - It connects to TDEI Users Database for all the persistence.
 - Currently the code for this is hosted offline and is deployed manually.
 
-### TDEI Users
+### TDEI Users Database
 - Responsible for hosting the user information
 - Hosted as Postgresql instance in Azure cloud
 - Data encryption for password is done at column level
@@ -68,12 +68,12 @@ Throughout the system there are three ways of communicating between the componen
 - Also writes to `ms-logger-topic` on the actions performed. (audit logs.)
 - This is not yet built but is planned to be hosted as a container with Azure App service.
 
-### Blob Storage 
+### Blob Storage  for file types 
 - Contains all the files uploaded to the system.
 - Read/write permissions to this are to be configured as per the need for the micro-service.
 - Currently hosted with ZRS (Zone redundant storage). Refer to [Azure Redundancy](../general/azure-redundancy.md)
 
-### Event Orchestrator
+### Event Orchestrator Microservice 
 - This component is responsible for ensuring the step by step processing of the files uploaded.
 - Communicates with multiple queues as defined by the process. (Eg. GTFS-FLEX upload -> schema-validation -> data validation -> Conflation)
 - Also responsible for notifying user personas as per configuration. Eg. Any conflicts with validation should send email.
@@ -146,7 +146,7 @@ NOTE:
 | Reporting Service | GS | App Service | 
 | Data service | GS + UW | App Service |
 | App Insights + Workspace | GS + UW | App Insights + Analytics workspace |
-| TDEI Users | GS | Postgresql on azure |
+| TDEI Users DB | GS | Postgresql on azure |
 | PostGIS | UW | Postgresql on Azure* |
 
 
