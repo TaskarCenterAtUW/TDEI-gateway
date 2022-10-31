@@ -16,6 +16,20 @@ NOTE: Diagram to change the queue
 - All the API requirements for monitoring or notifications are exposed via `Reporting service`
 - The differentiation of logs along with their details is explained in the next section.
 
+### Components
+The following table describes breifly about the components of the system
+
+| Component Name | Composition | Azure service used | Ownership |
+|-|-|-|-| 
+| Auth Service | Springboot based Java application deployed on App Service via Container registry | App Service + Azure Container Registry | GS |
+| Gateway | Gateway service deployed on App Service via Container registry | App Service + Azure Container Registry | GS |
+| Micro services | Multiple micro-services written in either Node or Python with Core package from GS. Hosted either directly on App Service or via Container registry | App Service | GS + UW |
+| ms-logger-queue | Logging queue exposed to micro-services via cloud configuration with Core. | Azure Service bus + queue | GS |
+| Log service | Micro-service hosted in App service | App service | GS |
+| Log DB | Azure Storage tables under single Azure Storage account with multiple tables | Azure storage account + Azure Storage tables | GS |
+| Application Insights | Common App Insights configured for the complete system | AppInsights | GS |
+| Reporting Service | API based reporting service for all the monitoring needs hosted via App Service | App service | GS |
+| Azure Dashboard | App Analytics workspace on top of common AppInsights | Log Analytics Workspace | GS | 
 
 
 ## Logs differentiation
@@ -68,7 +82,7 @@ There are two ways in which the logs can be captured.
  - `analytics.record`: this is an implementation for adding additional analytical information to the system. This does not have any structure and is typical JSON storage that can be 
  used by the system for further processing.
 
- The data for analytic logs is stored in Azure Storage tables which has ** no limit on retention **
+ The data for analytic logs is stored in Azure Storage tables which has **no limit on retention**
 
  #### Default metrics structure is as below:
 
