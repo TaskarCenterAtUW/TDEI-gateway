@@ -73,4 +73,60 @@ Throughout the system there are three ways of communicating between the componen
 - Read/write permissions to this are to be configured as per the need for the micro-service.
 - Currently hosted with ZRS (Zone redundant storage). Refer to [Azure Redundancy](../general/azure-redundancy.md)
 
+### Event Orchestrator
+- This component is responsible for ensuring the step by step processing of the files uploaded.
+- Communicates with multiple queues as defined by the process. (Eg. GTFS-FLEX upload -> schema-validation -> data validation -> Conflation)
+- Also responsible for notifying user personas as per configuration. Eg. Any conflicts with validation should send email.
+- Also writes to `ms-logger-topic` on the actions performed over a specific upload or a request.
+- Event Orchestrator is mainly considered for ensuring the processing sequence for the files.
+- All other requests regarding the system (eg. list all agencies) are handled by other micro-services.
+- Event Orchestrator is yet to be built but is planned to be hosted as a container with Azure App service.
+- Does not do any processing of the files on its own. Is only responsible for initiating sub-process and listening to its completion.
+
+### Schema microservices
+- All the micro services that are responsible for sub-processing of the files comprise of schema microservices
+- Based on the filetype, there may be 3 or 4 microservices. (Eg. Data validation, schema validation, Integration)
+- Each schema microservice is written with either NodeJS or Python along with the Core package provided by GS.
+- Processing is done by listening to the topic for certain messageType.
+- Once the message is received with the file and other information, the files are processed and a response message is sent against the same (asynchronously).
+- Naming convention is followed for the topic listened and the micro service.
+    - Eg. GTFS-Flex data validation: Micro service will be named `ms-gtfs-flex-data-validation` and topic will be `ms-gtfs-flex-data-validation-topic`
+- Each of the schema service may interact with blob storage via Core package.
+- All the schema services are bound to be hosted as Azure App services either directly or through containerization.
+NOTE:
+- Any data persistence by the schema microservices is assumed to be handled by UW and hence not represented.
+- Current assumption is that data persistence is done per file type and all the schema micro-services for that file type share a common database.
+
+
+### Data service
+- Responsible for handling the GET calls of the API.
+- This will be a mixed responsibility of UW and GS 
+- For all the GET calls related to non-schema based APIs (eg. agency list, version list, file location), GS is responsible.
+- For all the GET calls related to schema(eg. stations), UW will be responsible.
+- Collaboration on this service will be determined at a later stage.
+
+
+### Logger service
+- Responsible for handling all the logging information
+- Based on the message type received from `ms-logger-queue`, bifurcates and stores appropriately
+- The detailed description of Logger service and its functions is described in [Monitoring Audit strategy](./monitoring-audit-strategy.md)
+- Also responsible for responding to getStatus call of the API for any job request.
+- This is not yet built but is planned to be hosted as a container with Azure App service.
+- Writes to Log DB via Azure configuration.
+- Writes all the diagnostic logs to AppInsights as configured.
+
+
+### Log DB
+- Hosted as Azure Storage Tables.
+- Responsible for all the audit, analytical and metric logs.
+- Separate tables are defined for each functionality.
+- Data ingress is via Logger service only.
+- Data egress is via Reporting service and azure storage browser online(only for internal use).
+
+### AppInsights
+- Configured to read the diagnostic logs of the system.
+- Anything that is logged via Core package will be available in the common AppInsights.
+- All the console.* methods within the typescript or system logs will be available with the specific Azure resource if AppInsights is configured on the cloud.
+
+
 
