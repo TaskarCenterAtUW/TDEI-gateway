@@ -56,7 +56,7 @@ Throughout the system there are three ways of communicating between the componen
 - Has open connection only with the Keycloak hosted in the system.
 
 ### File Service
-- Responsible for handling the file upload loads for the system.
+- Responsible for handling the file uploads for the system.
 - Has methodology to verify and upload the files per role.
 - Verifies the permission of the user and then uploads the files appropriately to blob storage.
 - Once the upload is done, creates a unique jobId and sends the following information to `ms-data-upload-topic`
