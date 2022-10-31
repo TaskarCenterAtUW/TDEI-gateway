@@ -2,6 +2,8 @@
 
 This document covers the existing cloud infrastructure available in the TDEI system. This will be a subset of the overall architecture but hosted and is in working condition.
 
+![Cloud as is ](./.assets/cloud-as-is.jpg)
+
 
 
 ## Components 
@@ -45,3 +47,25 @@ This document covers the existing cloud infrastructure available in the TDEI sys
 - Data encryption for password is done at column level
 - Data encryption at rest is done volume level by Azure 
 - Has open connection only with the Keycloak hosted in the system.
+
+## Component Listing 
+The following components are additional azure resources currently in system and used for various purposes.
+
+| Service | Name |  Sub-service | Name | Used for | Is Active |
+|-|-|-|-|-|-|
+| Container registry | tdei-docker| Container repository | gateway | Hosting the gateway docker image | &check; |
+| Container registry | tdei-docker| Container repository | authz | Hosting the Auth service docker image | &check; |
+| Container registry | tdei-docker| Container repository | keycloak | Hosting the Keycloak docker image | &check;|
+| App service | tdei-spec | | | Hosting the Swagger API definition declared in TDEI-ExternalAPIs repository| &check;|
+| App service | tdei-gateway | | | Hosting the gateway for the system |&check;|
+| App service | tdei-authz | ||Hosts the authentication service |&check;|
+| App service | tdei-keycloak | ||Hosts the Keycloak instance |&check;|
+| Service Bus Name space | tdei-sample | Azure Queue | tdei-ev-logger | Used for logging the events and audit logs | _ |
+| Service Bus Name space | tdei-sample | Azure Queue | tdei-poc-queue | Used for testing Core functionality with queues |&cross;|
+| Storage account | tdeisamplestorage | Storage Table | samplemetrics | Used for capturing sample metrics | &cross;|
+| Storage account | tdeisamplestorage | Storage Table | outTable | Used for capturing sample logs for POC via core | &cross;|
+| Storage account | tdeisamplestorage | Storage Container | tdei-storage-test | Used to test the storage functionality of Core | &check;|
+| Storage account | tdeilogz | Storage Container | app-insights-metrics | Used for auto capturing appInsights (POC)| &cross; |
+| Storage account | tdeilogz | Storage Container | app-insights-logs | Used for auto capturing appInsights (POC)| &cross;|
+| PostgreSQL instance | tdei | Postgres database | tdei | Storing all the authentication information for keycloak and authentication service | &check;|
+| Analytics Workspace | tdeiLogAnalyticsWorkspace | App Insights | tdeiAppInsights | For capturing the app Insights of the system | &check; |
