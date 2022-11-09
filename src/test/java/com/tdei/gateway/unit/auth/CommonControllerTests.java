@@ -1,11 +1,13 @@
 package com.tdei.gateway.unit.auth;
 
+import com.tdei.gateway.core.config.exception.handler.exceptions.InvalidCredentialsException;
 import com.tdei.gateway.core.model.authclient.LoginModel;
 import com.tdei.gateway.core.model.authclient.TokenResponse;
 import com.tdei.gateway.core.service.auth.AuthService;
 import com.tdei.gateway.main.controller.CommonController;
 import com.tdei.gateway.main.model.common.dto.*;
 import com.tdei.gateway.main.service.CommonService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,6 +19,7 @@ import java.security.Principal;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -33,6 +36,7 @@ public class CommonControllerTests {
     private CommonController commonController;
 
     @Test
+    @DisplayName("Authenticate valid credentials, should return success")
     void authenticate() {
         LoginModel model = new LoginModel();
         model.setUsername("username");
@@ -42,6 +46,32 @@ public class CommonControllerTests {
         var result = commonController.authenticate(model);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("Authenticate invalid credentials, should return unauthorized")
+    void authenticateRequestWrongCreds() throws Exception {
+        LoginModel model = new LoginModel();
+        model.setUsername("username");
+        model.setPassword("password123");
+
+        when(authService.authenticate(any(LoginModel.class))).thenThrow(InvalidCredentialsException.class);
+        Throwable exception = assertThrows(InvalidCredentialsException.class, () -> commonController.authenticate(model));
+    }
+
+    @Test
+    @DisplayName("Authenticate valid credentials, should return valid access token")
+    void authenticateRequestDataCheck() throws Exception {
+        LoginModel model = new LoginModel();
+        model.setUsername("username");
+        model.setPassword("password");
+
+        TokenResponse tokenResponse = new TokenResponse();
+        tokenResponse.setToken("testtoken");
+        when(authService.authenticate(any(LoginModel.class))).thenReturn(tokenResponse);
+        var result = commonController.authenticate(model);
+        assertThat(result.getBody().getToken()).isNotBlank();
+
     }
 
     @Test
