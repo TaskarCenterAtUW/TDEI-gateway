@@ -7,12 +7,16 @@ import com.tdei.gateway.gtfsflex.service.GtfsFlexService;
 import com.tdei.gateway.main.model.common.dto.Pageable;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.security.Principal;
 import java.time.OffsetDateTime;
@@ -88,10 +92,19 @@ public class GtfsFlexControllerTests {
     }
 
     @Test
-    void uploadFlexFile() {
+    void uploadFlexFile() throws FileUploadException {
         Principal mockPrincipal = mock(Principal.class);
-        when(gtfsFlexService.uploadFlexFile(any(Principal.class), anyString(), any(GtfsFlexUpload.class))).thenReturn("newRecordId");
-        var result = gtfsFlexController.uploadFlexFile(mockPrincipal, "101", new GtfsFlexUpload());
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes()
+        );
+        MockHttpServletRequest request = new MockHttpServletRequest();
+
+        when(gtfsFlexService.uploadFlexFile(any(Principal.class), anyString(), any(GtfsFlexUpload.class), file)).thenReturn("newRecordId");
+        var result = gtfsFlexController.uploadGtfsFlexFile(mockPrincipal, new GtfsFlexUpload(), "101", file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody()).isEqualTo("newRecordId");

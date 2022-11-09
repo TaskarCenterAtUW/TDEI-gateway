@@ -13,12 +13,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.time.OffsetDateTime;
 
@@ -82,9 +87,11 @@ public interface IGtfsPathways {
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{agencyId}",
             produces = {"application/json"},
-            consumes = {"application/json", "multipart/form-data"},
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasAgencyPermission(#principal, #agencyId,  'tdei-user', 'gtfspathways-data_generator', 'gtfspathways-poc')")
-    ResponseEntity<String> uploadPathwaysFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "", schema = @Schema()) @RequestParam() String agencyId, @Parameter(in = ParameterIn.DEFAULT, description = "", required = true, schema = @Schema()) @Valid @RequestBody GtfsPathwaysUpload body);
+    @PreAuthorize("@authService.hasAgencyPermission(#principal, #agencyId,  'tdei-user', 'gtfspathways-data_generator')")
+    ResponseEntity<String> uploadPathwaysFile(Principal principal, @RequestPart("meta") @Valid GtfsPathwaysUpload meta,
+                                              @Parameter(in = ParameterIn.PATH, description = "", schema = @Schema()) @PathVariable() String agencyId,
+                                              @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
 }

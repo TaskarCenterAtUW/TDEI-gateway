@@ -9,10 +9,13 @@ import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.OffsetDateTime;
 
@@ -42,7 +45,7 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<String> uploadPathwaysFile(Principal principal, String agencyId, GtfsPathwaysUpload body) {
-        return ResponseEntity.ok(gtfsPathwaysService.uploadPathwaysFile(principal, agencyId, body));
+    public ResponseEntity<String> uploadPathwaysFile(Principal principal, GtfsPathwaysUpload meta, String agencyId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.ok(gtfsPathwaysService.uploadPathwaysFile(principal, agencyId, meta, file));
     }
 }

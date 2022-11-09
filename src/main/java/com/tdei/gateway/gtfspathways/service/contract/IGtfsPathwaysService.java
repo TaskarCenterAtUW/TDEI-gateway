@@ -4,6 +4,8 @@ import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.time.OffsetDateTime;
@@ -16,7 +18,7 @@ public interface IGtfsPathwaysService {
      * @param agencyId
      * @param body
      */
-    String uploadPathwaysFile(Principal principal, String agencyId, GtfsPathwaysUpload body);
+    String uploadPathwaysFile(Principal principal, String agencyId, GtfsPathwaysUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file

@@ -1,9 +1,18 @@
-spring:
-  application:
-    name: tdei-gateway
 server:
   port: '8080'
-auth-server-url: http://localhost:8082
+
+application:
+  app-name: tdei-gateway
+  auth-server-url: https://tdei-authz.azurewebsites.net
+  #http://localhost:8082
+
+gtfs-flex:
+  upload-url: http://localhost:8083/api/gtfsflex/v1/uploadFile
+gtfs-pathways:
+  upload-url: http://localhost:8083/api/gtfspathways/v1/uploadFile
+osw:
+  upload-url: http://localhost:8083/api/osw/v1/uploadFile
+
 spring-doc:
   swagger-ui:
     operationsSorter: alpha
@@ -19,5 +28,5 @@ swagger:
     name: TDEI Support
     email: placeholder_support@transequity.cs.washington.edu
     url: https://placeholder.transequity.cs.washington.edu/support
-  title: TDEI API
+  title: TDEI Gateway API
   version: v0.1

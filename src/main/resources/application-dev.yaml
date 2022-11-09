@@ -1,1 +1,8 @@
-auth-server-url: https://tdei-authz.azurewebsites.net
+application:
+  auth-server-url: https://tdei-authz.azurewebsites.net
+gtfs-flex:
+  upload-url: http://tdei-filesvc.azurewebsites.net/api/gtfsflex/v1/uploadFile
+gtfs-pathways:
+  upload-url: http://tdei-filesvc.azurewebsites.net/api/gtfspathways/v1/uploadFile
+osw:
+  upload-url: http://tdei-filesvc.azurewebsites.net/api/osw/v1/uploadFile

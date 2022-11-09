@@ -4,6 +4,7 @@ import com.tdei.gateway.core.config.exception.handler.exceptions.InvalidAccessTo
 import com.tdei.gateway.core.config.exception.handler.exceptions.InvalidCredentialsException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
 import com.tdei.gateway.core.utils.Utils;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -179,6 +180,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         details.add(ex.getMessage());
 
         ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.UNAUTHORIZED, "Unauthorized request", details);
+
+        return ResponseEntityBuilder.build(err);
+    }
+
+    @ExceptionHandler(FileUploadException.class)
+    public ResponseEntity<Object> handleFileUploadException(FileUploadException ex) {
+
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR, "File Upload Exception", details);
 
         return ResponseEntityBuilder.build(err);
     }

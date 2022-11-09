@@ -7,12 +7,16 @@ import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
 import com.tdei.gateway.main.model.common.dto.Pageable;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.security.Principal;
 import java.time.OffsetDateTime;
@@ -88,10 +92,20 @@ public class GtfsPathwaysControllerTests {
     }
 
     @Test
-    void uploadPathwaysFile() {
+    void uploadPathwaysFile() throws FileUploadException {
+
         Principal mockPrincipal = mock(Principal.class);
-        when(gtfsPathwaysService.uploadPathwaysFile(any(Principal.class), anyString(), any(GtfsPathwaysUpload.class))).thenReturn("newRecordId");
-        var result = gtfsPathwaysController.uploadPathwaysFile(mockPrincipal, "101", new GtfsPathwaysUpload());
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes()
+        );
+        MockHttpServletRequest request = new MockHttpServletRequest();
+
+        when(gtfsPathwaysService.uploadPathwaysFile(any(Principal.class), anyString(), any(GtfsPathwaysUpload.class), file)).thenReturn("newRecordId");
+        var result = gtfsPathwaysController.uploadPathwaysFile(mockPrincipal, new GtfsPathwaysUpload(), "101", file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody()).isEqualTo("newRecordId");

@@ -9,10 +9,13 @@ import com.tdei.gateway.osw.service.OswService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 
 @RestController
@@ -40,8 +43,8 @@ public class OswController implements IOsw {
     }
 
     @Override
-    public ResponseEntity<String> uploadOswFile(Principal principal, String agencyId, OswUpload body) {
+    public ResponseEntity<String> uploadOswFile(Principal principal, OswUpload meta, String agencyId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.ok(oswService.uploadOswFile(principal, agencyId, meta, file));
 
-        return ResponseEntity.ok(oswService.uploadOswFile(principal, agencyId, body));
     }
 }

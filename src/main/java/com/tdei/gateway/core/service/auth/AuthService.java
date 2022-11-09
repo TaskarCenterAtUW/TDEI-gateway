@@ -25,7 +25,7 @@ public class AuthService implements IAuthService {
     public boolean hasPermission(Principal principal, String... permissions) {
         String[] roleArray = permissions;
         UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getAuthServerUrl());
+        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getApplication().getAuthServerUrl());
         Boolean satisfiedRoles = authServiceClient.hasPermission(user.getId(), null, Arrays.stream(roleArray).toList(), true);
         return satisfiedRoles;
     }
@@ -33,7 +33,7 @@ public class AuthService implements IAuthService {
     public boolean hasAgencyPermission(Principal principal, String agencyId, String... permissions) {
         String[] roleArray = permissions;
         UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
-        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getAuthServerUrl());
+        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getApplication().getAuthServerUrl());
         Boolean satisfiedRoles = authServiceClient.hasPermission(user.getId(), agencyId, Arrays.stream(roleArray).toList(), true);
         return satisfiedRoles;
     }
@@ -42,7 +42,7 @@ public class AuthService implements IAuthService {
     @Override
     public TokenResponse authenticate(LoginModel loginModel) {
         try {
-            AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getAuthServerUrl());
+            AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getApplication().getAuthServerUrl());
             TokenResponse tokenResponse = authServiceClient.authenticate(loginModel);
             return tokenResponse;
         } catch (FeignException e) {
@@ -57,13 +57,13 @@ public class AuthService implements IAuthService {
 
     @Override
     public UserProfile validateAccessToken(String token) {
-        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getAuthServerUrl());
+        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getApplication().getAuthServerUrl());
         return authServiceClient.validateAccessToken(token);
     }
 
     @Override
     public UserProfile validateApiKey(String apiKey) throws InvalidKeyException {
-        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getAuthServerUrl());
+        AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getApplication().getAuthServerUrl());
         return authServiceClient.validateApiKey(apiKey);
     }
 }

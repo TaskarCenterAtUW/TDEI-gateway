@@ -4,6 +4,8 @@ import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 import java.time.OffsetDateTime;
@@ -17,7 +19,7 @@ public interface IGtfsFlexService {
      * @param agencyId
      * @param body
      */
-    String uploadFlexFile(Principal principal, String agencyId, GtfsFlexUpload body);
+    String uploadFlexFile(Principal principal, String agencyId, GtfsFlexUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file

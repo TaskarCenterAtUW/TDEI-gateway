@@ -7,12 +7,16 @@ import com.tdei.gateway.osw.controller.OswController;
 import com.tdei.gateway.osw.model.dto.OswDownload;
 import com.tdei.gateway.osw.model.dto.OswUpload;
 import com.tdei.gateway.osw.service.OswService;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.security.Principal;
 import java.util.Arrays;
@@ -87,10 +91,20 @@ public class OswControllerTests {
     }
 
     @Test
-    void uploadOswFile() {
+    void uploadOswFile() throws FileUploadException {
+
         Principal mockPrincipal = mock(Principal.class);
-        when(oswService.uploadOswFile(any(Principal.class), anyString(), any(OswUpload.class))).thenReturn("newRecordId");
-        var result = oswController.uploadOswFile(mockPrincipal, "101", new OswUpload());
+        MockMultipartFile file
+                = new MockMultipartFile(
+                "file",
+                "hello.txt",
+                MediaType.TEXT_PLAIN_VALUE,
+                "Hello, World!".getBytes()
+        );
+        MockHttpServletRequest request = new MockHttpServletRequest();
+
+        when(oswService.uploadOswFile(any(Principal.class), anyString(), any(OswUpload.class), file)).thenReturn("newRecordId");
+        var result = oswController.uploadOswFile(mockPrincipal, new OswUpload(), "101", file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody()).isEqualTo("newRecordId");

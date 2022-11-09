@@ -9,10 +9,13 @@ import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.time.OffsetDateTime;
 
@@ -40,7 +43,7 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<String> uploadFlexFile(Principal principal, String agencyId, GtfsFlexUpload body) {
-        return ResponseEntity.ok(gtfsFlexService.uploadFlexFile(principal, agencyId, body));
+    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, String agencyId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.ok(gtfsFlexService.uploadFlexFile(principal, agencyId, meta, file));
     }
 }

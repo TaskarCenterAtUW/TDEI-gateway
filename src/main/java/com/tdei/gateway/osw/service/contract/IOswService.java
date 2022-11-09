@@ -4,6 +4,8 @@ import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.osw.model.dto.OswDownload;
 import com.tdei.gateway.osw.model.dto.OswUpload;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
 
@@ -15,7 +17,7 @@ public interface IOswService {
      * @param agencyId
      * @param body
      */
-    String uploadOswFile(Principal principal, String agencyId, OswUpload body);
+    String uploadOswFile(Principal principal, String agencyId, OswUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file
