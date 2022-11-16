@@ -16,10 +16,10 @@ public interface IGtfsFlexService {
      * Returns the uploaded file record id
      *
      * @param principal
-     * @param agencyId
+     * @param tdeiOrgId
      * @param body
      */
-    String uploadFlexFile(Principal principal, String agencyId, GtfsFlexUpload body, MultipartFile file) throws FileUploadException;
+    String uploadFlexFile(Principal principal, String tdeiOrgId, GtfsFlexUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file

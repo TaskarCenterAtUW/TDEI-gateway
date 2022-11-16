@@ -1,5 +1,5 @@
 application:
-  auth-server-url: https://tdei-auth-n-z-dev.azurewebsites.net
+  auth-server-url: https://tdei-auth-n-z-prod.azurewebsites.net
 gtfs-flex:
   upload-url: http://tdei-filesvc.azurewebsites.net/api/gtfsflex/v1/uploadFile
 gtfs-pathways:

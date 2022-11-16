@@ -30,11 +30,11 @@ public class AuthService implements IAuthService {
         return satisfiedRoles;
     }
 
-    public boolean hasAgencyPermission(Principal principal, String agencyId, String... permissions) {
+    public boolean hasOrgPermission(Principal principal, String tdeiOrgId, String... permissions) {
         String[] roleArray = permissions;
         UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getApplication().getAuthServerUrl());
-        Boolean satisfiedRoles = authServiceClient.hasPermission(user.getId(), agencyId, Arrays.stream(roleArray).toList(), true);
+        Boolean satisfiedRoles = authServiceClient.hasPermission(user.getId(), tdeiOrgId, Arrays.stream(roleArray).toList(), true);
         return satisfiedRoles;
     }
 

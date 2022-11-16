@@ -85,13 +85,13 @@ public interface IGtfsFlex {
             @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "{agencyId}",
+    @RequestMapping(value = "{tdeiOrgId}",
             produces = {"application/json"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasAgencyPermission(#principal, #agencyId, 'tdei-user', 'gtfsflex-data_generator')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #tdeiOrgId, 'tdei-user')")
     ResponseEntity<String> uploadGtfsFlexFile(Principal principal, @RequestPart("meta") @Valid GtfsFlexUpload meta,
-                                              @Parameter(in = ParameterIn.PATH, description = "", schema = @Schema()) @PathVariable() String agencyId,
+                                              @Parameter(in = ParameterIn.PATH, description = "", schema = @Schema()) @PathVariable() String tdeiOrgId,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 }
 

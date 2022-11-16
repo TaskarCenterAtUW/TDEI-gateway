@@ -1,6 +1,6 @@
 package com.tdei.gateway.main.service.contract;
 
-import com.tdei.gateway.main.model.common.dto.Agency;
+import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
@@ -15,7 +15,7 @@ public interface ICommonService {
      * @param principal - current user
      * @return Paginated list of agencies
      */
-    PageableResponse<Agency> listAgencies(Principal principal);
+    PageableResponse<Organization> listOrganizations(Principal principal);
 
     /**
      * Returns the paginated list of api versions

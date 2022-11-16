@@ -17,10 +17,10 @@ import java.time.OffsetDateTime;
 @Validated
 @Data
 public class GtfsFlexDownload {
-    @Schema(required = true, description = "tdei-assigned agency id. Represented as UUID. Agency ids can be retrieved using the /api/v1.0/agencies path.")
+    @Schema(required = true, description = "tdei-assigned organization id. Represented as UUID. Organization ids can be retrieved using the /api/v1.0/organizations path.")
     @NotNull
-    @JsonProperty("tdei_agency_id")
-    private String tdeiAgencyId = null;
+    @JsonProperty("tdei_org_id")
+    private String tdeiOrgId = null;
 
     @Schema(required = true, description = "Description of who data was collected by. See Best Practices document for information on how to format this string.")
     @NotNull

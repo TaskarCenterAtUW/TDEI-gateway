@@ -79,8 +79,8 @@ public class CommonControllerTests {
         Principal mockPrincipal = mock(Principal.class);
 
         PageableResponse response = new PageableResponse();
-        Agency agency = new Agency();
-        agency.setAgencyName("SDOT");
+        Organization agency = new Organization();
+        agency.setOrgName("SDOT");
         response.setList(Arrays.asList(agency));
         Pageable pg = new Pageable();
         pg.setCurrentPage(1);
@@ -89,11 +89,11 @@ public class CommonControllerTests {
         pg.setTotalPages(1);
         response.setPageable(pg);
 
-        when(commonService.listAgencies(any(Principal.class))).thenReturn(response);
-        var result = commonController.listAgencies(mockPrincipal);
+        when(commonService.listOrganizations(any(Principal.class))).thenReturn(response);
+        var result = commonController.listOrganizations(mockPrincipal);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().getList().stream().findFirst().get().getAgencyName()).isEqualTo("SDOT");
+        assertThat(result.getBody().getList().stream().findFirst().get().getOrgName()).isEqualTo("SDOT");
     }
 
     @Test

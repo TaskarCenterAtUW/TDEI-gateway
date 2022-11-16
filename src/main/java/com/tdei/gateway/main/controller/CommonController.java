@@ -4,7 +4,7 @@ import com.tdei.gateway.core.model.authclient.LoginModel;
 import com.tdei.gateway.core.model.authclient.TokenResponse;
 import com.tdei.gateway.core.service.auth.AuthService;
 import com.tdei.gateway.main.controller.contract.ICommon;
-import com.tdei.gateway.main.model.common.dto.Agency;
+import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
@@ -31,9 +31,9 @@ public class CommonController implements ICommon {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<Agency>> listAgencies(Principal principal) {
+    public ResponseEntity<PageableResponse<Organization>> listOrganizations(Principal principal) {
 
-        PageableResponse response = commonService.listAgencies(principal);
+        PageableResponse response = commonService.listOrganizations(principal);
         return ResponseEntity.ok(response);
     }
 

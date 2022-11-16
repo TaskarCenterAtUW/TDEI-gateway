@@ -43,7 +43,7 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, String agencyId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
-        return ResponseEntity.ok(gtfsFlexService.uploadFlexFile(principal, agencyId, meta, file));
+    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, String tdeiOrgId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.ok(gtfsFlexService.uploadFlexFile(principal, tdeiOrgId, meta, file));
     }
 }
