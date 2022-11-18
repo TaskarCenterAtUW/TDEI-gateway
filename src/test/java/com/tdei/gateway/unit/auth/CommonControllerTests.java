@@ -5,7 +5,10 @@ import com.tdei.gateway.core.model.authclient.LoginModel;
 import com.tdei.gateway.core.model.authclient.TokenResponse;
 import com.tdei.gateway.core.service.auth.AuthService;
 import com.tdei.gateway.main.controller.CommonController;
-import com.tdei.gateway.main.model.common.dto.*;
+import com.tdei.gateway.main.model.common.dto.Organization;
+import com.tdei.gateway.main.model.common.dto.Pageable;
+import com.tdei.gateway.main.model.common.dto.PageableResponse;
+import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.main.service.CommonService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -96,27 +99,6 @@ public class CommonControllerTests {
         assertThat(result.getBody().getList().stream().findFirst().get().getOrgName()).isEqualTo("SDOT");
     }
 
-    @Test
-    void listStations() {
-        Principal mockPrincipal = mock(Principal.class);
-
-        PageableResponse response = new PageableResponse();
-        Station station = new Station();
-        station.setStationName("TACOMA");
-        response.setList(Arrays.asList(station));
-        Pageable pg = new Pageable();
-        pg.setCurrentPage(1);
-        pg.setNumPages(1);
-        pg.setTotalItems(1);
-        pg.setTotalPages(1);
-        response.setPageable(pg);
-
-        when(commonService.listStations(mockPrincipal)).thenReturn(response);
-        var result = commonController.listStations(mockPrincipal);
-
-        assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().getList().stream().findFirst().get().getStationName()).isEqualTo("TACOMA");
-    }
 
     @Test
     void listApiVersions() {

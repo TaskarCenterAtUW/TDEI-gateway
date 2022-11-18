@@ -2,6 +2,7 @@ package com.tdei.gateway.gtfsflex.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
 import com.tdei.gateway.core.model.authclient.UserProfile;
+import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.contract.IGtfsFlexService;
@@ -65,12 +66,17 @@ public class GtfsFlexService implements IGtfsFlexService {
     }
 
     @Override
-    public PageableResponse<GtfsFlexDownload> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiAgencyId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
+    public PageableResponse<GtfsFlexDownload> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
         return null;
     }
 
     @Override
     public PageableResponse<VersionSpec> listFlexVersions(Principal principal) {
         return null;
+    }
+
+    @Override
+    public PageableResponse<GtfsFlexServiceModel> listFlexServices(Principal principal, String tdeiOrgId) {
+        return new PageableResponse<>();
     }
 }

@@ -9,7 +9,6 @@ import com.tdei.gateway.core.model.authclient.LoginModel;
 import com.tdei.gateway.core.model.authclient.TokenResponse;
 import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
-import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -72,18 +71,5 @@ public interface ICommon {
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<PageableResponse<VersionSpec>> listApiVersions(Principal principal);
 
-    @Operation(summary = "List Stations", description = "Path used to retrieve the list of stations with data in the TDEI system. Allows callers to get the tdei_station_id id for a station.  Returns the tdei_station_id and station information for all stations with data in the TDEI system. ", security = {
-            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns an array of `Station` entities. ", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Station.class)))),
-
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
-
-            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "stations",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<PageableResponse<Station>> listStations(Principal principal);
 }
 

@@ -1,5 +1,6 @@
 package com.tdei.gateway.gtfsflex.service.contract;
 
+import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
@@ -37,14 +38,14 @@ public interface IGtfsFlexService {
      * @param bbox
      * @param confidenceLevel
      * @param flexSchemaVersion
-     * @param tdeiAgencyId
+     * @param tdeiOrgId
      * @param dateTime
      * @param tdeiRecordId
      * @param pageNo
      * @param pageSize
      * @return
      */
-    PageableResponse<GtfsFlexDownload> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiAgencyId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize);
+    PageableResponse<GtfsFlexDownload> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize);
 
     /**
      * Returns the list of flex versions
@@ -53,4 +54,12 @@ public interface IGtfsFlexService {
      * @return
      */
     PageableResponse<VersionSpec> listFlexVersions(Principal principal);
+
+    /**
+     * List GTFS Flex Services
+     *
+     * @param tdeiOrgId
+     * @return
+     */
+    PageableResponse<GtfsFlexServiceModel> listFlexServices(Principal principal, String tdeiOrgId);
 }

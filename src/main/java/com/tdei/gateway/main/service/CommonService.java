@@ -2,7 +2,6 @@ package com.tdei.gateway.main.service;
 
 import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
-import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.main.service.contract.ICommonService;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,6 @@ public class CommonService implements ICommonService {
 
     @Override
     public PageableResponse<VersionSpec> listApiVersions(Principal principal) {
-        return new PageableResponse<>();
-    }
-
-    @Override
-    public PageableResponse<Station> listStations(Principal principal) {
         return new PageableResponse<>();
     }
 }

@@ -35,7 +35,7 @@ public interface IOswService {
      * @param bbox
      * @param confidenceLevel
      * @param flexSchemaVersion
-     * @param tdeiAgencyId
+     * @param tdeiOrgId
      * @param dateTime
      * @param tdeiRecordId
      * @param pageNo

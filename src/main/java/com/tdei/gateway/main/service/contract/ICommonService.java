@@ -2,7 +2,6 @@ package com.tdei.gateway.main.service.contract;
 
 import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
-import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 
 import java.security.Principal;
@@ -25,11 +24,4 @@ public interface ICommonService {
      */
     PageableResponse<VersionSpec> listApiVersions(Principal principal);
 
-    /**
-     * Returns the paginated list of stations
-     *
-     * @param principal - current user
-     * @return Paginated list of stations
-     */
-    PageableResponse<Station> listStations(Principal principal);
 }
