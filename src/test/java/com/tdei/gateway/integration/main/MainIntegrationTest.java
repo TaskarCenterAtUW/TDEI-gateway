@@ -3,7 +3,7 @@ package com.tdei.gateway.integration.main;
 import com.tdei.gateway.core.middleware.AuthInterceptor;
 import com.tdei.gateway.core.service.auth.AuthService;
 import com.tdei.gateway.main.controller.CommonController;
-import com.tdei.gateway.main.model.common.dto.Agency;
+import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.Pageable;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.service.CommonService;
@@ -59,8 +59,8 @@ public class MainIntegrationTest {
         Principal mockPrincipal = Mockito.mock(Principal.class);
 
         PageableResponse response = new PageableResponse();
-        Agency agency = new Agency();
-        agency.setAgencyName("SDOT");
+        Organization agency = new Organization();
+        agency.setOrgName("SDOT");
         response.setList(Arrays.asList(agency));
         Pageable pg = new Pageable();
         pg.setCurrentPage(1);
@@ -69,7 +69,7 @@ public class MainIntegrationTest {
         pg.setTotalPages(1);
         response.setPageable(pg);
 
-        when(commonService.listAgencies(any(Principal.class))).thenReturn(response);
+        when(commonService.listOrganizations(any(Principal.class))).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/agencies")
                         .header("x-api-key", "x-api-key")
@@ -84,8 +84,8 @@ public class MainIntegrationTest {
         Principal mockPrincipal = Mockito.mock(Principal.class);
 
         PageableResponse response = new PageableResponse();
-        Agency agency = new Agency();
-        agency.setAgencyName("SDOT");
+        Organization agency = new Organization();
+        agency.setOrgName("SDOT");
         response.setList(Arrays.asList(agency));
         Pageable pg = new Pageable();
         pg.setCurrentPage(1);
@@ -94,7 +94,7 @@ public class MainIntegrationTest {
         pg.setTotalPages(1);
         response.setPageable(pg);
 
-        when(commonService.listAgencies(any(Principal.class))).thenReturn(response);
+        when(commonService.listOrganizations(any(Principal.class))).thenReturn(response);
 
         mockMvc.perform(get("/api/v1/agencies")
                         .header("x-api-key", "x-api-key")

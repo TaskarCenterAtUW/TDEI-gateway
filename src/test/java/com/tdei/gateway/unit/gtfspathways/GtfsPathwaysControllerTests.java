@@ -6,6 +6,7 @@ import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
 import com.tdei.gateway.main.model.common.dto.Pageable;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
+import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.Test;
@@ -18,9 +19,10 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockMultipartFile;
 
+import java.io.FileNotFoundException;
 import java.security.Principal;
-import java.time.OffsetDateTime;
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -36,15 +38,38 @@ public class GtfsPathwaysControllerTests {
     private GtfsPathwaysController gtfsPathwaysController;
 
     @Test
-    void getPathwaysFile() {
+    void getPathwaysFile() throws FileNotFoundException {
 
+//        Principal mockPrincipal = mock(Principal.class);
+//
+//        when(gtfsPathwaysService.getPathwaysFile(any(Principal.class), anyString())).thenReturn(new ResponseEntity<>());
+//        var result = gtfsPathwaysController.getPathwaysFile(mockPrincipal, "101");
+//
+//        assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
+//        assertThat(result.getBody()).isEqualTo("filepath");
+    }
+
+
+    @Test
+    void listStations() {
         Principal mockPrincipal = mock(Principal.class);
 
-        when(gtfsPathwaysService.getPathwaysFile(any(Principal.class), anyString())).thenReturn("filepath");
-        var result = gtfsPathwaysController.getPathwaysFile(mockPrincipal, "101");
+        PageableResponse response = new PageableResponse();
+        Station station = new Station();
+        station.setStationName("TACOMA");
+        response.setList(Arrays.asList(station));
+        Pageable pg = new Pageable();
+        pg.setCurrentPage(1);
+        pg.setNumPages(1);
+        pg.setTotalItems(1);
+        pg.setTotalPages(1);
+        response.setPageable(pg);
+
+        when(gtfsPathwaysService.listStations(mockPrincipal)).thenReturn(response);
+        var result = gtfsPathwaysController.listStations(mockPrincipal);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody()).isEqualTo("filepath");
+        assertThat(result.getBody().getList().stream().findFirst().get().getStationName()).isEqualTo("TACOMA");
     }
 
     @Test
@@ -63,7 +88,7 @@ public class GtfsPathwaysControllerTests {
         response.setPageable(pg);
 
         when(gtfsPathwaysService.listPathwaysFiles(any(Principal.class), anyString(), anyInt(), anyString(), anyString(), any(), anyString(), anyInt(), anyInt())).thenReturn(response);
-        var result = gtfsPathwaysController.listPathwaysFiles(mockPrincipal, "test", 1, "test", OffsetDateTime.now(), "test", "test", 1, 1);
+        var result = gtfsPathwaysController.listPathwaysFiles(mockPrincipal, "test", 1, "test", new Date(), "test", "test", 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody().getList().stream().findFirst().get().getDownloadUrl()).isEqualTo("downloadUrl");

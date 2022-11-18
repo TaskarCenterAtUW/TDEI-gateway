@@ -1,26 +1,33 @@
 package com.tdei.gateway.gtfspathways.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
+import com.tdei.gateway.core.model.authclient.UserProfile;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.contract.IGtfsPathwaysService;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
+import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.io.FileNotFoundException;
 import java.security.Principal;
-import java.time.OffsetDateTime;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -28,16 +35,19 @@ import java.time.OffsetDateTime;
 public class GtfsPathwaysService implements IGtfsPathwaysService {
     private final ApplicationProperties applicationProperties;
 
+
     @Override
-    public String uploadPathwaysFile(Principal principal, String agencyId, GtfsPathwaysUpload body, MultipartFile file) throws FileUploadException {
+    public String uploadPathwaysFile(Principal principal, String tdeiOrgId, GtfsPathwaysUpload body, MultipartFile file) throws FileUploadException {
+        UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         try {
             MultipartBodyBuilder builder = new MultipartBodyBuilder();
             builder.part("file", new ByteArrayResource(file.getBytes())).filename(file.getOriginalFilename());
             builder.part("meta", body);
-            builder.part("agencyId", agencyId);
+            builder.part("tdeiOrgId", tdeiOrgId);
+            builder.part("userId", user.getId());
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsFlex().getUploadUrl()).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getUploadUrl()).build();
 
             Flux<String> flux = webClient.post()
                     .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -56,17 +66,36 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     }
 
     @Override
-    public String getPathwaysFile(Principal principal, String tdeiRecordId) {
-        return null;
+    public ResponseEntity<Flux<DataBuffer>> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
+
+        try {
+
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getDownloadUrl() + "/" + tdeiRecordId).build();
+
+            Mono<ResponseEntity<Flux<DataBuffer>>> flux = webClient.get()
+                    .accept(MediaType.APPLICATION_OCTET_STREAM)
+                    .retrieve()
+                    .toEntityFlux(DataBuffer.class);
+
+            return flux.single().block();
+        } catch (Exception ex) {
+            log.error("Error while uploading file ", ex);
+            throw new FileNotFoundException("Error while uploading file");
+        }
     }
 
     @Override
-    public PageableResponse<GtfsPathwaysDownload> listPathwaysFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiAgencyId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
+    public PageableResponse<GtfsPathwaysDownload> listPathwaysFiles(Principal principal, String tdeiStationId, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, Date dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
         return null;
     }
 
     @Override
     public PageableResponse<VersionSpec> listPathwaysVersions(Principal principal) {
         return null;
+    }
+
+    @Override
+    public PageableResponse<Station> listStations(Principal principal) {
+        return new PageableResponse<>();
     }
 }

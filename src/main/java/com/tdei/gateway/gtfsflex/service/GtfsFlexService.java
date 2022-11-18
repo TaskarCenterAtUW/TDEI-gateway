@@ -1,6 +1,8 @@
 package com.tdei.gateway.gtfsflex.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
+import com.tdei.gateway.core.model.authclient.UserProfile;
+import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.contract.IGtfsFlexService;
@@ -13,6 +15,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -30,12 +33,14 @@ public class GtfsFlexService implements IGtfsFlexService {
 
 
     @Override
-    public String uploadFlexFile(Principal principal, String agencyId, GtfsFlexUpload body, MultipartFile file) throws FileUploadException {
+    public String uploadFlexFile(Principal principal, String tdeiOrgId, GtfsFlexUpload body, MultipartFile file) throws FileUploadException {
+        UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         try {
             MultipartBodyBuilder builder = new MultipartBodyBuilder();
             builder.part("file", new ByteArrayResource(file.getBytes())).filename(file.getOriginalFilename());
             builder.part("meta", body);
-            builder.part("agencyId", agencyId);
+            builder.part("tdeiOrgId", tdeiOrgId);
+            builder.part("userId", user.getId());
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsFlex().getUploadUrl()).build();
 
@@ -61,12 +66,17 @@ public class GtfsFlexService implements IGtfsFlexService {
     }
 
     @Override
-    public PageableResponse<GtfsFlexDownload> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiAgencyId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
+    public PageableResponse<GtfsFlexDownload> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
         return null;
     }
 
     @Override
     public PageableResponse<VersionSpec> listFlexVersions(Principal principal) {
         return null;
+    }
+
+    @Override
+    public PageableResponse<GtfsFlexServiceModel> listFlexServices(Principal principal, String tdeiOrgId) {
+        return new PageableResponse<>();
     }
 }

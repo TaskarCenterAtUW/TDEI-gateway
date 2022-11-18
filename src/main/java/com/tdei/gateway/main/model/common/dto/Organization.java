@@ -11,14 +11,14 @@ import org.springframework.validation.annotation.Validated;
 @Schema(description = "Includes gtfs agency information and a tdei agency id. Necessary as gtfs agency id may not be unique across agencies.")
 @Validated
 @Data
-public class Agency {
+public class Organization {
 
-    @JsonProperty("tdei_agency_id")
-    @Schema(required = false, description = "TDEI-assigned agency id. Assigned by TDEI to avoid potential conflicts between GTFS agency ids.")
-    private Integer tdeiAgencyId = null;
+    @JsonProperty("tdei_org_id")
+    @Schema(required = false, description = "tdei-assigned organization id. Necessary to ensure that organization ids are unique. Represented as a UUID.")
+    private Integer tdeiOrgId = null;
 
-    @JsonProperty("agency_name")
-    @Schema(required = true, description = "Agency name.")
-    private String agencyName = null;
+    @JsonProperty("org_name")
+    @Schema(required = true, description = "org_name name. For transit agencies, typically the agency name used in GTFS releases.")
+    private String orgName = null;
 
 }
