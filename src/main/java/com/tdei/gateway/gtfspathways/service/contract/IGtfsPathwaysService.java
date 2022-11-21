@@ -2,7 +2,6 @@ package com.tdei.gateway.gtfspathways.service.contract;
 
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -14,6 +13,8 @@ import reactor.core.publisher.Flux;
 import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public interface IGtfsPathwaysService {
     /**
@@ -40,7 +41,7 @@ public interface IGtfsPathwaysService {
      * @param principal
      * @param bbox
      * @param confidenceLevel
-     * @param flexSchemaVersion
+     * @param pathwaysSchemaVersion
      * @param tdeiOrgId
      * @param dateTime
      * @param tdeiRecordId
@@ -48,7 +49,16 @@ public interface IGtfsPathwaysService {
      * @param pageSize
      * @return
      */
-    PageableResponse<GtfsPathwaysDownload> listPathwaysFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, Date dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize);
+    List<GtfsPathwaysDownload> listPathwaysFiles(Principal principal,
+                                                 String servletPath,
+                                                 Optional<String> tdeiStationId,
+                                                 Optional<Integer> confidenceLevel,
+                                                 Optional<String> pathwaysSchemaVersion,
+                                                 Optional<Date> dateTime,
+                                                 Optional<String> tdeiOrgId,
+                                                 Optional<String> tdeiRecordId,
+                                                 Integer pageNo,
+                                                 Integer pageSize) throws FileNotFoundException;
 
     /**
      * Returns the list of flex versions
@@ -56,7 +66,7 @@ public interface IGtfsPathwaysService {
      * @param principal
      * @return
      */
-    PageableResponse<VersionSpec> listPathwaysVersions(Principal principal);
+    List<VersionSpec> listPathwaysVersions(Principal principal);
 
 
     /**
@@ -65,5 +75,5 @@ public interface IGtfsPathwaysService {
      * @param principal - current user
      * @return Paginated list of stations
      */
-    PageableResponse<Station> listStations(Principal principal);
+    List<Station> listStations(Principal principal);
 }

@@ -4,8 +4,6 @@ import com.tdei.gateway.gtfspathways.controller.GtfsPathwaysController;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
-import com.tdei.gateway.main.model.common.dto.Pageable;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -23,6 +21,8 @@ import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -54,66 +54,60 @@ public class GtfsPathwaysControllerTests {
     void listStations() {
         Principal mockPrincipal = mock(Principal.class);
 
-        PageableResponse response = new PageableResponse();
+        List<Station> response;
+
         Station station = new Station();
         station.setStationName("TACOMA");
-        response.setList(Arrays.asList(station));
-        Pageable pg = new Pageable();
-        pg.setCurrentPage(1);
-        pg.setNumPages(1);
-        pg.setTotalItems(1);
-        pg.setTotalPages(1);
-        response.setPageable(pg);
+        response = Arrays.asList(station);
 
         when(gtfsPathwaysService.listStations(mockPrincipal)).thenReturn(response);
         var result = gtfsPathwaysController.listStations(mockPrincipal);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().getList().stream().findFirst().get().getStationName()).isEqualTo("TACOMA");
+        assertThat(result.getBody().stream().findFirst().get().getStationName()).isEqualTo("TACOMA");
     }
 
     @Test
-    void listPathwaysFiles() {
+    void listPathwaysFiles() throws FileNotFoundException {
         Principal mockPrincipal = mock(Principal.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
-        PageableResponse response = new PageableResponse();
+
+        List<GtfsPathwaysDownload> response;
         GtfsPathwaysDownload file = new GtfsPathwaysDownload();
         file.setDownloadUrl("downloadUrl");
-        response.setList(Arrays.asList(file));
-        Pageable pg = new Pageable();
-        pg.setCurrentPage(1);
-        pg.setNumPages(1);
-        pg.setTotalItems(1);
-        pg.setTotalPages(1);
-        response.setPageable(pg);
+        response = Arrays.asList(file);
 
-        when(gtfsPathwaysService.listPathwaysFiles(any(Principal.class), anyString(), anyInt(), anyString(), anyString(), any(), anyString(), anyInt(), anyInt())).thenReturn(response);
-        var result = gtfsPathwaysController.listPathwaysFiles(mockPrincipal, "test", 1, "test", new Date(), "test", "test", 1, 1);
+        when(gtfsPathwaysService.listPathwaysFiles(any(Principal.class), anyString(), Optional.of(anyString()), Optional.of(anyInt()), Optional.of(anyString()), Optional.of(any()), Optional.of(anyString()), Optional.of(anyString()), anyInt(), anyInt())).thenReturn(response);
+        var result = gtfsPathwaysController.listPathwaysFiles(mockPrincipal,
+                request,
+                Optional.of("test"),
+                Optional.of(1),
+                Optional.of("test"),
+                Optional.of(new Date()),
+                Optional.of("test"),
+                Optional.of("test"),
+                1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().getList().stream().findFirst().get().getDownloadUrl()).isEqualTo("downloadUrl");
+        assertThat(result.getBody().stream().findFirst().get().getDownloadUrl()).isEqualTo("downloadUrl");
     }
 
     @Test
     void listPathwaysVersions() {
         Principal mockPrincipal = mock(Principal.class);
 
-        PageableResponse response = new PageableResponse();
+        List<VersionSpec> response;
         VersionSpec spec = new VersionSpec();
         spec.setVersion("v1");
-        response.setList(Arrays.asList(spec));
-        Pageable pg = new Pageable();
-        pg.setCurrentPage(1);
-        pg.setNumPages(1);
-        pg.setTotalItems(1);
-        pg.setTotalPages(1);
-        response.setPageable(pg);
+        response = Arrays.asList(spec);
+
 
         when(gtfsPathwaysService.listPathwaysVersions(mockPrincipal)).thenReturn(response);
         var result = gtfsPathwaysController.listPathwaysVersions(mockPrincipal);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().getList().stream().findFirst().get().getVersion()).isEqualTo("v1");
+        assertThat(result.getBody().stream().findFirst().get().getVersion()).isEqualTo("v1");
     }
 
     @Test
