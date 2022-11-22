@@ -4,7 +4,6 @@ import com.tdei.gateway.gtfspathways.controller.contract.IGtfsPathways;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,12 +39,13 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<GtfsPathwaysDownload>> listPathwaysFiles(Principal principal, String tdeiStationId, Integer confidenceLevel, String pathwaysSchemaVersion, Date dateTime, String tdeiOrgId, String tdeiRecordId, Integer pageNo, Integer pageSize) {
-        return ResponseEntity.ok(gtfsPathwaysService.listPathwaysFiles(principal, tdeiStationId, confidenceLevel, pathwaysSchemaVersion, tdeiOrgId, dateTime, tdeiRecordId, pageNo, pageSize));
+    public ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiStationId, Optional<Integer> confidenceLevel, Optional<String> pathwaysSchemaVersion, Optional<Date> dateTime, Optional<String> tdeiOrgId, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
+
+        return ResponseEntity.ok(gtfsPathwaysService.listPathwaysFiles(principal, req.getServletPath(), tdeiStationId, confidenceLevel, pathwaysSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }
 
     @Override
-    public ResponseEntity<PageableResponse<VersionSpec>> listPathwaysVersions(Principal principal) {
+    public ResponseEntity<List<VersionSpec>> listPathwaysVersions(Principal principal) {
 
         return ResponseEntity.ok(gtfsPathwaysService.listPathwaysVersions(principal));
     }
@@ -54,8 +56,8 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<Station>> listStations(Principal principal) {
-        PageableResponse response = gtfsPathwaysService.listStations(principal);
+    public ResponseEntity<List<Station>> listStations(Principal principal) {
+        List<Station> response = gtfsPathwaysService.listStations(principal);
         return ResponseEntity.ok(response);
     }
 }

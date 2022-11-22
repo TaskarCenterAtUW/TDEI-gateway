@@ -25,7 +25,7 @@ public class ApplicationProperties {
     @NoArgsConstructor
     public static class GtfsPathwaysProperties {
         private String uploadUrl;
-        private String downloadUrl;
+        private String baseUrl;
     }
 
     @Data

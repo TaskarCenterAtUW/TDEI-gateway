@@ -2,7 +2,6 @@ package com.tdei.gateway.gtfspathways.controller.contract;
 
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +30,8 @@ import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Validated
 public interface IGtfsPathways {
@@ -64,27 +65,28 @@ public interface IGtfsPathways {
             produces = {"application/json"},
             method = RequestMethod.GET)
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<PageableResponse<GtfsPathwaysDownload>> listPathwaysFiles(
+    ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(
             Principal principal,
+            HttpServletRequest req,
 //            @Parameter(in = ParameterIn.QUERY,
 //                    description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.",
 //                    schema = @Schema()) @Valid @RequestParam(value = "bbox", required = false) String bbox,
             @Parameter(in = ParameterIn.QUERY, description = "Id of a station in the tdei system. gtfs station ids may not be unique.",
-                    schema = @Schema()) @Valid @RequestParam(value = "tdei_station_id", required = false) String tdeiStationId,
+                    schema = @Schema()) @Valid @RequestParam(value = "tdei_station_id", required = false) Optional<String> tdeiStationId,
             @Parameter(in = ParameterIn.QUERY,
                     description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).",
-                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Integer confidenceLevel,
+                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Optional<Integer> confidenceLevel,
             @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1.0/gtfs_pathways path",
-                    schema = @Schema()) @Valid @RequestParam(value = "pathways_schema_version", required = false) String pathwaysSchemaVersion,
+                    schema = @Schema()) @Valid @RequestParam(value = "pathways_schema_version", required = false) Optional<String> pathwaysSchemaVersion,
             @Parameter(in = ParameterIn.QUERY, description = "date-time (Format. YYYY-MM-DD) for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
-                    schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateTime,
+                    schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dateTime,
             @Parameter(in = ParameterIn.QUERY, description = "tdei-assigned agency id. Necessary to ensure that agency ids are unique. Represented as a UUID.",
-                    schema = @Schema()) @Valid @RequestParam(value = "tdei_org_id", required = false) String tdeiOrgId,
+                    schema = @Schema()) @Valid @RequestParam(value = "tdei_org_id", required = false) Optional<String> tdeiOrgId,
             @Parameter(in = ParameterIn.QUERY, description = "if included, returns the metadata for the specified file, all other parameters will be ignored.",
-                    schema = @Schema()) @Valid @RequestParam(value = "tdei_record_id", required = false) String tdeiRecordId,
-            @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 0.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false) Integer pageNo,
+                    schema = @Schema()) @Valid @RequestParam(value = "tdei_record_id", required = false) Optional<String> tdeiRecordId,
+            @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 1.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false, defaultValue = "1") Integer pageNo,
             @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 200 to 100, defaults to 20.",
-                    schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false) Integer pageSize);
+                    schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "20") Integer pageSize) throws FileNotFoundException;
 
     @Operation(summary = "List available GTFS Pathways versions", description = "Lists the versions of GTFS pathways data which are supported by TDEI. Returns a json list of the GTFS pathways versions supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Pathways"})
@@ -98,7 +100,7 @@ public interface IGtfsPathways {
             produces = {"application/json"},
             method = RequestMethod.GET)
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<PageableResponse<VersionSpec>> listPathwaysVersions(Principal principal);
+    ResponseEntity<List<VersionSpec>> listPathwaysVersions(Principal principal);
 
     @Operation(summary = "create pathways file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
@@ -132,6 +134,6 @@ public interface IGtfsPathways {
             produces = {"application/json"},
             method = RequestMethod.GET)
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<PageableResponse<Station>> listStations(Principal principal);
+    ResponseEntity<List<Station>> listStations(Principal principal);
 
 }

@@ -103,7 +103,7 @@ public class OswControllerTests {
         );
         MockHttpServletRequest request = new MockHttpServletRequest();
 
-        when(oswService.uploadOswFile(any(Principal.class), anyString(), any(OswUpload.class), file)).thenReturn("newRecordId");
+        when(oswService.uploadOswFile(any(Principal.class), anyString(), any(OswUpload.class), any())).thenReturn("newRecordId");
         var result = oswController.uploadOswFile(mockPrincipal, new OswUpload(), "101", file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());

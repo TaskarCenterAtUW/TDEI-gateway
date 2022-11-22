@@ -10,7 +10,7 @@ gtfs-flex:
   upload-url: http://localhost:8083/api/gtfsflex/v1/uploadFile
 gtfs-pathways:
   upload-url: http://localhost:8083/api/gtfspathways/v1/uploadFile
-  download-url: http://localhost:3000/api/v1/gtfspathways
+  base-url: http://localhost:3000/api/v1/gtfspathways
 osw:
   upload-url: http://localhost:8083/api/osw/v1/uploadFile
 
