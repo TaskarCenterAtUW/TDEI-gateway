@@ -78,7 +78,7 @@ public class GtfsPathwaysControllerTests {
         file.setDownloadUrl("downloadUrl");
         response = Arrays.asList(file);
 
-        when(gtfsPathwaysService.listPathwaysFiles(any(Principal.class), anyString(), Optional.of(anyString()), Optional.of(anyInt()), Optional.of(anyString()), Optional.of(any()), Optional.of(anyString()), Optional.of(anyString()), anyInt(), anyInt())).thenReturn(response);
+        when(gtfsPathwaysService.listPathwaysFiles(any(Principal.class), anyString(), any(), any(), any(), any(), any(), any(), anyInt(), anyInt())).thenReturn(response);
         var result = gtfsPathwaysController.listPathwaysFiles(mockPrincipal,
                 request,
                 Optional.of("test"),
@@ -123,8 +123,9 @@ public class GtfsPathwaysControllerTests {
         );
         MockHttpServletRequest request = new MockHttpServletRequest();
 
-        when(gtfsPathwaysService.uploadPathwaysFile(any(Principal.class), anyString(), any(GtfsPathwaysUpload.class), file)).thenReturn("newRecordId");
-        var result = gtfsPathwaysController.uploadPathwaysFile(mockPrincipal, new GtfsPathwaysUpload(), "101", file, request);
+        String orgId = "101";
+        when(gtfsPathwaysService.uploadPathwaysFile(any(Principal.class), any(String.class), any(GtfsPathwaysUpload.class), any(MockMultipartFile.class))).thenReturn("newRecordId");
+        var result = gtfsPathwaysController.uploadPathwaysFile(mockPrincipal, new GtfsPathwaysUpload(), orgId, file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody()).isEqualTo("newRecordId");

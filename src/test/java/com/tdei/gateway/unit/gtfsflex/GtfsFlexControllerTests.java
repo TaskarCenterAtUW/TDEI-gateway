@@ -104,7 +104,7 @@ public class GtfsFlexControllerTests {
         );
         MockHttpServletRequest request = new MockHttpServletRequest();
 
-        when(gtfsFlexService.uploadFlexFile(any(Principal.class), anyString(), any(GtfsFlexUpload.class), file)).thenReturn("newRecordId");
+        when(gtfsFlexService.uploadFlexFile(any(Principal.class), anyString(), any(GtfsFlexUpload.class), any())).thenReturn("newRecordId");
         var result = gtfsFlexController.uploadGtfsFlexFile(mockPrincipal, new GtfsFlexUpload(), "101", file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
@@ -126,7 +126,7 @@ public class GtfsFlexControllerTests {
         pg.setTotalPages(1);
         response.setPageable(pg);
 
-        when(gtfsFlexService.listFlexServices(mockPrincipal, anyString())).thenReturn(response);
+        when(gtfsFlexService.listFlexServices(any(Principal.class), any())).thenReturn(response);
         var result = gtfsFlexController.listFlexServices(mockPrincipal, "101");
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
