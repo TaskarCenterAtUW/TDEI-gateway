@@ -42,12 +42,12 @@ public interface IAuthService {
     boolean hasPermission(Principal principal, String... permissions);
 
     /**
-     * Verifies the permission for given userId, agencyId and permissions
+     * Verifies the permission for given userId, tdeiOrgId and permissions
      *
      * @param principal-   Logged user context
-     * @param agencyId-    AgencyId
+     * @param tdeiOrgId-   TdeiOrgId
      * @param permissions- List of permissions to verify
      * @return
      */
-    boolean hasAgencyPermission(Principal principal, String agencyId, String... permissions);
+    boolean hasOrgPermission(Principal principal, String tdeiOrgId, String... permissions);
 }

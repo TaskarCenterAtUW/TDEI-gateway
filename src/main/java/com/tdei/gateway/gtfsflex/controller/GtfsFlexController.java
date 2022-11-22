@@ -1,6 +1,7 @@
 package com.tdei.gateway.gtfsflex.controller;
 
 import com.tdei.gateway.gtfsflex.controller.contract.IGtfsFlex;
+import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.GtfsFlexService;
@@ -33,8 +34,8 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<GtfsFlexDownload>> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiAgencyId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
-        return ResponseEntity.ok(gtfsFlexService.listFlexFiles(principal, bbox, confidenceLevel, flexSchemaVersion, tdeiAgencyId, dateTime, tdeiRecordId, pageNo, pageSize));
+    public ResponseEntity<PageableResponse<GtfsFlexDownload>> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
+        return ResponseEntity.ok(gtfsFlexService.listFlexFiles(principal, bbox, confidenceLevel, flexSchemaVersion, tdeiOrgId, dateTime, tdeiRecordId, pageNo, pageSize));
     }
 
     @Override
@@ -43,7 +44,12 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, String agencyId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
-        return ResponseEntity.ok(gtfsFlexService.uploadFlexFile(principal, agencyId, meta, file));
+    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, String tdeiOrgId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.ok(gtfsFlexService.uploadFlexFile(principal, tdeiOrgId, meta, file));
+    }
+
+    @Override
+    public ResponseEntity<PageableResponse<GtfsFlexServiceModel>> listFlexServices(Principal principal, String tdeiOrgId) {
+        return ResponseEntity.ok(gtfsFlexService.listFlexServices(principal, tdeiOrgId));
     }
 }

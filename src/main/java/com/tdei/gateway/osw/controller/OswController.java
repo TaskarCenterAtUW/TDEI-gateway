@@ -43,8 +43,8 @@ public class OswController implements IOsw {
     }
 
     @Override
-    public ResponseEntity<String> uploadOswFile(Principal principal, OswUpload meta, String agencyId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
-        return ResponseEntity.ok(oswService.uploadOswFile(principal, agencyId, meta, file));
+    public ResponseEntity<String> uploadOswFile(Principal principal, OswUpload meta, String tdeiOrgId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.ok(oswService.uploadOswFile(principal, tdeiOrgId, meta, file));
 
     }
 }

@@ -1,14 +1,12 @@
 package com.tdei.gateway.gtfspathways.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tdei.gateway.main.model.common.dto.Polygon;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
 
 /**
  * Describes a gtfs pathways file meta data.
@@ -17,10 +15,10 @@ import java.time.OffsetDateTime;
 @Validated
 @Data
 public class GtfsPathwaysDownload {
-    @Schema(required = true, description = "tdei-assigned agency id. Represented as UUID. Agency ids can be retrieved using the /api/v1.0/agencies path.")
+    @Schema(required = true, description = "tdei-assigned organization id. Represented as UUID. Organization ids can be retrieved using the /api/v1.0/organizations path.")
     @NotNull
-    @JsonProperty("tdei_agency_id")
-    private String tdeiAgencyId = null;
+    @JsonProperty("tdei_org_id")
+    private String tdeiOrgId = null;
 
     @Schema(required = true, description = "Description of who data was collected by. See Best Practices document for information on how to format this string.")
     @NotNull
@@ -31,7 +29,7 @@ public class GtfsPathwaysDownload {
     @NotNull
     @Valid
     @JsonProperty("collection_date")
-    private OffsetDateTime collectionDate = null;
+    private String collectionDate = null;
 
     @Schema(required = true, description = "Method by which the data was collected. See Best Practices document for information on how to format this string.")
     @NotNull
@@ -42,12 +40,12 @@ public class GtfsPathwaysDownload {
     @NotNull
     @Valid
     @JsonProperty("valid_from")
-    private OffsetDateTime validFrom = null;
+    private String validFrom = null;
 
     @Schema(description = "date until which this data is valid")
     @Valid
     @JsonProperty("valid_to")
-    private OffsetDateTime validTo = null;
+    private String validTo = null;
 
     @Schema(required = true, description = "tdei-generated confidence level. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).")
     @NotNull
@@ -59,10 +57,10 @@ public class GtfsPathwaysDownload {
     @JsonProperty("data_source")
     private String dataSource = null;
 
-    @Schema(required = true, description = "")
-    @NotNull
-    @JsonProperty("polygon")
-    private Polygon polygon = null;
+//    @Schema(required = true, description = "")
+//    @NotNull
+//    @JsonProperty("polygon")
+//    private Polygon polygon = null;
 
     @Schema(required = true, description = "unique id identifying the file in the tdei system, can be used to retrieve the file itself.")
     @NotNull
