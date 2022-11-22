@@ -14,10 +14,10 @@ public interface IOswService {
      * Returns the uploaded file record id
      *
      * @param principal
-     * @param agencyId
+     * @param tdeiOrgId
      * @param body
      */
-    String uploadOswFile(Principal principal, String agencyId, OswUpload body, MultipartFile file) throws FileUploadException;
+    String uploadOswFile(Principal principal, String tdeiOrgId, OswUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file
@@ -35,7 +35,7 @@ public interface IOswService {
      * @param bbox
      * @param confidenceLevel
      * @param flexSchemaVersion
-     * @param tdeiAgencyId
+     * @param tdeiOrgId
      * @param dateTime
      * @param tdeiRecordId
      * @param pageNo

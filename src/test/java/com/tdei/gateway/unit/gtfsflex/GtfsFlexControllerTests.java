@@ -1,6 +1,7 @@
 package com.tdei.gateway.unit.gtfsflex;
 
 import com.tdei.gateway.gtfsflex.controller.GtfsFlexController;
+import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.GtfsFlexService;
@@ -103,10 +104,32 @@ public class GtfsFlexControllerTests {
         );
         MockHttpServletRequest request = new MockHttpServletRequest();
 
-        when(gtfsFlexService.uploadFlexFile(any(Principal.class), anyString(), any(GtfsFlexUpload.class), file)).thenReturn("newRecordId");
+        when(gtfsFlexService.uploadFlexFile(any(Principal.class), anyString(), any(GtfsFlexUpload.class), any())).thenReturn("newRecordId");
         var result = gtfsFlexController.uploadGtfsFlexFile(mockPrincipal, new GtfsFlexUpload(), "101", file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody()).isEqualTo("newRecordId");
+    }
+
+    @Test
+    void listServices() {
+        Principal mockPrincipal = mock(Principal.class);
+
+        PageableResponse response = new PageableResponse();
+        GtfsFlexServiceModel service = new GtfsFlexServiceModel();
+        service.setServiceName("Terminal");
+        response.setList(Arrays.asList(service));
+        Pageable pg = new Pageable();
+        pg.setCurrentPage(1);
+        pg.setNumPages(1);
+        pg.setTotalItems(1);
+        pg.setTotalPages(1);
+        response.setPageable(pg);
+
+        when(gtfsFlexService.listFlexServices(any(Principal.class), any())).thenReturn(response);
+        var result = gtfsFlexController.listFlexServices(mockPrincipal, "101");
+
+        assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
+        assertThat(result.getBody().getList().stream().findFirst().get().getServiceName()).isEqualTo("Terminal");
     }
 }

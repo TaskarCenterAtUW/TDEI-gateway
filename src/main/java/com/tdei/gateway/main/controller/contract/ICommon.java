@@ -7,9 +7,8 @@ package com.tdei.gateway.main.controller.contract;
 
 import com.tdei.gateway.core.model.authclient.LoginModel;
 import com.tdei.gateway.core.model.authclient.TokenResponse;
-import com.tdei.gateway.main.model.common.dto.Agency;
+import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
-import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -42,19 +41,21 @@ public interface ICommon {
             method = RequestMethod.POST)
     ResponseEntity<TokenResponse> authenticate(@RequestBody LoginModel loginModel);
 
-    @Operation(summary = "List Agencies", description = "Path used to retrieve the list of agencies with data in the TDEI system. Allows callers to get the tdei_agency_id id for an agency.  Returns the tdei_agency_id and agency information for all agencies with data in the TDEI system. ", security = {
+    @Operation(summary = "List organizations", description = "Path used to retrieve the list of organizations with data in the TDEI system. Allows callers to get the tdei_org_id id for an organization.\n" +
+            "\n" +
+            "Returns the tdei_org_id and organization information for all organizations with data in the TDEI system.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `Agency` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Agency.class)))),
+            @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `Agency` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Organization.class)))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "agencies",
+    @RequestMapping(value = "organizations",
             produces = {"application/json"},
             method = RequestMethod.GET)
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<PageableResponse<Agency>> listAgencies(Principal principal);
+    ResponseEntity<PageableResponse<Organization>> listOrganizations(Principal principal);
 
     @Operation(summary = "List available API versions", description = "Returns a json list of the versions of the TDEI API which are available.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
@@ -70,18 +71,5 @@ public interface ICommon {
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<PageableResponse<VersionSpec>> listApiVersions(Principal principal);
 
-    @Operation(summary = "List Stations", description = "Path used to retrieve the list of stations with data in the TDEI system. Allows callers to get the tdei_station_id id for a station.  Returns the tdei_station_id and station information for all stations with data in the TDEI system. ", security = {
-            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns an array of `Station` entities. ", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Station.class)))),
-
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
-
-            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "stations",
-            produces = {"application/json"},
-            method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<PageableResponse<Station>> listStations(Principal principal);
 }
 

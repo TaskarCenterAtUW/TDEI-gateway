@@ -1,6 +1,7 @@
 package com.tdei.gateway.osw.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
+import com.tdei.gateway.core.model.authclient.UserProfile;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.osw.model.dto.OswDownload;
@@ -13,6 +14,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -28,12 +30,14 @@ public class OswService implements IOswService {
     private final ApplicationProperties applicationProperties;
 
     @Override
-    public String uploadOswFile(Principal principal, String agencyId, OswUpload body, MultipartFile file) throws FileUploadException {
+    public String uploadOswFile(Principal principal, String tdeiOrgId, OswUpload body, MultipartFile file) throws FileUploadException {
+        UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         try {
             MultipartBodyBuilder builder = new MultipartBodyBuilder();
             builder.part("file", new ByteArrayResource(file.getBytes())).filename(file.getOriginalFilename());
             builder.part("meta", body);
-            builder.part("agencyId", agencyId);
+            builder.part("tdeiOrgId", tdeiOrgId);
+            builder.part("userId", user.getId());
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getOsw().getUploadUrl()).build();
 
