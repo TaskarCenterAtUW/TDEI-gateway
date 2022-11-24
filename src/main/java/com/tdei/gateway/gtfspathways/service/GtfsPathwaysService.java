@@ -73,7 +73,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
 
         try {
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getBaseUrl() + "/" + tdeiRecordId).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getDataUrl() + "/" + tdeiRecordId).build();
 
             Mono<ResponseEntity<Flux<DataBuffer>>> flux = webClient.get()
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
@@ -103,7 +103,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             WebClient webClient = WebClient.builder()
                     .build();
 
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getGtfsPathways().getBaseUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getGtfsPathways().getDataUrl());
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
             if (tdeiStationId.isPresent())

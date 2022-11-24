@@ -32,7 +32,7 @@ import java.time.OffsetDateTime;
 public interface IGtfsFlex {
 
     @Operation(summary = "returns a gtfs_pathways file", description = "returns a specific gtfs_pathways file identified by the record_id", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Flex"})
+            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success. Returns the file as an octet-stream."),
 
@@ -49,7 +49,7 @@ public interface IGtfsFlex {
 
 
     @Operation(summary = "List flex files meeting specified criteria.", description = "This endpoint returns a json list of all gtfs flex files stored in the TDEI system that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level, flex version, date time and agency id.  This endpoint can be used by an application developer to obtain a list of gtfs flex files in the TDEI system meeting the specified criteria. This endpoint returns a list of file-metadata including the uris of the file, which can be used to fetch the files themselves.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Flex"})
+            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `gtfs_flex_download` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsFlexDownload.class)))),
 
@@ -63,7 +63,7 @@ public interface IGtfsFlex {
     ResponseEntity<PageableResponse<GtfsFlexDownload>> listFlexFiles(Principal principal, @Parameter(in = ParameterIn.QUERY, description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.", schema = @Schema()) @Valid @RequestParam(value = "bbox", required = false) String bbox, @Parameter(in = ParameterIn.QUERY, description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).", schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Integer confidenceLevel, @Parameter(in = ParameterIn.QUERY, description = "version name of the flex schema version that the application requests. list of versions can be found with /api/v1.0/gtfs_flex path", schema = @Schema()) @Valid @RequestParam(value = "flex_schema_version", required = false) String flexSchemaVersion, @Parameter(in = ParameterIn.QUERY, description = "tdei-assigned agency id. Necessary to ensure that agency ids are unique. Represented as a UUID.", schema = @Schema()) @Valid @RequestParam(value = " tdei_org_id", required = false) String tdeiOrgId, @Parameter(in = ParameterIn.QUERY, description = "date-time for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.", schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) OffsetDateTime dateTime, @Parameter(in = ParameterIn.QUERY, description = "if included, returns the metadata for the specified file, all other parameters will be ignored.", schema = @Schema()) @Valid @RequestParam(value = "tdei_record_id", required = false) String tdeiRecordId, @Parameter(in = ParameterIn.QUERY, description = "Page number, defaults to 0.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false) Integer pageNo, @Parameter(in = ParameterIn.QUERY, description = "Integer, between 200 to 100, defaults to 20.", schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false) Integer pageSize);
 
     @Operation(summary = "List available GTFS flex versions", description = "List GTFS flex versions supported by TDEI.  Returns a json list of the GTFS flex versions supported by TDEI.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Flex"})
+            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns a list of flex versions supported by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
 
@@ -96,7 +96,7 @@ public interface IGtfsFlex {
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
     @Operation(summary = "List GTFS Flex Services", description = "Path used to retrieve the list of GTFS Services in the TDEI system. Allows callers to get the tdei_service_id id for a service.  Returns the tdei_service_id and service name for all services in the TDEI system.   If tdei_org_id param is used, will return services for that organization.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Flex"})
+            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns an array of `Service` entities. ", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsFlexServiceModel.class)))),
 

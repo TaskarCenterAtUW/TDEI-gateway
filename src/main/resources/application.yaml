@@ -3,14 +3,14 @@ server:
 
 application:
   app-name: tdei-gateway
-  auth-server-url: https://tdei-authz.azurewebsites.net
+  auth-server-url: https://tdei-auth-n-z-dev.azurewebsites.net
   #http://localhost:8082
 
 gtfs-flex:
   upload-url: http://localhost:8083/api/gtfsflex/v1/uploadFile
 gtfs-pathways:
   upload-url: http://localhost:8083/api/gtfspathways/v1/uploadFile
-  base-url: http://localhost:3000/api/v1/gtfspathways
+  data-url: http://localhost:3000/api/v1/gtfspathways
 osw:
   upload-url: http://localhost:8083/api/osw/v1/uploadFile
 

@@ -38,7 +38,7 @@ public interface IGtfsPathways {
 
 
     @Operation(summary = "returns a gtfs_pathways file", description = "returns a specific gtfs_flex file identified by the record_id", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Pathways"})
+            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success. Returns the file as application/octet-stream."),
 
@@ -54,7 +54,7 @@ public interface IGtfsPathways {
     ResponseEntity<Flux<DataBuffer>> getPathwaysFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId) throws FileNotFoundException;
 
     @Operation(summary = "List pathways files meeting criteria.", description = "This endpoint returns a json list of all gtfs pathways files stored in the TDEI system that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level, pathways version, date time and agency id.  This endpoint can be used by an application developer to obtain a list of gtfs pathways files in the TDEI system meeting the specified criteria. This endpoint returns a list of file-metadata including the uris of the file, which can be used to fetch the files themselves.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Pathways"})
+            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `gtfs_pathways_download` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsPathwaysDownload.class)))),
 
@@ -89,7 +89,7 @@ public interface IGtfsPathways {
                     schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "20") Integer pageSize) throws FileNotFoundException;
 
     @Operation(summary = "List available GTFS Pathways versions", description = "Lists the versions of GTFS pathways data which are supported by TDEI. Returns a json list of the GTFS pathways versions supported by TDEI.", security = {
-            @SecurityRequirement(name = "ApiKey")}, tags = {"GTFS-Pathways"})
+            @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of GTFS Pathways versions suppored by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
 
