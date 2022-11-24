@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
@@ -33,8 +32,8 @@ public class GtfsPathwaysController implements IGtfsPathways {
     private final GtfsPathwaysService gtfsPathwaysService;
 
     @Override
-    public ResponseEntity<Flux<DataBuffer>> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
-        ResponseEntity<Flux<DataBuffer>> dataBuffer = gtfsPathwaysService.getPathwaysFile(principal, tdeiRecordId);
+    public ResponseEntity<DataBuffer> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
+        ResponseEntity<DataBuffer> dataBuffer = gtfsPathwaysService.getPathwaysFile(principal, tdeiRecordId);
         return dataBuffer;
     }
 

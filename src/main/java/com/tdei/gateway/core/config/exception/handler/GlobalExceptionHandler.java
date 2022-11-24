@@ -26,6 +26,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.time.LocalDateTime;
@@ -191,6 +192,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         details.add(ex.getMessage());
 
         ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR, "File Upload Exception", details);
+
+        return ResponseEntityBuilder.build(err);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<Object> handleFileNotFoundException(FileNotFoundException ex) {
+
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND, "File not found Exception", details);
 
         return ResponseEntityBuilder.build(err);
     }

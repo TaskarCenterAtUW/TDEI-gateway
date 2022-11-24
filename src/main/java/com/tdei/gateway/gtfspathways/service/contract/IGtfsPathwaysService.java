@@ -8,7 +8,6 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
-import reactor.core.publisher.Flux;
 
 import java.io.FileNotFoundException;
 import java.security.Principal;
@@ -33,7 +32,7 @@ public interface IGtfsPathwaysService {
      * @param tdeiRecordId - Record id of the file
      * @return
      */
-    ResponseEntity<Flux<DataBuffer>> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException;
+    ResponseEntity<DataBuffer> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException;
 
     /**
      * Gets the paginated list of the flex files with given parameters
