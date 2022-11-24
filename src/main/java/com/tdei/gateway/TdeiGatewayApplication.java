@@ -1,6 +1,5 @@
 package com.tdei.gateway;
 
-import com.microsoft.applicationinsights.attach.ApplicationInsights;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,8 +11,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class TdeiGatewayApplication {
 
     public static void main(String[] args) {
-
-        ApplicationInsights.attach();
         SpringApplication.run(TdeiGatewayApplication.class, args);
         log.info("TDEI Gateway API Started Successfully !");
         log.info("^^^");
