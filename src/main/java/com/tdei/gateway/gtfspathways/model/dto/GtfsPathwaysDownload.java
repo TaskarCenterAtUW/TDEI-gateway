@@ -20,6 +20,10 @@ public class GtfsPathwaysDownload {
     @JsonProperty("tdei_org_id")
     private String tdeiOrgId = null;
 
+    @Schema(required = true, description = "tdei-assigned station id. Represented as UUID. Station ids can be retrieved using the /api/v1.0/stations path.")
+    @JsonProperty("tdei_station_id")
+    private String tdeiStationId = null;
+
     @Schema(required = true, description = "Description of who data was collected by. See Best Practices document for information on how to format this string.")
     @NotNull
     @JsonProperty("collected_by")

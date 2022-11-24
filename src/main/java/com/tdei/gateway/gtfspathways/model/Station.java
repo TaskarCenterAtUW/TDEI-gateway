@@ -15,7 +15,7 @@ public class Station {
     @Schema(required = true, description = "tdei assigned station id. Necessary to ensure that station ids are unique.")
     @NotNull
     @JsonProperty("tdei_station_id")
-    private Integer tdeiStationId = null;
+    private String tdeiStationId = null;
 
     /**
      * typically the station_name used in GTFS files
