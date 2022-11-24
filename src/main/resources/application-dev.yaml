@@ -4,6 +4,6 @@ gtfs-flex:
   upload-url: http://tdei-file-service-dev.azurewebsites.net/api/gtfsflex/v1/uploadFile
 gtfs-pathways:
   upload-url: http://tdei-file-service-dev.azurewebsites.net/api/gtfspathways/v1/uploadFile
-  base-url: http://tdei-template-datasvc-ts-dev.azurewebsites.net/api/v1/gtfspathways
+  data-url: http://tdei-template-datasvc-ts-dev.azurewebsites.net/api/v1/gtfspathways
 osw:
   upload-url: http://tdei-file-service-dev.azurewebsites.net/api/osw/v1/uploadFile

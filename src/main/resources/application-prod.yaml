@@ -1,9 +1,9 @@
 application:
   auth-server-url: https://tdei-auth-n-z-prod.azurewebsites.net
 gtfs-flex:
-  upload-url: http://tdei-file-service-dev.azurewebsites.net/api/gtfsflex/v1/uploadFile
+  upload-url: http://tdei-file-service-prod.azurewebsites.net/api/gtfsflex/v1/uploadFile
 gtfs-pathways:
-  upload-url: http://tdei-file-service-dev.azurewebsites.net/api/gtfspathways/v1/uploadFile
-  base-url: http://tdei-template-datasvc-ts-dev.azurewebsites.net/api/v1/gtfspathways
+  upload-url: http://tdei-file-service-prod.azurewebsites.net/api/gtfspathways/v1/uploadFile
+  data-url: http://tdei-template-datasvc-ts-prod.azurewebsites.net/api/v1/gtfspathways
 osw:
-  upload-url: http://tdei-file-service-dev.azurewebsites.net/api/osw/v1/uploadFile
+  upload-url: http://tdei-file-service-prod.azurewebsites.net/api/osw/v1/uploadFile
