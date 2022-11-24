@@ -13,6 +13,7 @@ import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
@@ -52,13 +53,19 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getUploadUrl()).build();
 
-            Flux<String> flux = webClient.post()
+            Mono<String> flux = webClient.post()
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA.toString())
                     .accept(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromMultipartData(builder.build()))
-                    .retrieve()
-                    .bodyToFlux(String.class);
+                    .exchangeToMono(response -> {
+                        if (response.statusCode().equals(HttpStatus.OK)) {
+                            return response.bodyToMono(String.class);
+                        } else {
+                            // Turn to error
+                            return response.createException().flatMap(Mono::error);
+                        }
+                    });
             String filePath = flux.single().block();
             log.info(filePath);
             return filePath;
