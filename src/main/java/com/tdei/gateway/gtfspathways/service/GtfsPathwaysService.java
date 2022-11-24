@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.FileNotFoundException;
@@ -32,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import static com.tdei.gateway.core.utils.Utils.formatDate;
 
 @Service
 @RequiredArgsConstructor
@@ -76,21 +77,29 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     }
 
     @Override
-    public ResponseEntity<Flux<DataBuffer>> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
+    public ResponseEntity<DataBuffer> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
 
         try {
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getDataUrl() + "/" + tdeiRecordId).build();
 
-            Mono<ResponseEntity<Flux<DataBuffer>>> flux = webClient.get()
+            Mono<ResponseEntity<DataBuffer>> mono = webClient.get()
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
-                    .retrieve()
-                    .toEntityFlux(DataBuffer.class);
+                    //.retrieve()
+                    .exchangeToMono(response -> {
+                        if (response.statusCode().equals(HttpStatus.OK)) {
+                            return response.toEntity(DataBuffer.class);
+                        } else {
+                            // Turn to error
+                            return response.createException().flatMap(Mono::error);
+                        }
+                    });
+            //.toEntityFlux(DataBuffer.class);
 
-            return flux.single().block();
+            return mono.single().block();
         } catch (Exception ex) {
-            log.error("Error while uploading file ", ex);
-            throw new FileNotFoundException("Error while uploading file");
+            log.error("File not found", ex);
+            throw new FileNotFoundException("File not found");
         }
     }
 
@@ -120,7 +129,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             if (pathwaysSchemaVersion.isPresent())
                 uri.queryParam("pathways_schema_version", pathwaysSchemaVersion.get());
             if (dateTime.isPresent())
-                uri.queryParam("date_time", dateTime.get());
+                uri.queryParam("date_time", formatDate(dateTime.get(), Optional.empty()));
             if (tdeiOrgId.isPresent())
                 uri.queryParam("tdei_org_id", tdeiOrgId.get());
             if (tdeiRecordId.isPresent())
