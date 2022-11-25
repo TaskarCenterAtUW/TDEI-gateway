@@ -36,6 +36,6 @@ public interface AuthServiceClient {
     @Headers({"Content-Type: text/plain"})
     UserProfile validateApiKey(String apiKey);
 
-    @RequestLine("GET /api/v1/hasPermission?userId={userId}&tdeiOrgId={tdeiOrgId}&affirmative={affirmative}&roles={roles}")
+    @RequestLine("GET /api/v1/hasPermission?userId={userId}&agencyId={tdeiOrgId}&affirmative={affirmative}&roles={roles}")
     Boolean hasPermission(@Param("userId") String userId, @Param("tdeiOrgId") String tdeiOrgId, @Param("roles") List<String> roles, @Param("affirmative") Boolean affirmative);
 }
