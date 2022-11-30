@@ -5,11 +5,13 @@ import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.util.function.Tuple2;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -32,13 +34,12 @@ public interface IGtfsPathwaysService {
      * @param tdeiRecordId - Record id of the file
      * @return
      */
-    ResponseEntity<DataBuffer> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException;
+    Tuple2<InputStream, HttpHeaders> getPathwaysFile(Principal principal, String tdeiRecordId) throws IOException;
 
     /**
      * Gets the paginated list of the flex files with given parameters
      *
      * @param principal
-     * @param bbox
      * @param confidenceLevel
      * @param pathwaysSchemaVersion
      * @param tdeiOrgId
