@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +51,7 @@ public interface IGtfsPathways {
             produces = {"application/octet-stream"},
             method = RequestMethod.GET)
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<DataBuffer> getPathwaysFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId) throws FileNotFoundException;
+    ResponseEntity<?> getPathwaysFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;
 
     @Operation(summary = "List pathways files meeting criteria.", description = "This endpoint returns a json list of all gtfs pathways files stored in the TDEI system that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level, pathways version, date time and agency id.  This endpoint can be used by an application developer to obtain a list of gtfs pathways files in the TDEI system meeting the specified criteria. This endpoint returns a list of file-metadata including the uris of the file, which can be used to fetch the files themselves.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
@@ -72,9 +73,9 @@ public interface IGtfsPathways {
 //                    schema = @Schema()) @Valid @RequestParam(value = "bbox", required = false) String bbox,
             @Parameter(in = ParameterIn.QUERY, description = "Id of a station in the tdei system. gtfs station ids may not be unique.",
                     schema = @Schema()) @Valid @RequestParam(value = "tdei_station_id", required = false) Optional<String> tdeiStationId,
-            @Parameter(in = ParameterIn.QUERY,
-                    description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).",
-                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Optional<Integer> confidenceLevel,
+//            @Parameter(in = ParameterIn.QUERY,
+//                    description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).",
+//                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Optional<Integer> confidenceLevel,
             @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1.0/gtfs_pathways path",
                     schema = @Schema()) @Valid @RequestParam(value = "pathways_schema_version", required = false) Optional<String> pathwaysSchemaVersion,
             @Parameter(in = ParameterIn.QUERY, description = "date-time (Format. YYYY-MM-DD) for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
@@ -104,20 +105,20 @@ public interface IGtfsPathways {
     @Operation(summary = "create pathways file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "Successful file creation. returns tdei_record_id of new file.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
 
             @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed.", content = @Content),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "{tdeiOrgId}",
-            produces = {"application/json"},
+    @RequestMapping(value = "{tdei_org_Id}",
+            produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
     @PreAuthorize("@authService.hasOrgPermission(#principal, #tdeiOrgId,  'tdei-user')")
     ResponseEntity<String> uploadPathwaysFile(Principal principal, @RequestPart("meta") @Valid GtfsPathwaysUpload meta,
-                                              @Parameter(in = ParameterIn.PATH, description = "", schema = @Schema()) @PathVariable() String tdeiOrgId,
+                                              @Parameter(in = ParameterIn.PATH, name = "", schema = @Schema()) @PathVariable("tdei_org_Id") String tdeiOrgId,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
 

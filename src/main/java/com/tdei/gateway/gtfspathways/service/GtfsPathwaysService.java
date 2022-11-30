@@ -24,8 +24,13 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+import reactor.util.function.Tuples;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.SequenceInputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +38,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.tdei.gateway.core.utils.Utils.formatDate;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Service
 @RequiredArgsConstructor
@@ -57,7 +63,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             Mono<String> flux = webClient.post()
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA.toString())
-                    .accept(MediaType.APPLICATION_JSON)
+                    .accept(APPLICATION_JSON)
                     .body(BodyInserters.fromMultipartData(builder.build()))
                     .exchangeToMono(response -> {
                         if (response.statusCode().equals(HttpStatus.OK)) {
@@ -77,26 +83,26 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     }
 
     @Override
-    public ResponseEntity<DataBuffer> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
-
+    public Tuple2<InputStream, HttpHeaders> getPathwaysFile(Principal principal, String tdeiRecordId) throws IOException {
         try {
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getDataUrl() + "/" + tdeiRecordId).build();
 
-            Mono<ResponseEntity<DataBuffer>> mono = webClient.get()
+            var clientResponse = webClient.get()
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
-                    //.retrieve()
                     .exchangeToMono(response -> {
                         if (response.statusCode().equals(HttpStatus.OK)) {
-                            return response.toEntity(DataBuffer.class);
+                            var stream = response.bodyToFlux(DataBuffer.class)
+                                    .map(b -> b.asInputStream(true))
+                                    .reduce(SequenceInputStream::new).map(x -> Tuples.of(x, response.headers().asHttpHeaders()));
+                            return stream;
                         } else {
                             // Turn to error
                             return response.createException().flatMap(Mono::error);
                         }
                     });
-            //.toEntityFlux(DataBuffer.class);
 
-            return mono.single().block();
+            return clientResponse.block();
         } catch (Exception ex) {
             log.error("File not found", ex);
             throw new FileNotFoundException("File not found");
@@ -138,7 +144,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             Mono<ResponseEntity<List<GtfsPathwaysDownload>>> entity = webClient.get()
                     .uri(uriBuilder -> uri
                             .build().toUri())
-                    .accept(MediaType.APPLICATION_JSON)
+                    .accept(APPLICATION_JSON)
                     .retrieve()
                     .toEntityList(GtfsPathwaysDownload.class);
 
