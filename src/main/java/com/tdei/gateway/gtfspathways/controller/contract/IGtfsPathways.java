@@ -105,7 +105,7 @@ public interface IGtfsPathways {
     @Operation(summary = "create pathways file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing. Returns the tdei_record_id.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
 
             @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed.", content = @Content),
 
