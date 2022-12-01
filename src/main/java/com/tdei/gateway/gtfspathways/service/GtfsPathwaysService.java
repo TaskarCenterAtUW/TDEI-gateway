@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.tdei.gateway.core.utils.Utils.formatDate;
+import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Service
@@ -63,7 +64,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             Mono<String> flux = webClient.post()
                     .contentType(MediaType.MULTIPART_FORM_DATA)
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA.toString())
-                    .accept(APPLICATION_JSON)
+                    .accept(ALL)
                     .body(BodyInserters.fromMultipartData(builder.build()))
                     .exchangeToMono(response -> {
                         if (response.statusCode().equals(HttpStatus.OK)) {
