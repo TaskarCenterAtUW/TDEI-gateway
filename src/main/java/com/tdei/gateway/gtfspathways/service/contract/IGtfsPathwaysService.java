@@ -22,10 +22,9 @@ public interface IGtfsPathwaysService {
      * Returns the uploaded file record id
      *
      * @param principal
-     * @param tdeiOrgId
      * @param body
      */
-    String uploadPathwaysFile(Principal principal, String tdeiOrgId, GtfsPathwaysUpload body, MultipartFile file) throws FileUploadException;
+    String uploadPathwaysFile(Principal principal, GtfsPathwaysUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file

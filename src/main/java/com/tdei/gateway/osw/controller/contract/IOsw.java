@@ -36,7 +36,7 @@ public interface IOsw {
             @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "{tdei_record_id}/",
+    @RequestMapping(value = "{tdei_record_id}",
             //produces = {"geojson"},
             method = RequestMethod.GET)
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")

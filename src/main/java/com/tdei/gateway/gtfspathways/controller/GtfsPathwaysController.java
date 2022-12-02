@@ -57,8 +57,8 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<String> uploadPathwaysFile(Principal principal, GtfsPathwaysUpload meta, String tdeiOrgId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
-        return ResponseEntity.accepted().body(gtfsPathwaysService.uploadPathwaysFile(principal, tdeiOrgId, meta, file));
+    public ResponseEntity<String> uploadPathwaysFile(Principal principal, GtfsPathwaysUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.accepted().body(gtfsPathwaysService.uploadPathwaysFile(principal, meta, file));
     }
 
     @Override

@@ -37,7 +37,7 @@ import java.util.Optional;
 public interface IGtfsPathways {
 
 
-    @Operation(summary = "returns a gtfs_pathways file", description = "returns a specific gtfs_flex file identified by the record_id", security = {
+    @Operation(summary = "returns a gtfs_pathways file", description = "returns a specific gtfs_pathways file identified by the record_id", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success. Returns the file as application/octet-stream."),
@@ -47,7 +47,7 @@ public interface IGtfsPathways {
             @ApiResponse(responseCode = "404", description = "A GTFS pathways file that matches the specified parameters (combination of agencyid, stationid, confidence level, and version) was not found.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "{tdei_record_id}/",
+    @RequestMapping(value = "{tdei_record_id}",
             produces = {"application/octet-stream"},
             method = RequestMethod.GET)
     @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
@@ -112,13 +112,13 @@ public interface IGtfsPathways {
             @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
-    @RequestMapping(value = "{tdei_org_Id}",
+    @RequestMapping(value = "",
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #tdeiOrgId,  'tdei-user')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'tdei-user')")
     ResponseEntity<String> uploadPathwaysFile(Principal principal, @RequestPart("meta") @Valid GtfsPathwaysUpload meta,
-                                              @Parameter(in = ParameterIn.PATH, name = "", schema = @Schema()) @PathVariable("tdei_org_Id") String tdeiOrgId,
+                                              // @Parameter(in = ParameterIn.PATH, name = "", schema = @Schema()) @PathVariable("tdei_org_Id") String tdeiOrgId,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
 
