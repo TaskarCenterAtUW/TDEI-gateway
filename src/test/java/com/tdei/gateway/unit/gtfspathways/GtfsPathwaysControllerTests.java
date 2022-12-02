@@ -124,8 +124,8 @@ public class GtfsPathwaysControllerTests {
         MockHttpServletRequest request = new MockHttpServletRequest();
 
         String orgId = "101";
-        when(gtfsPathwaysService.uploadPathwaysFile(any(Principal.class), any(String.class), any(GtfsPathwaysUpload.class), any(MockMultipartFile.class))).thenReturn("newRecordId");
-        var result = gtfsPathwaysController.uploadPathwaysFile(mockPrincipal, new GtfsPathwaysUpload(), orgId, file, request);
+        when(gtfsPathwaysService.uploadPathwaysFile(any(Principal.class), any(GtfsPathwaysUpload.class), any(MockMultipartFile.class))).thenReturn("newRecordId");
+        var result = gtfsPathwaysController.uploadPathwaysFile(mockPrincipal, new GtfsPathwaysUpload(), file, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody()).isEqualTo("newRecordId");

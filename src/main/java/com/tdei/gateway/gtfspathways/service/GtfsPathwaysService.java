@@ -49,14 +49,14 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
 
 
     @Override
-    public String uploadPathwaysFile(Principal principal, String tdeiOrgId, GtfsPathwaysUpload body, MultipartFile file) throws FileUploadException {
+    public String uploadPathwaysFile(Principal principal, GtfsPathwaysUpload body, MultipartFile file) throws FileUploadException {
         UserProfile user = (UserProfile) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
 
         try {
             MultipartBodyBuilder builder = new MultipartBodyBuilder();
             builder.part("file", new ByteArrayResource(file.getBytes())).filename(file.getOriginalFilename());
             builder.part("meta", body);
-            builder.part("tdeiOrgId", tdeiOrgId);
+            builder.part("tdeiOrgId", body.getTdeiOrgId());
             builder.part("userId", user.getId());
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getUploadUrl()).build();
@@ -106,7 +106,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             return clientResponse.block();
         } catch (Exception ex) {
             log.error("File not found", ex);
-            throw new FileNotFoundException("File not found");
+            throw new FileNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
         }
     }
 
