@@ -3,13 +3,18 @@ package com.tdei.gateway.gtfsflex.service.contract;
 import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.util.function.Tuple2;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.security.Principal;
-import java.time.OffsetDateTime;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public interface IGtfsFlexService {
 
@@ -17,10 +22,9 @@ public interface IGtfsFlexService {
      * Returns the uploaded file record id
      *
      * @param principal
-     * @param tdeiOrgId
      * @param body
      */
-    String uploadFlexFile(Principal principal, String tdeiOrgId, GtfsFlexUpload body, MultipartFile file) throws FileUploadException;
+    String uploadFlexFile(Principal principal, GtfsFlexUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file
@@ -29,13 +33,12 @@ public interface IGtfsFlexService {
      * @param tdeiRecordId - Record id of the file
      * @return
      */
-    String getFlexFile(Principal principal, String tdeiRecordId);
+    Tuple2<InputStream, HttpHeaders> getFlexFile(Principal principal, String tdeiRecordId) throws FileNotFoundException;
 
     /**
      * Gets the paginated list of the flex files with given parameters
      *
      * @param principal
-     * @param bbox
      * @param confidenceLevel
      * @param flexSchemaVersion
      * @param tdeiOrgId
@@ -45,7 +48,16 @@ public interface IGtfsFlexService {
      * @param pageSize
      * @return
      */
-    PageableResponse<GtfsFlexDownload> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize);
+    List<GtfsFlexDownload> listFlexFiles(Principal principal,
+                                         String servletPath,
+                                         Optional<String> tdeiServiceId,
+                                         Optional<Integer> confidenceLevel,
+                                         Optional<String> flexSchemaVersion,
+                                         Optional<Date> dateTime,
+                                         Optional<String> tdeiOrgId,
+                                         Optional<String> tdeiRecordId,
+                                         Integer pageNo,
+                                         Integer pageSize) throws FileNotFoundException;
 
     /**
      * Returns the list of flex versions
@@ -53,7 +65,7 @@ public interface IGtfsFlexService {
      * @param principal
      * @return
      */
-    PageableResponse<VersionSpec> listFlexVersions(Principal principal);
+    List<VersionSpec> listFlexVersions(Principal principal);
 
     /**
      * List GTFS Flex Services
@@ -61,5 +73,5 @@ public interface IGtfsFlexService {
      * @param tdeiOrgId
      * @return
      */
-    PageableResponse<GtfsFlexServiceModel> listFlexServices(Principal principal, String tdeiOrgId);
+    List<GtfsFlexServiceModel> listFlexServices(Principal principal, String tdeiOrgId);
 }

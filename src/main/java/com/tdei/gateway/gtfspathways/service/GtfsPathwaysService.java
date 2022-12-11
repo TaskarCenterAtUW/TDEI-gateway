@@ -28,7 +28,6 @@ import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.security.Principal;
@@ -84,7 +83,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     }
 
     @Override
-    public Tuple2<InputStream, HttpHeaders> getPathwaysFile(Principal principal, String tdeiRecordId) throws IOException {
+    public Tuple2<InputStream, HttpHeaders> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
         try {
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getDataUrl() + "/" + tdeiRecordId).build();
@@ -157,7 +156,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             return response;
         } catch (Exception ex) {
             log.error("Error while listing pathways file ", ex);
-            throw new FileNotFoundException("Error while listing pathways file");
+            throw new InternalError("Error while listing pathways file");
         }
     }
 

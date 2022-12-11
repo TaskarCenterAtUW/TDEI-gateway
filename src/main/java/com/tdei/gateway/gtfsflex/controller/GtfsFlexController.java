@@ -5,7 +5,6 @@ import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.GtfsFlexService;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.Principal;
-import java.time.OffsetDateTime;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,27 +33,28 @@ public class GtfsFlexController implements IGtfsFlex {
     private final GtfsFlexService gtfsFlexService;
 
     @Override
-    public ResponseEntity<String> getFlexFile(Principal principal, String tdeiRecordId) {
+    public ResponseEntity<?> getFlexFile(Principal principal, String tdeiRecordId, HttpServletResponse response) throws IOException {
         return ResponseEntity.ok(gtfsFlexService.getFlexFile(principal, tdeiRecordId));
     }
 
     @Override
-    public ResponseEntity<PageableResponse<GtfsFlexDownload>> listFlexFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiOrgId, OffsetDateTime dateTime, String tdeiRecordId, Integer pageNo, Integer pageSize) {
-        return ResponseEntity.ok(gtfsFlexService.listFlexFiles(principal, bbox, confidenceLevel, flexSchemaVersion, tdeiOrgId, dateTime, tdeiRecordId, pageNo, pageSize));
+    public ResponseEntity<List<GtfsFlexDownload>> listFlexFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiServiceId, Optional<String> bbox, Optional<String> flexSchemaVersion, Optional<String> tdeiOrgId, Optional<Date> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
+        return ResponseEntity.ok(gtfsFlexService.listFlexFiles(principal, req.getServletPath(), tdeiServiceId, Optional.of(0), flexSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }
 
     @Override
-    public ResponseEntity<PageableResponse<VersionSpec>> listFlexVersions(Principal principal) {
+    public ResponseEntity<List<VersionSpec>> listFlexVersions(Principal principal) {
         return ResponseEntity.ok(gtfsFlexService.listFlexVersions(principal));
     }
 
     @Override
-    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, String tdeiOrgId, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
-        return ResponseEntity.ok(gtfsFlexService.uploadFlexFile(principal, tdeiOrgId, meta, file));
+    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+        return ResponseEntity.accepted().body(gtfsFlexService.uploadFlexFile(principal, meta, file));
     }
 
+
     @Override
-    public ResponseEntity<PageableResponse<GtfsFlexServiceModel>> listFlexServices(Principal principal, String tdeiOrgId) {
+    public ResponseEntity<List<GtfsFlexServiceModel>> listFlexServices(Principal principal, String tdeiOrgId) {
         return ResponseEntity.ok(gtfsFlexService.listFlexServices(principal, tdeiOrgId));
     }
 }
