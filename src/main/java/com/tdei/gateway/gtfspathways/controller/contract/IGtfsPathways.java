@@ -76,7 +76,7 @@ public interface IGtfsPathways {
 //            @Parameter(in = ParameterIn.QUERY,
 //                    description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).",
 //                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Optional<Integer> confidenceLevel,
-            @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1.0/gtfs_pathways path",
+            @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1.0/gtfs-pathways/versions path",
                     schema = @Schema()) @Valid @RequestParam(value = "pathways_schema_version", required = false) Optional<String> pathwaysSchemaVersion,
             @Parameter(in = ParameterIn.QUERY, description = "date-time (Format. YYYY-MM-DD) for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
                     schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dateTime,
@@ -116,9 +116,8 @@ public interface IGtfsPathways {
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'tdei-user')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'gtfspathways-data_generator')")
     ResponseEntity<String> uploadPathwaysFile(Principal principal, @RequestPart("meta") @Valid GtfsPathwaysUpload meta,
-                                              // @Parameter(in = ParameterIn.PATH, name = "", schema = @Schema()) @PathVariable("tdei_org_Id") String tdeiOrgId,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
 

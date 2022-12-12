@@ -19,6 +19,7 @@ public class ApplicationProperties {
     @NoArgsConstructor
     public static class GtfsFlexProperties {
         private String uploadUrl;
+        private String dataUrl;
     }
 
     @Data
@@ -32,6 +33,7 @@ public class ApplicationProperties {
     @NoArgsConstructor
     public static class OswProperties {
         private String uploadUrl;
+        private String dataUrl;
     }
 
     @Data

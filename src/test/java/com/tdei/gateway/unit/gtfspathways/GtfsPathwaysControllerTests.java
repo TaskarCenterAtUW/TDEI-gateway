@@ -12,12 +12,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
+import reactor.util.function.Tuples;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Date;
@@ -38,15 +44,17 @@ public class GtfsPathwaysControllerTests {
     private GtfsPathwaysController gtfsPathwaysController;
 
     @Test
-    void getPathwaysFile() throws FileNotFoundException {
+    void getPathwaysFile() throws IOException {
+        MockHttpServletResponse mockHttp = new MockHttpServletResponse();
+        Principal mockPrincipal = mock(Principal.class);
+        InputStream anyInputStream = new ByteArrayInputStream("test data".getBytes());
+        HttpHeaders hdr = new HttpHeaders();
+        hdr.add("Content-type", "test");
+        hdr.add("Content-disposition", "test");
+        when(gtfsPathwaysService.getPathwaysFile(any(Principal.class), anyString())).thenReturn(Tuples.of(anyInputStream, hdr));
+        var result = gtfsPathwaysController.getPathwaysFile(mockPrincipal, "101", mockHttp);
 
-//        Principal mockPrincipal = mock(Principal.class);
-//
-//        when(gtfsPathwaysService.getPathwaysFile(any(Principal.class), anyString())).thenReturn(new ResponseEntity<>());
-//        var result = gtfsPathwaysController.getPathwaysFile(mockPrincipal, "101");
-//
-//        assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-//        assertThat(result.getBody()).isEqualTo("filepath");
+        assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
     }
 
 
@@ -127,7 +135,7 @@ public class GtfsPathwaysControllerTests {
         when(gtfsPathwaysService.uploadPathwaysFile(any(Principal.class), any(GtfsPathwaysUpload.class), any(MockMultipartFile.class))).thenReturn("newRecordId");
         var result = gtfsPathwaysController.uploadPathwaysFile(mockPrincipal, new GtfsPathwaysUpload(), file, request);
 
-        assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
+        assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.ACCEPTED.value());
         assertThat(result.getBody()).isEqualTo("newRecordId");
     }
 }

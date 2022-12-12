@@ -1,48 +1,64 @@
 package com.tdei.gateway.osw.service.contract;
 
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.osw.model.dto.OswDownload;
 import com.tdei.gateway.osw.model.dto.OswUpload;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.util.function.Tuple2;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 public interface IOswService {
     /**
      * Returns the uploaded file record id
      *
      * @param principal
-     * @param tdeiOrgId
      * @param body
      */
-    String uploadOswFile(Principal principal, String tdeiOrgId, OswUpload body, MultipartFile file) throws FileUploadException;
+    String uploadOswFile(Principal principal, OswUpload body, MultipartFile file) throws FileUploadException;
 
     /**
      * Gets the requested gtfs flex file
      *
-     * @param principal    - Current user
-     * @param tdeiRecordId - Record id of the file
+     * @param principal
+     * @param tdeiRecordId
      * @return
+     * @throws IOException
      */
-    String getOswFile(Principal principal, String tdeiRecordId);
+    Tuple2<InputStream, HttpHeaders> getOswFile(Principal principal, String tdeiRecordId) throws FileNotFoundException;
 
     /**
      * Gets the paginated list of the flex files with given parameters
      *
      * @param principal
-     * @param bbox
+     * @param servletPath
      * @param confidenceLevel
-     * @param flexSchemaVersion
-     * @param tdeiOrgId
+     * @param oswSchemaVersion
      * @param dateTime
+     * @param tdeiOrgId
      * @param tdeiRecordId
      * @param pageNo
      * @param pageSize
      * @return
+     * @throws FileNotFoundException
      */
-    PageableResponse<OswDownload> listOswFiles(Principal principal, String bbox, Integer confidenceLevel, String flexSchemaVersion, String tdeiRecordId, Integer pageNo, Integer pageSize);
+    List<OswDownload> listOswFiles(Principal principal,
+                                   String servletPath,
+                                   Optional<Integer> confidenceLevel,
+                                   Optional<String> oswSchemaVersion,
+                                   Optional<Date> dateTime,
+                                   Optional<String> tdeiOrgId,
+                                   Optional<String> tdeiRecordId,
+                                   Integer pageNo,
+                                   Integer pageSize) throws FileNotFoundException;
 
     /**
      * Returns the list of flex versions
@@ -50,5 +66,5 @@ public interface IOswService {
      * @param principal
      * @return
      */
-    PageableResponse<VersionSpec> listOswVersions(Principal principal);
+    List<VersionSpec> listOswVersions(Principal principal);
 }
