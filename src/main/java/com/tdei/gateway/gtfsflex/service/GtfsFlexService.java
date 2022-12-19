@@ -85,7 +85,7 @@ public class GtfsFlexService implements IGtfsFlexService {
     public Tuple2<InputStream, HttpHeaders> getFlexFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
         try {
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getOsw().getDataUrl() + "/" + tdeiRecordId).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsFlex().getDataUrl() + "/" + tdeiRecordId).build();
 
             var clientResponse = webClient.get()
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
