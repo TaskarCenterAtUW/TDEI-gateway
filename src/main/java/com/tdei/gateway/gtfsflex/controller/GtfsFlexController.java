@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,13 @@ public class GtfsFlexController implements IGtfsFlex {
 
     @Override
     public ResponseEntity<?> getFlexFile(Principal principal, String tdeiRecordId, HttpServletResponse response) throws IOException {
-        return ResponseEntity.ok(gtfsFlexService.getFlexFile(principal, tdeiRecordId));
+
+        var clientResponse = gtfsFlexService.getFlexFile(principal, tdeiRecordId);
+        response.setHeader("Content-Type", clientResponse.getT2().get("Content-Type").get(0));
+        response.setHeader("Content-disposition", clientResponse.getT2().get("Content-disposition").get(0));
+
+        InputStreamResource resource = new InputStreamResource(clientResponse.getT1());
+        return ResponseEntity.ok().body(resource);
     }
 
     @Override
