@@ -49,7 +49,7 @@ public interface IGtfsFlex {
     @RequestMapping(value = "{tdei_record_id}",
             produces = {"application/octet-stream"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<?> getFlexFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;
 
 
@@ -64,7 +64,7 @@ public interface IGtfsFlex {
     @RequestMapping(value = "",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<GtfsFlexDownload>> listFlexFiles(Principal principal,
                                                          HttpServletRequest req,
                                                          @Parameter(in = ParameterIn.QUERY, description = "Id of a service in the tdei system. gtfs service ids may not be unique.",
@@ -100,7 +100,7 @@ public interface IGtfsFlex {
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<VersionSpec>> listFlexVersions(Principal principal);
 
     @Operation(summary = "upload a new gtfs_flex file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
@@ -114,7 +114,7 @@ public interface IGtfsFlex {
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'gtfsflex-data_generator')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'flex_data_generator')")
     ResponseEntity<String> uploadGtfsFlexFile(Principal principal, @RequestPart("meta") @Valid GtfsFlexUpload meta,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
@@ -129,7 +129,7 @@ public interface IGtfsFlex {
     @RequestMapping(value = "/api/v1/gtfs-flex/services",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #tdeiOrgId, 'tdei-user')")
+        //@PreAuthorize("@authService.hasOrgPermission(#principal, #tdeiOrgId, 'tdei-user')")
     ResponseEntity<List<GtfsFlexServiceModel>> listFlexServices(Principal principal, @Parameter(in = ParameterIn.QUERY, description = "tdei_org_id - a tdei-assigned id for an organization. org_ids can be retrieved using the path /api/v1/organizations.", schema = @Schema()) @Valid @RequestParam(value = "tdei_org_id", required = false) String tdeiOrgId);
 
 

@@ -50,7 +50,7 @@ public interface IGtfsPathways {
     @RequestMapping(value = "{tdei_record_id}",
             produces = {"application/octet-stream"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<?> getPathwaysFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;
 
     @Operation(summary = "List pathways files meeting criteria.", description = "This endpoint returns a json list of all gtfs pathways files stored in the TDEI system that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level, pathways version, date time and agency id.  This endpoint can be used by an application developer to obtain a list of gtfs pathways files in the TDEI system meeting the specified criteria. This endpoint returns a list of file-metadata including the uris of the file, which can be used to fetch the files themselves.", security = {
@@ -64,7 +64,7 @@ public interface IGtfsPathways {
     @RequestMapping(value = "",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(
             Principal principal,
             HttpServletRequest req,
@@ -99,7 +99,7 @@ public interface IGtfsPathways {
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<VersionSpec>> listPathwaysVersions(Principal principal);
 
     @Operation(summary = "create pathways file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
@@ -116,7 +116,7 @@ public interface IGtfsPathways {
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'gtfspathways-data_generator')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'pathways_data_generator')")
     ResponseEntity<String> uploadPathwaysFile(Principal principal, @RequestPart("meta") @Valid GtfsPathwaysUpload meta,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
@@ -132,7 +132,7 @@ public interface IGtfsPathways {
     @RequestMapping(value = "stations",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<Station>> listStations(Principal principal);
 
 }
