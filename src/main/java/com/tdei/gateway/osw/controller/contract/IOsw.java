@@ -45,7 +45,7 @@ public interface IOsw {
     @RequestMapping(value = "{tdei_record_id}",
             produces = {"application/octet-stream"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<?> getOswFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;
 
 
@@ -62,7 +62,7 @@ public interface IOsw {
     @RequestMapping(value = "",
             produces = {"application/json", "multipart/form-data"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<OswDownload>> listOswFiles(Principal principal,
                                                    HttpServletRequest req,
                                                    @Parameter(in = ParameterIn.QUERY, description = "Id of a service in the tdei system. gtfs service ids may not be unique.",
@@ -98,7 +98,7 @@ public interface IOsw {
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<VersionSpec>> listOswVersions(Principal principal);
 
     @Operation(summary = "Path used to upload/create a new osw data file.", description = "This path allows a user to upload or create a new osw file. The caller must provide metadata about the file - includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
@@ -112,7 +112,7 @@ public interface IOsw {
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'osw-data_generator')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'osw_data_generator')")
     ResponseEntity<String> uploadOswFile(Principal principal, @RequestPart("meta") @Valid OswUpload meta,
                                          @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
