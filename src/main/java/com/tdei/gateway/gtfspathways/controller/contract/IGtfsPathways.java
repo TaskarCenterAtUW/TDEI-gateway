@@ -116,7 +116,7 @@ public interface IGtfsPathways {
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'pathways_data_generator')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'pathways_data_generator', 'poc', 'tdei_admin')")
     ResponseEntity<String> uploadPathwaysFile(Principal principal, @RequestPart("meta") @Valid GtfsPathwaysUpload meta,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 

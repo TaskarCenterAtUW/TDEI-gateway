@@ -112,7 +112,7 @@ public interface IOsw {
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'osw_data_generator')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'osw_data_generator', 'poc', 'tdei_admin')")
     ResponseEntity<String> uploadOswFile(Principal principal, @RequestPart("meta") @Valid OswUpload meta,
                                          @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 

@@ -114,7 +114,7 @@ public interface IGtfsFlex {
             produces = {"application/text"},
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             method = RequestMethod.POST)
-    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'flex_data_generator')")
+    @PreAuthorize("@authService.hasOrgPermission(#principal, #meta.tdeiOrgId,  'flex_data_generator', 'poc', 'tdei_admin')")
     ResponseEntity<String> uploadGtfsFlexFile(Principal principal, @RequestPart("meta") @Valid GtfsFlexUpload meta,
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
