@@ -36,7 +36,7 @@ import java.util.Optional;
 @Validated
 public interface IGtfsFlex {
 
-    @Operation(summary = "returns a gtfs_pathways file", description = "returns a specific gtfs_pathways file identified by the record_id", security = {
+    @Operation(summary = "returns a gtfs_flex file", description = "returns a specific gtfs_flex file identified by the record_id", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success. Returns the file as an octet-stream."),
@@ -103,7 +103,7 @@ public interface IGtfsFlex {
         //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<VersionSpec>> listFlexVersions(Principal principal);
 
-    @Operation(summary = "upload a new gtfs_flex file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
+    @Operation(summary = "upload a new gtfs_flex file", description = "This call allows a user to upload or create a new gtfs flex file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
