@@ -68,7 +68,6 @@ public class OswControllerTests {
         var result = oswController.listOswFiles(mockPrincipal,
                 request,
                 Optional.of("test"),
-                Optional.of("test"),
                 //Optional.of(1),
                 Optional.of("test"),
                 Optional.of("test"),

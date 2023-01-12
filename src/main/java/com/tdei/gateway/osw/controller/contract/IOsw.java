@@ -37,7 +37,7 @@ public interface IOsw {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns the osw file - will be geojson. I wasn't sure what should be returned here - I set the type geojson, but was not sure how this is typically done. "),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
             @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland.", content = @Content),
 
@@ -49,12 +49,12 @@ public interface IOsw {
     ResponseEntity<?> getOswFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;
 
 
-    @Operation(summary = "List osw files meeting criteria.", description = "This endpoint returns a list of url to gzip'd geojson files with osw data that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level and pathways version.  This endpoint can be used by an application developer to obtain a list of osw files in the TDEI system meeting the specified criteria.", security = {
+    @Operation(summary = "List osw files meeting criteria.", description = "This endpoint returns a list of url to gzip'd geojson files with osw data that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level and osw version.  This endpoint can be used by an application developer to obtain a list of osw files in the TDEI system meeting the specified criteria.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `osw_download` entities.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OswDownload.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
             @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland.", content = @Content),
 
@@ -65,8 +65,6 @@ public interface IOsw {
         //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<OswDownload>> listOswFiles(Principal principal,
                                                    HttpServletRequest req,
-                                                   @Parameter(in = ParameterIn.QUERY, description = "Id of a service in the tdei system. gtfs service ids may not be unique.",
-                                                           schema = @Schema()) @Valid @RequestParam(value = "tdei_service_id", required = false) Optional<String> tdeiServiceId,
                                                    @Parameter(in = ParameterIn.QUERY,
                                                            description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.", schema = @Schema())
                                                    @Valid @RequestParam(value = "bbox", required = false) Optional<String> bbox,
@@ -74,8 +72,8 @@ public interface IOsw {
 //                                                                             description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).", schema = @Schema())
 //                                                                     @Valid @RequestParam(value = "confidence_level", required = false) Integer confidenceLevel,
                                                    @Parameter(in = ParameterIn.QUERY,
-                                                           description = "version name of the flex schema version that the application requests. list of versions can be found with /api/v1/osw/versions path", schema = @Schema())
-                                                   @Valid @RequestParam(value = "flex_schema_version", required = false) Optional<String> flexSchemaVersion,
+                                                           description = "version name of the OSW schema version that the application requests. list of versions can be found with /api/v1/osw/versions path", schema = @Schema())
+                                                   @Valid @RequestParam(value = "osw_schema_version", required = false) Optional<String> oswSchemaVersion,
                                                    @Parameter(in = ParameterIn.QUERY,
                                                            description = "tdei-assigned agency id. Necessary to ensure that agency ids are unique. Represented as a UUID.", schema = @Schema())
                                                    @Valid @RequestParam(value = " tdei_org_id", required = false) Optional<String> tdeiOrgId,
@@ -84,15 +82,15 @@ public interface IOsw {
                                                    @Parameter(in = ParameterIn.QUERY, description = "if included, returns the metadata for the specified file, all other parameters will be ignored.", schema = @Schema())
                                                    @Valid @RequestParam(value = "tdei_record_id", required = false) Optional<String> tdeiRecordId,
                                                    @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 1.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false, defaultValue = "1") Integer pageNo,
-                                                   @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 200 to 100, defaults to 20.",
-                                                           schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "20") Integer pageSize) throws FileNotFoundException;
+                                                   @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 1 to 50, defaults to 10.",
+                                                           schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "10") Integer pageSize) throws FileNotFoundException;
 
     @Operation(summary = "List available OSW versions", description = "Lists the versions of OSW data which are supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns list of OSW versions supported by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "versions",
@@ -105,8 +103,8 @@ public interface IOsw {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed.", content = @Content),
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "400", description = "The request was invalid. The file may have failed a validation check or the metadata may have been invalid.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/text"},

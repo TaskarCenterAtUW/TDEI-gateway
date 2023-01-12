@@ -11,9 +11,9 @@ import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 
 /**
- * Describes a gtfs pathways file meta data.
+ * Describes a osw file meta data.
  */
-@Schema(description = "Describes a gtfs pathways file meta data.")
+@Schema(description = "Describes a gtfs osw file meta data.")
 @Validated
 @Data
 public class OswDownload {

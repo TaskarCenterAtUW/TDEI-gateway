@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.time.OffsetDateTime;
 
 /**
- * represents a gtfs_flex data file. same as in consumer api, same as gtfs_flex, adds uri
+ * Represents a gtfs_flex data file.
  */
 @Schema(description = "Represents a gtfs_flex data file")
 @Validated
