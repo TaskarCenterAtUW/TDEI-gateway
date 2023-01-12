@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 /**
  * Describes a osw file meta data.
  */
-@Schema(description = "Describes a gtfs osw file meta data.")
+@Schema(description = "Describes a osw file meta data.")
 @Validated
 @Data
 public class OswDownload {
