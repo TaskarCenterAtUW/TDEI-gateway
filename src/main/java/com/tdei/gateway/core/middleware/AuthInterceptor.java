@@ -1,9 +1,11 @@
 package com.tdei.gateway.core.middleware;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tdei.gateway.core.model.authclient.UserProfile;
 import com.tdei.gateway.core.service.auth.AuthService;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,7 +55,8 @@ class AuthInterceptor extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-        return Arrays.stream(AUTH_WHITELIST).anyMatch(x -> path.contains(x));
+        return Arrays.stream(AUTH_WHITELIST).anyMatch(x -> path.contains(x))
+                || path.equals("/"); //This fix to redirect to swagger doc
         //return path.contains("/public/");
     }
 
@@ -74,15 +77,21 @@ class AuthInterceptor extends OncePerRequestFilter {
                         response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid API-KEY");
                         return;
                     }
-                    response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error");
+                    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                    response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                    response.getOutputStream().write(new ObjectMapper().writeValueAsString("Internal Server Error").getBytes());
                     return;
                 } catch (Exception e) {
-                    response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error");
+                    response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                    response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                    response.getOutputStream().write(new ObjectMapper().writeValueAsString("Internal Server Error").getBytes());
                     return;
                 }
 
             } else {
-                response.sendError(HttpStatus.UNAUTHORIZED.value(), "Provide API-KEY / Access Token");
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                response.getOutputStream().write(new ObjectMapper().writeValueAsString("Please provide API-KEY / Access Token").getBytes());
                 return;
             }
         } else {
@@ -93,14 +102,20 @@ class AuthInterceptor extends OncePerRequestFilter {
                 userProfile = authService.validateAccessToken(authorizationKey.trim());
                 setSecurityContext(userProfile);
             } catch (FeignException e) {
-                if (e.status() == HttpStatus.NOT_FOUND.value()) {
-                    response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid Access Token");
+                if (e.status() == HttpStatus.UNAUTHORIZED.value()) {
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                    response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                    response.getOutputStream().write(new ObjectMapper().writeValueAsString("Invalid Access Token").getBytes());
                     return;
                 }
-                response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error");
+                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                response.getOutputStream().write(new ObjectMapper().writeValueAsString("Internal Server Error").getBytes());
                 return;
             } catch (Exception e) {
-                response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error");
+                response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+                response.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                response.getOutputStream().write(new ObjectMapper().writeValueAsString("Internal Server Error").getBytes());
                 return;
             }
         }

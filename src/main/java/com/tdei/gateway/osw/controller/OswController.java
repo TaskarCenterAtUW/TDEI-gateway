@@ -43,7 +43,7 @@ public class OswController implements IOsw {
     }
 
     @Override
-    public ResponseEntity<List<OswDownload>> listOswFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiServiceId, Optional<String> bbox, Optional<String> oswSchemaVersion, Optional<String> tdeiOrgId, Optional<Date> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
+    public ResponseEntity<List<OswDownload>> listOswFiles(Principal principal, HttpServletRequest req, Optional<String> bbox, Optional<String> oswSchemaVersion, Optional<String> tdeiOrgId, Optional<Date> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
         return ResponseEntity.ok(oswService.listOswFiles(principal, req.getServletPath(), Optional.empty(), oswSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }
 

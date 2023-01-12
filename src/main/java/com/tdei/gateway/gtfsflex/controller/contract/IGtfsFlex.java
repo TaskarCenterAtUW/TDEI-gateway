@@ -41,7 +41,7 @@ public interface IGtfsFlex {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success. Returns the file as an octet-stream."),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
             @ApiResponse(responseCode = "404", description = "A GTFS flex file that matches the specified parameters (combination of agencyid, confidence level, and version) was not found.", content = @Content),
 
@@ -58,7 +58,7 @@ public interface IGtfsFlex {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `gtfs_flex_download` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsFlexDownload.class)))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
@@ -86,15 +86,15 @@ public interface IGtfsFlex {
                                                          @Parameter(in = ParameterIn.QUERY, description = "if included, returns the metadata for the specified file, all other parameters will be ignored.", schema = @Schema())
                                                          @Valid @RequestParam(value = "tdei_record_id", required = false) Optional<String> tdeiRecordId,
                                                          @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 1.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false, defaultValue = "1") Integer pageNo,
-                                                         @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 200 to 100, defaults to 20.",
-                                                                 schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "20") Integer pageSize) throws FileNotFoundException;
+                                                         @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 1 to 50, defaults to 10.",
+                                                                 schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "10") Integer pageSize) throws FileNotFoundException;
 
     @Operation(summary = "List available GTFS flex versions", description = "List GTFS flex versions supported by TDEI.  Returns a json list of the GTFS flex versions supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns a list of flex versions supported by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "versions",
@@ -107,8 +107,8 @@ public interface IGtfsFlex {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "400", description = "The request was invalid. For example, trying to do a meta-data update that is not allowed."),
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+            @ApiResponse(responseCode = "400", description = "The request was invalid. The file may have failed a validation check or the metadata may have been invalid."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/text"},
@@ -123,10 +123,10 @@ public interface IGtfsFlex {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns an array of `Service` entities. ", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsFlexServiceModel.class)))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID)."),
+            @ApiResponse(responseCode = "401", description = "This request is unauthorized."),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.")})
-    @RequestMapping(value = "/api/v1/gtfs-flex/services",
+    @RequestMapping(value = "services",
             produces = {"application/json"},
             method = RequestMethod.GET)
         //@PreAuthorize("@authService.hasOrgPermission(#principal, #tdeiOrgId, 'tdei-user')")
