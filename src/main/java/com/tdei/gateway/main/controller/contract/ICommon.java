@@ -28,7 +28,7 @@ import java.security.Principal;
 
 @Validated
 public interface ICommon {
-    @Operation(summary = "List available API versions", description = "Returns a json list of the versions of the TDEI API which are available.",
+    @Operation(summary = "Authenticates the user to the TDEI system.", description = "Authenticates the user to the TDEI system. Returns access token.",
             tags = {"General"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - Returns the access token for the validated user.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TokenResponse.class)))),
