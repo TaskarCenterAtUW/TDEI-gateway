@@ -70,8 +70,10 @@ public interface IGtfsFlex {
                                                          @Parameter(in = ParameterIn.QUERY, description = "Id of a service in the tdei system. gtfs service ids may not be unique.",
                                                                  schema = @Schema()) @Valid @RequestParam(value = "tdei_service_id", required = false) Optional<String> tdeiServiceId,
                                                          @Parameter(in = ParameterIn.QUERY,
-                                                                 description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.", schema = @Schema())
-                                                         @Valid @RequestParam(value = "bbox", required = false) Optional<String> bbox,
+                                                                 description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.",
+                                                                 array = @ArraySchema(minItems = 4, maxItems = 4, schema = @Schema(implementation = Double.class))
+                                                         )
+                                                         @RequestParam(value = "bbox", required = false) Optional<Double[]> bbox,
 //                                                                     @Parameter(in = ParameterIn.QUERY,
 //                                                                             description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).", schema = @Schema())
 //                                                                     @Valid @RequestParam(value = "confidence_level", required = false) Integer confidenceLevel,

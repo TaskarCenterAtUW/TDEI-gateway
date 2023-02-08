@@ -108,10 +108,10 @@ public class GtfsFlexService implements IGtfsFlexService {
         }
     }
 
-    @Override
     public List<GtfsFlexDownload> listFlexFiles(Principal principal,
                                                 String servletPath,
                                                 Optional<String> tdeiServiceId,
+                                                Optional<Double[]> bbox,
                                                 Optional<Integer> confidenceLevel,
                                                 Optional<String> flexSchemaVersion,
                                                 Optional<Date> dateTime,
@@ -129,6 +129,11 @@ public class GtfsFlexService implements IGtfsFlexService {
             uri.queryParam("page_size", pageSize);
             if (tdeiServiceId.isPresent())
                 uri.queryParam("tdei_service_id", tdeiServiceId.get());
+            if (bbox.isPresent()) {
+                for (double point : bbox.get()) {
+                    uri.queryParam("bbox", point);
+                }
+            }
             if (confidenceLevel.isPresent())
                 uri.queryParam("confidence_level", confidenceLevel.get());
             if (flexSchemaVersion.isPresent())
@@ -155,7 +160,7 @@ public class GtfsFlexService implements IGtfsFlexService {
             return response;
         } catch (Exception ex) {
             log.error("Error while listing flex file ", ex);
-            throw new FileNotFoundException("Error while listing flex file");
+            throw new InternalError("Error while listing flex file");
         }
     }
 

@@ -8,11 +8,7 @@ import java.util.List;
 
 @Data
 public class Polygon {
-    @JsonProperty("type")
+    @JsonProperty("coordinates")
     @Valid
-    private String type = null;
-
-    @JsonProperty("features")
-    @Valid
-    private List<PolygonFeatures> features = null;
+    private List<List<List<Double>>> coordinates = null;
 }
