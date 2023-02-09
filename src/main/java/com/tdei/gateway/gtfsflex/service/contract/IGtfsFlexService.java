@@ -51,6 +51,7 @@ public interface IGtfsFlexService {
     List<GtfsFlexDownload> listFlexFiles(Principal principal,
                                          String servletPath,
                                          Optional<String> tdeiServiceId,
+                                         Optional<Double[]> bbox,
                                          Optional<Integer> confidenceLevel,
                                          Optional<String> flexSchemaVersion,
                                          Optional<Date> dateTime,

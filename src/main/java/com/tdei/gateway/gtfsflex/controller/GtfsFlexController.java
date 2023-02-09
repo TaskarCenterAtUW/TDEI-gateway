@@ -44,9 +44,8 @@ public class GtfsFlexController implements IGtfsFlex {
         return ResponseEntity.ok().body(resource);
     }
 
-    @Override
-    public ResponseEntity<List<GtfsFlexDownload>> listFlexFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiServiceId, Optional<String> bbox, Optional<String> flexSchemaVersion, Optional<String> tdeiOrgId, Optional<Date> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
-        return ResponseEntity.ok(gtfsFlexService.listFlexFiles(principal, req.getServletPath(), tdeiServiceId, Optional.of(0), flexSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
+    public ResponseEntity<List<GtfsFlexDownload>> listFlexFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiServiceId, Optional<Double[]> bbox, Optional<String> flexSchemaVersion, Optional<String> tdeiOrgId, Optional<Date> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
+        return ResponseEntity.ok(gtfsFlexService.listFlexFiles(principal, req.getServletPath(), tdeiServiceId, bbox, Optional.of(0), flexSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }
 
     @Override

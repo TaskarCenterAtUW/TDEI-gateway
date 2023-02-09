@@ -65,12 +65,12 @@ public class GtfsFlexControllerTests {
         file.setDownloadUrl("downloadUrl");
         response.addAll(Arrays.asList(file));
 
-        when(gtfsFlexService.listFlexFiles(any(Principal.class), anyString(), any(), any(), any(), any(), any(), any(), anyInt(), anyInt())).thenReturn(response);
+        when(gtfsFlexService.listFlexFiles(any(Principal.class), anyString(), any(), any(), any(), any(), any(), any(), any(), anyInt(), anyInt())).thenReturn(response);
         var result = gtfsFlexController.listFlexFiles(mockPrincipal,
                 request,
                 Optional.of("test"),
-                Optional.of("test"),
-                //Optional.of(1),
+                //Optional.of(Arrays.asList(51.2867602, 51.6918741, -0.5103751, 0.3340155)),
+                Optional.empty(),
                 Optional.of("test"),
                 Optional.of("test"),
                 Optional.of(new Date()),
