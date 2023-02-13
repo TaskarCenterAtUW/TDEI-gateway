@@ -86,11 +86,12 @@ public class GtfsPathwaysControllerTests {
         file.setDownloadUrl("downloadUrl");
         response = Arrays.asList(file);
 
-        when(gtfsPathwaysService.listPathwaysFiles(any(Principal.class), anyString(), any(), any(), any(), any(), any(), any(), anyInt(), anyInt())).thenReturn(response);
+        when(gtfsPathwaysService.listPathwaysFiles(any(Principal.class), anyString(), any(), any(), any(), any(), any(), any(), any(), anyInt(), anyInt())).thenReturn(response);
         var result = gtfsPathwaysController.listPathwaysFiles(mockPrincipal,
                 request,
-                Optional.of("test"),
+                Optional.of(new Double[]{10.0, 20.0, 30.0, 40.0}),
                 //Optional.of(1),
+                Optional.of("test"),
                 Optional.of("test"),
                 Optional.of(new Date()),
                 Optional.of("test"),

@@ -1,6 +1,7 @@
 package com.tdei.gateway.gtfspathways.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tdei.gateway.main.model.common.dto.Polygon;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
@@ -56,6 +57,11 @@ public class GtfsPathwaysUpload {
     @NotNull
     @JsonProperty("data_source")
     private String dataSource = null;
+
+    @Schema(required = true, description = "")
+    @NotNull
+    @JsonProperty("polygon")
+    private Polygon polygon = null;
 
     @Schema(required = true, description = "version of gtfs pathways schema this file conforms to")
     @NotNull
