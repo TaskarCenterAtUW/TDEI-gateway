@@ -43,11 +43,11 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiStationId,
+    public ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(Principal principal, HttpServletRequest req, Optional<Double[]> bbox, Optional<String> tdeiStationId,
 //                                                                        Optional<Integer> confidenceLevel,
                                                                         Optional<String> pathwaysSchemaVersion, Optional<Date> dateTime, Optional<String> tdeiOrgId, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
 
-        return ResponseEntity.ok(gtfsPathwaysService.listPathwaysFiles(principal, req.getServletPath(), tdeiStationId, Optional.empty(), pathwaysSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
+        return ResponseEntity.ok(gtfsPathwaysService.listPathwaysFiles(principal, req.getServletPath(), bbox, tdeiStationId, Optional.empty(), pathwaysSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }
 
     @Override

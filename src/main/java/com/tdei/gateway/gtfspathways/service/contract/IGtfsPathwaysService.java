@@ -50,6 +50,7 @@ public interface IGtfsPathwaysService {
      */
     List<GtfsPathwaysDownload> listPathwaysFiles(Principal principal,
                                                  String servletPath,
+                                                 Optional<Double[]> bbox,
                                                  Optional<String> tdeiStationId,
                                                  Optional<Integer> confidenceLevel,
                                                  Optional<String> pathwaysSchemaVersion,

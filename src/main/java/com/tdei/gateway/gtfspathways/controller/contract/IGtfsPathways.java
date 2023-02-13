@@ -68,9 +68,11 @@ public interface IGtfsPathways {
     ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(
             Principal principal,
             HttpServletRequest req,
-//            @Parameter(in = ParameterIn.QUERY,
-//                    description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.",
-//                    schema = @Schema()) @Valid @RequestParam(value = "bbox", required = false) String bbox,
+            @Parameter(in = ParameterIn.QUERY,
+                    description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.",
+                    array = @ArraySchema(minItems = 4, maxItems = 4, schema = @Schema(implementation = Double.class))
+            )
+            @RequestParam(value = "bbox", required = false) Optional<Double[]> bbox,
             @Parameter(in = ParameterIn.QUERY, description = "Id of a station in the tdei system. gtfs station ids may not be unique.",
                     schema = @Schema()) @Valid @RequestParam(value = "tdei_station_id", required = false) Optional<String> tdeiStationId,
 //            @Parameter(in = ParameterIn.QUERY,

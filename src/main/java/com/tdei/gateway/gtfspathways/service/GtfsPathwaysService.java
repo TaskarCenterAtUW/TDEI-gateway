@@ -112,6 +112,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     @Override
     public List<GtfsPathwaysDownload> listPathwaysFiles(Principal principal,
                                                         String servletPath,
+                                                        Optional<Double[]> bbox,
                                                         Optional<String> tdeiStationId,
                                                         Optional<Integer> confidenceLevel,
                                                         Optional<String> pathwaysSchemaVersion,
@@ -140,7 +141,11 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
                 uri.queryParam("tdei_org_id", tdeiOrgId.get());
             if (tdeiRecordId.isPresent())
                 uri.queryParam("tdei_record_id", tdeiRecordId.get());
-
+            if (bbox.isPresent()) {
+                for (double point : bbox.get()) {
+                    uri.queryParam("bbox", point);
+                }
+            }
             Mono<ResponseEntity<List<GtfsPathwaysDownload>>> entity = webClient.get()
                     .uri(uriBuilder -> uri
                             .build().toUri())
