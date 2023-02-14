@@ -6,6 +6,7 @@ import com.tdei.gateway.osw.model.dto.OswUpload;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,7 +44,7 @@ public interface IOsw {
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}",
-            produces = {"application/octet-stream"},
+            produces = {"application/octet-stream", "application/json"},
             method = RequestMethod.GET)
         //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<?> getOswFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;
@@ -66,8 +67,10 @@ public interface IOsw {
     ResponseEntity<List<OswDownload>> listOswFiles(Principal principal,
                                                    HttpServletRequest req,
                                                    @Parameter(in = ParameterIn.QUERY,
-                                                           description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.", schema = @Schema())
-                                                   @Valid @RequestParam(value = "bbox", required = false) Optional<String> bbox,
+                                                           description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.",
+                                                           array = @ArraySchema(minItems = 4, maxItems = 4, schema = @Schema(implementation = Double.class))
+                                                   )
+                                                   @RequestParam(value = "bbox", required = false) Optional<Double[]> bbox,
 //                                                                     @Parameter(in = ParameterIn.QUERY,
 //                                                                             description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).", schema = @Schema())
 //                                                                     @Valid @RequestParam(value = "confidence_level", required = false) Integer confidenceLevel,

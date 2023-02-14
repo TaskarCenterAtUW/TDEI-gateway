@@ -63,11 +63,11 @@ public class OswControllerTests {
         file.setDownloadUrl("downloadUrl");
         response.addAll(Arrays.asList(file));
 
-        when(oswService.listOswFiles(any(Principal.class), any(),
+        when(oswService.listOswFiles(any(Principal.class), any(), any(),
                 any(), any(), any(), any(), any(), anyInt(), anyInt())).thenReturn(response);
         var result = oswController.listOswFiles(mockPrincipal,
                 request,
-                Optional.of("test"),
+                Optional.of(new Double[]{10.0, 20.0, 30.0, 40.0}),
                 //Optional.of(1),
                 Optional.of("test"),
                 Optional.of("test"),

@@ -1,6 +1,8 @@
 package com.tdei.gateway.gtfsflex.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
+import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
+import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
 import com.tdei.gateway.core.model.authclient.UserProfile;
 import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
@@ -75,9 +78,14 @@ public class GtfsFlexService implements IGtfsFlexService {
             String filePath = flux.single().block();
             log.info(filePath);
             return filePath;
+        } catch (WebClientResponseException ex) {
+            if (ex.getStatusCode().value() == 404) {
+                throw new ResourceNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
+            }
+            throw ex;
         } catch (Exception ex) {
-            log.error("Error while uploading file ", ex);
-            throw new FileUploadException("Error while uploading file");
+            log.error("Error while fetching the flex file", ex);
+            throw new ApplicationException("Error while fetching the flex file.");
         }
     }
 
@@ -160,7 +168,7 @@ public class GtfsFlexService implements IGtfsFlexService {
             return response;
         } catch (Exception ex) {
             log.error("Error while listing flex file ", ex);
-            throw new InternalError("Error while listing flex file");
+            throw new ApplicationException("Error while listing flex file");
         }
     }
 

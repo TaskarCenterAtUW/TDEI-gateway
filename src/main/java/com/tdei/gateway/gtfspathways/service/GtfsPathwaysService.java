@@ -1,6 +1,8 @@
 package com.tdei.gateway.gtfspathways.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
+import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
+import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
 import com.tdei.gateway.core.model.authclient.UserProfile;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
@@ -103,9 +106,14 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
                     });
 
             return clientResponse.block();
+        } catch (WebClientResponseException ex) {
+            if (ex.getStatusCode().value() == 404) {
+                throw new ResourceNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
+            }
+            throw ex;
         } catch (Exception ex) {
-            log.error("File not found", ex);
-            throw new FileNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
+            log.error("Error while fetching the pathways file", ex);
+            throw new ApplicationException("Error while fetching the pathways file.");
         }
     }
 
@@ -161,7 +169,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             return response;
         } catch (Exception ex) {
             log.error("Error while listing pathways file ", ex);
-            throw new InternalError("Error while listing pathways file");
+            throw new ApplicationException("Error while listing pathways file");
         }
     }
 

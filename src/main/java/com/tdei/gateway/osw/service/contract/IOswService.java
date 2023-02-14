@@ -53,6 +53,7 @@ public interface IOswService {
     List<OswDownload> listOswFiles(Principal principal,
                                    String servletPath,
                                    Optional<Integer> confidenceLevel,
+                                   Optional<Double[]> bbox,
                                    Optional<String> oswSchemaVersion,
                                    Optional<Date> dateTime,
                                    Optional<String> tdeiOrgId,

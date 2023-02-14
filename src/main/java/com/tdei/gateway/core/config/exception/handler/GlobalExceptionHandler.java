@@ -1,5 +1,6 @@
 package com.tdei.gateway.core.config.exception.handler;
 
+import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.InvalidAccessTokenException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.InvalidCredentialsException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
@@ -159,6 +160,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         details.add(ex.getMessage());
 
         ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND, "Unauthorized request", details);
+
+        return ResponseEntityBuilder.build(err);
+    }
+
+    @ExceptionHandler(ApplicationException.class)
+    public ResponseEntity<Object> handleApplicationException(ApplicationException ex) {
+
+        List<String> details = new ArrayList<>();
+        details.add(ex.getMessage());
+
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR, null, details);
 
         return ResponseEntityBuilder.build(err);
     }
