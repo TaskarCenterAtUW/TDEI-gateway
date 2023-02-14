@@ -48,7 +48,7 @@ public interface IGtfsPathways {
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}",
-            produces = {"application/octet-stream"},
+            produces = {"application/octet-stream", "application/json"},
             method = RequestMethod.GET)
         //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<?> getPathwaysFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;

@@ -1,6 +1,8 @@
 package com.tdei.gateway.osw.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
+import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
+import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
 import com.tdei.gateway.core.model.authclient.UserProfile;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.osw.model.dto.OswDownload;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
@@ -80,7 +83,7 @@ public class OswService implements IOswService {
     }
 
     @Override
-    public Tuple2<InputStream, HttpHeaders> getOswFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
+    public Tuple2<InputStream, HttpHeaders> getOswFile(Principal principal, String tdeiRecordId) {
         try {
 
             WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getOsw().getDataUrl() + "/" + tdeiRecordId).build();
@@ -100,9 +103,14 @@ public class OswService implements IOswService {
                     });
 
             return clientResponse.block();
+        } catch (WebClientResponseException ex) {
+            if (ex.getStatusCode().value() == 404) {
+                throw new ResourceNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
+            }
+            throw ex;
         } catch (Exception ex) {
-            log.error("File not found", ex);
-            throw new FileNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
+            log.error("Error while fetching the osw file", ex);
+            throw new ApplicationException("Error while fetching the osw file.");
         }
     }
 
@@ -110,6 +118,7 @@ public class OswService implements IOswService {
     public List<OswDownload> listOswFiles(Principal principal,
                                           String servletPath,
                                           Optional<Integer> confidenceLevel,
+                                          Optional<Double[]> bbox,
                                           Optional<String> oswSchemaVersion,
                                           Optional<Date> dateTime,
                                           Optional<String> tdeiOrgId,
@@ -134,7 +143,11 @@ public class OswService implements IOswService {
                 uri.queryParam("tdei_org_id", tdeiOrgId.get());
             if (tdeiRecordId.isPresent())
                 uri.queryParam("tdei_record_id", tdeiRecordId.get());
-
+            if (bbox.isPresent()) {
+                for (double point : bbox.get()) {
+                    uri.queryParam("bbox", point);
+                }
+            }
             Mono<ResponseEntity<List<OswDownload>>> entity = webClient.get()
                     .uri(uriBuilder -> uri
                             .build().toUri())
@@ -150,7 +163,7 @@ public class OswService implements IOswService {
             return response;
         } catch (Exception ex) {
             log.error("Error while listing osw file ", ex);
-            throw new FileNotFoundException("Error while listing osw file");
+            throw new ApplicationException("Error while listing osw file");
         }
     }
 
