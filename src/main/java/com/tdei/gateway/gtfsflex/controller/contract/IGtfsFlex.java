@@ -39,11 +39,11 @@ public interface IGtfsFlex {
     @Operation(summary = "returns a gtfs_flex file", description = "returns a specific gtfs_flex file identified by the record_id", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success. Returns the file as an octet-stream."),
+            @ApiResponse(responseCode = "200", description = "Success. Returns the file as an octet-stream.", content = @Content(mediaType = "application/octet-stream")),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
-            @ApiResponse(responseCode = "404", description = "A GTFS flex file that matches the specified parameters (combination of agencyid, confidence level, and version) was not found.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "File not found. The file may have failed a validation check or the metadata may have been invalid.", content = @Content(mediaType = "application/json")),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}",
@@ -67,7 +67,7 @@ public interface IGtfsFlex {
         //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<GtfsFlexDownload>> listFlexFiles(Principal principal,
                                                          HttpServletRequest req,
-                                                         @Parameter(in = ParameterIn.QUERY, description = "Id of a service in the tdei system. gtfs service ids may not be unique.",
+                                                         @Parameter(in = ParameterIn.QUERY, description = "Id of the flex service.",
                                                                  schema = @Schema()) @Valid @RequestParam(value = "tdei_service_id", required = false) Optional<String> tdeiServiceId,
                                                          @Parameter(in = ParameterIn.QUERY,
                                                                  description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.",
@@ -81,7 +81,7 @@ public interface IGtfsFlex {
                                                                  description = "version name of the flex schema version that the application requests. list of versions can be found with /api/v1/gtfs-flex/versions path", schema = @Schema())
                                                          @Valid @RequestParam(value = "flex_schema_version", required = false) Optional<String> flexSchemaVersion,
                                                          @Parameter(in = ParameterIn.QUERY,
-                                                                 description = "tdei-assigned agency id. Necessary to ensure that agency ids are unique. Represented as a UUID.", schema = @Schema())
+                                                                 description = "tdei-assigned organization id. Necessary to ensure that agency ids are unique. Represented as a UUID.", schema = @Schema())
                                                          @Valid @RequestParam(value = " tdei_org_id", required = false) Optional<String> tdeiOrgId,
                                                          @Parameter(in = ParameterIn.QUERY, description = "date-time (Format. YYYY-MM-DD) for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
                                                                  schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dateTime,
@@ -94,7 +94,7 @@ public interface IGtfsFlex {
     @Operation(summary = "List available GTFS flex versions", description = "List GTFS flex versions supported by TDEI.  Returns a json list of the GTFS flex versions supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns a list of flex versions supported by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
+            @ApiResponse(responseCode = "200", description = "Returns a list of flex versions supported by TDEI.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VersionSpec.class)))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
@@ -108,7 +108,7 @@ public interface IGtfsFlex {
     @Operation(summary = "upload a new gtfs_flex file", description = "This call allows a user to upload or create a new gtfs flex file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.  returns the tdei_record_id, unique identifier for uploaded file.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "400", description = "The request was invalid. The file may have failed a validation check or the metadata may have been invalid."),
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
