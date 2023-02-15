@@ -37,14 +37,14 @@ import java.util.Optional;
 public interface IGtfsPathways {
 
 
-    @Operation(summary = "returns a gtfs_pathways file", description = "returns a specific gtfs_pathways file identified by the record_id", security = {
+    @Operation(summary = "returns a gtfs_pathways file", description = "returns a specific gtfs_pathways file identified by the tdei_record_id", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success. Returns the file as application/octet-stream."),
+            @ApiResponse(responseCode = "200", description = "Success. Returns the file as application/octet-stream.", content = @Content(mediaType = "application/octet-stream")),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
-            @ApiResponse(responseCode = "404", description = "A GTFS pathways file that matches the specified parameters (combination of agencyid, stationid, confidence level, and version) was not found.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "File not found. The file may have failed a validation check or the metadata may have been invalid.", content = @Content(mediaType = "application/json")),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}",
@@ -78,11 +78,11 @@ public interface IGtfsPathways {
 //            @Parameter(in = ParameterIn.QUERY,
 //                    description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).",
 //                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Optional<Integer> confidenceLevel,
-            @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1.0/gtfs-pathways/versions path",
+            @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1/gtfs-pathways/versions path",
                     schema = @Schema()) @Valid @RequestParam(value = "pathways_schema_version", required = false) Optional<String> pathwaysSchemaVersion,
             @Parameter(in = ParameterIn.QUERY, description = "date-time (Format. YYYY-MM-DD) for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
                     schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dateTime,
-            @Parameter(in = ParameterIn.QUERY, description = "tdei-assigned agency id. Necessary to ensure that agency ids are unique. Represented as a UUID.",
+            @Parameter(in = ParameterIn.QUERY, description = "tdei-assigned organization id. Necessary to ensure that agency ids are unique. Represented as a UUID.",
                     schema = @Schema()) @Valid @RequestParam(value = "tdei_org_id", required = false) Optional<String> tdeiOrgId,
             @Parameter(in = ParameterIn.QUERY, description = "if included, returns the metadata for the specified file, all other parameters will be ignored.",
                     schema = @Schema()) @Valid @RequestParam(value = "tdei_record_id", required = false) Optional<String> tdeiRecordId,
@@ -93,7 +93,7 @@ public interface IGtfsPathways {
     @Operation(summary = "List available GTFS Pathways versions", description = "Lists the versions of GTFS pathways data which are supported by TDEI. Returns a json list of the GTFS pathways versions supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of GTFS Pathways versions suppored by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
+            @ApiResponse(responseCode = "200", description = "List of GTFS Pathways versions suppored by TDEI.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VersionSpec.class)))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
@@ -107,7 +107,7 @@ public interface IGtfsPathways {
     @Operation(summary = "create pathways file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing. Returns the tdei_record_id.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.  returns the tdei_record_id, unique identifier for uploaded file.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
 
             @ApiResponse(responseCode = "400", description = "The request was invalid. The file may have failed a validation check or the metadata may have been invalid.", content = @Content),
 

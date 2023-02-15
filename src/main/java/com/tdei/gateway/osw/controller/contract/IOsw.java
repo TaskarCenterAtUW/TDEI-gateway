@@ -33,14 +33,14 @@ import java.util.Optional;
 
 public interface IOsw {
 
-    @Operation(summary = "returns a geojson osw file", description = "returns a specific osw file identified by the record_id", security = {
+    @Operation(summary = "returns a geojson osw file", description = "returns a specific osw file identified by the tdei_record_id", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns the osw file - will be geojson. I wasn't sure what should be returned here - I set the type geojson, but was not sure how this is typically done. "),
+            @ApiResponse(responseCode = "200", description = "Returns the osw file - will be geojson.", content = @Content(mediaType = "application/octet-stream")),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
-            @ApiResponse(responseCode = "404", description = "OSW data meeting the specifications (version and bounding box) was not found.Data is expected to be available for King and Snohomish counties in Washington, Multnomah and Columbia counties in Oregon, and Baltimore and Harford counties in Maryland.", content = @Content),
+            @ApiResponse(responseCode = "404", description = "File not found. The file may have failed a validation check or the metadata may have been invalid.", content = @Content(mediaType = "application/json")),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}",
@@ -53,7 +53,7 @@ public interface IOsw {
     @Operation(summary = "List osw files meeting criteria.", description = "This endpoint returns a list of url to gzip'd geojson files with osw data that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level and osw version.  This endpoint can be used by an application developer to obtain a list of osw files in the TDEI system meeting the specified criteria.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `osw_download` entities.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = OswDownload.class))),
+            @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `osw_download` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = OswDownload.class)))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
@@ -75,10 +75,10 @@ public interface IOsw {
 //                                                                             description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).", schema = @Schema())
 //                                                                     @Valid @RequestParam(value = "confidence_level", required = false) Integer confidenceLevel,
                                                    @Parameter(in = ParameterIn.QUERY,
-                                                           description = "version name of the OSW schema version that the application requests. list of versions can be found with /api/v1/osw/versions path", schema = @Schema())
+                                                           description = "A string with the name of the schema version the application requests.", schema = @Schema())
                                                    @Valid @RequestParam(value = "osw_schema_version", required = false) Optional<String> oswSchemaVersion,
                                                    @Parameter(in = ParameterIn.QUERY,
-                                                           description = "tdei-assigned agency id. Necessary to ensure that agency ids are unique. Represented as a UUID.", schema = @Schema())
+                                                           description = "tdei-assigned organization id. Necessary to ensure that agency ids are unique. Represented as a UUID.", schema = @Schema())
                                                    @Valid @RequestParam(value = " tdei_org_id", required = false) Optional<String> tdeiOrgId,
                                                    @Parameter(in = ParameterIn.QUERY, description = "date-time (Format. YYYY-MM-DD) for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
                                                            schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dateTime,
@@ -91,7 +91,7 @@ public interface IOsw {
     @Operation(summary = "List available OSW versions", description = "Lists the versions of OSW data which are supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns list of OSW versions supported by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
+            @ApiResponse(responseCode = "200", description = "Returns list of OSW versions supported by TDEI.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VersionSpec.class)))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
 
@@ -105,8 +105,8 @@ public interface IOsw {
     @Operation(summary = "Path used to upload/create a new osw data file.", description = "This path allows a user to upload or create a new osw file. The caller must provide metadata about the file - includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "400", description = "The request was invalid. The file may have failed a validation check or the metadata may have been invalid.", content = @Content),
+            @ApiResponse(responseCode = "202", description = "The request has been accepted for processing. returns the tdei_record_id, unique identifier for uploaded file.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "400", description = "The request was invalid.", content = @Content),
             @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
@@ -118,3 +118,4 @@ public interface IOsw {
                                          @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
 }
+
