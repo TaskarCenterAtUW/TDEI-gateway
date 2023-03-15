@@ -4,7 +4,9 @@ import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.List;
 
 public interface ICommonService {
 
@@ -14,7 +16,7 @@ public interface ICommonService {
      * @param principal - current user
      * @return Paginated list of agencies
      */
-    PageableResponse<Organization> listOrganizations(Principal principal);
+    List<Organization> listOrganizations(Principal principal, HttpServletRequest httpServletRequest, Integer pageNo, Integer pageSize);
 
     /**
      * Returns the paginated list of api versions

@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.util.function.Tuple2;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.Principal;
@@ -74,5 +75,5 @@ public interface IGtfsFlexService {
      * @param tdeiOrgId
      * @return
      */
-    List<GtfsFlexServiceModel> listFlexServices(Principal principal, String tdeiOrgId);
+    List<GtfsFlexServiceModel> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize);
 }

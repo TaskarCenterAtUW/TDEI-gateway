@@ -25,10 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -61,15 +58,15 @@ public class GtfsPathwaysControllerTests {
     @Test
     void listStations() {
         Principal mockPrincipal = mock(Principal.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
-        List<Station> response;
-
+        List<Station> response = new ArrayList<>();
         Station station = new Station();
         station.setStationName("TACOMA");
-        response = Arrays.asList(station);
+        response.add(station);
 
-        when(gtfsPathwaysService.listStations(mockPrincipal)).thenReturn(response);
-        var result = gtfsPathwaysController.listStations(mockPrincipal);
+        when(gtfsPathwaysService.listStations(any(Principal.class), any(MockHttpServletRequest.class), any(), anyInt(), anyInt())).thenReturn(response);
+        var result = gtfsPathwaysController.listStations(mockPrincipal, request, Optional.of("test"), 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody().stream().findFirst().get().getStationName()).isEqualTo("TACOMA");

@@ -62,8 +62,8 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<List<Station>> listStations(Principal principal) {
-        List<Station> response = gtfsPathwaysService.listStations(principal);
+    public ResponseEntity<List<Station>> listStations(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
+        List<Station> response = gtfsPathwaysService.listStations(principal, httpServletRequest, ownerOrg, pageNo, pageSize);
         return ResponseEntity.ok(response);
     }
 }

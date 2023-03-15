@@ -30,6 +30,7 @@ import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
@@ -178,7 +179,37 @@ public class GtfsFlexService implements IGtfsFlexService {
     }
 
     @Override
-    public List<GtfsFlexServiceModel> listFlexServices(Principal principal, String tdeiOrgId) {
-        return Arrays.asList();
+    public List<GtfsFlexServiceModel> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
+        try {
+            //Get auth info
+            String apiKey = httpServletRequest.getHeader("x-api-key");
+            String authToken = httpServletRequest.getHeader("Authorization");
+
+            WebClient webClient = WebClient.builder()
+                    .build();
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementSvc().getServiceUrl());
+            uri.queryParam("page_no", pageNo);
+            uri.queryParam("page_size", pageSize);
+            if (ownerOrg.isPresent())
+                uri.queryParam("owner_org", ownerOrg.get());
+
+            Mono<ResponseEntity<List<GtfsFlexServiceModel>>> entity = webClient.get()
+                    .uri(uriBuilder -> uri
+                            .build().toUri())
+                    .headers(httpHeaders -> {
+                        if (apiKey != null) httpHeaders.set("x-api-key", apiKey);
+                        if (authToken != null) httpHeaders.set("Authorization", authToken);
+                    })
+                    .accept(APPLICATION_JSON)
+                    .retrieve()
+                    .toEntityList(GtfsFlexServiceModel.class);
+
+            var response = entity.single().block().getBody();
+
+            return response;
+        } catch (Exception ex) {
+            log.error("Error while listing stations ", ex);
+            throw new ApplicationException("Error while listing stations");
+        }
     }
 }

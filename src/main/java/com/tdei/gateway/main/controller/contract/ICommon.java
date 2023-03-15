@@ -11,6 +11,8 @@ import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -18,13 +20,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.Principal;
+import java.util.List;
 
 @Validated
 public interface ICommon {
@@ -54,8 +59,10 @@ public interface ICommon {
     @RequestMapping(value = "organizations",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<PageableResponse<Organization>> listOrganizations(Principal principal);
+//    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+    ResponseEntity<List<Organization>> listOrganizations(Principal principal, HttpServletRequest httpServletRequest, @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 1.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false, defaultValue = "1") Integer pageNo,
+                                                         @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 1 to 50, defaults to 10.",
+                                                                 schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "10") Integer pageSize);
 
     @Operation(summary = "List available API versions", description = "Returns a json list of the versions of the TDEI API which are available.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
@@ -68,7 +75,7 @@ public interface ICommon {
     @RequestMapping(value = "api",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
+//    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<PageableResponse<VersionSpec>> listApiVersions(Principal principal);
 
 }

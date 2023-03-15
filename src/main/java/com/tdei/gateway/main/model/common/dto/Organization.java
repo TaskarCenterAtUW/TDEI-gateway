@@ -15,10 +15,10 @@ public class Organization {
 
     @JsonProperty("tdei_org_id")
     @Schema(required = false, description = "tdei-assigned organization id. Necessary to ensure that organization ids are unique. Represented as a UUID.")
-    private Integer tdeiOrgId = null;
+    private String tdei_org_id = null;
 
     @JsonProperty("org_name")
     @Schema(required = true, description = "org_name name. For transit agencies, typically the agency name used in GTFS releases.")
-    private String orgName = null;
+    private String org_name = null;
 
 }

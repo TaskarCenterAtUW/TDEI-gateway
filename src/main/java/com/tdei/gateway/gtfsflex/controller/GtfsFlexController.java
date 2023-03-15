@@ -57,10 +57,10 @@ public class GtfsFlexController implements IGtfsFlex {
     public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
         return ResponseEntity.accepted().body(gtfsFlexService.uploadFlexFile(principal, meta, file));
     }
-
-
+    
     @Override
-    public ResponseEntity<List<GtfsFlexServiceModel>> listFlexServices(Principal principal, String tdeiOrgId) {
-        return ResponseEntity.ok(gtfsFlexService.listFlexServices(principal, tdeiOrgId));
+    public ResponseEntity<List<GtfsFlexServiceModel>> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
+        List<GtfsFlexServiceModel> response = gtfsFlexService.listFlexServices(principal, httpServletRequest, ownerOrg, pageNo, pageSize);
+        return ResponseEntity.ok(response);
     }
 }
