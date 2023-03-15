@@ -14,6 +14,15 @@ public class ApplicationProperties {
     private GtfsFlexProperties gtfsFlex;
     private GtfsPathwaysProperties gtfsPathways;
     private OswProperties osw;
+    private ManagementSvcProperties managementSvc;
+
+    @Data
+    @NoArgsConstructor
+    public static class ManagementSvcProperties {
+        private String stationUrl;
+        private String serviceUrl;
+        private String orgUrl;
+    }
 
     @Data
     @NoArgsConstructor

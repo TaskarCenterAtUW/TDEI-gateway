@@ -4,16 +4,20 @@ server:
 application:
   app-name: tdei-gateway
   auth-server-url: https://tdei-auth-n-z-dev.azurewebsites.net
-  #http://localhost:8082
 
 gtfs-flex:
-  upload-url: http://localhost:8083/api/gtfsflex/v1/uploadFile
+  upload-url: http://localhost:8084/api/gtfsflex/v1/uploadFile
+  data-url: http://localhost:3005/api/v1/gtfsflex
 gtfs-pathways:
-  upload-url: http://localhost:8083/api/gtfspathways/v1/uploadFile
-  data-url: http://localhost:3000/api/v1/gtfspathways
+  upload-url: http://localhost:8084/api/gtfspathways/v1/uploadFile
+  data-url: http://localhost:3001/api/v1/gtfspathways
 osw:
-  upload-url: http://localhost:8083/api/osw/v1/uploadFile
-
+  upload-url: http://localhost:8084/api/osw/v1/uploadFile
+  data-url: http://localhost:3002/api/v1/osw
+management-svc:
+  station-url: http://localhost:3004/api/v1/station
+  service-url: http://localhost:3004/api/v1/service
+  org-url: http://localhost:3004/api/v1/organization
 spring-doc:
   swagger-ui:
     operationsSorter: alpha
@@ -21,10 +25,7 @@ spring-doc:
     disable-swagger-default-url: 'true'
   writer-with-default-pretty-printer: 'true'
 swagger:
-  description: This is an API for applications consuming data from and publishing
-    data to the Transportation Data Equity Initiative (TDEI) data system. This API
-    supports consuming and publishing of GTFS-Pathways, GTFS-Flex v2 and OpenSidewalks
-    data from and to the TDEI.
+  description: This is an API for publishing data to the Transportation Data Equity Initiative (TDEI) data system. This API is intended for applications producing data for and consuming data from the TDEI system. This API supports publishing of GTFS-Pathways, GTFS-Flex v2 and OpenSidewalks data to the TDEI.
   contact:
     name: TDEI Support
     email: placeholder_support@transequity.cs.washington.edu

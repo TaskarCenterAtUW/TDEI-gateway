@@ -17,7 +17,7 @@ public class Station {
     @JsonProperty("tdei_station_id")
     @Schema(required = true, description = "tdei assigned station id. Necessary to ensure that station ids are unique.")
     @NotNull
-    private Integer tdeiStationId = null;
+    private String tdeiStationId = null;
 
     @JsonProperty("station_name")
     private String stationName = null;

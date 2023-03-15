@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.util.function.Tuple2;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,5 +76,5 @@ public interface IGtfsPathwaysService {
      * @param principal - current user
      * @return Paginated list of stations
      */
-    List<Station> listStations(Principal principal);
+    List<Station> listStations(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize);
 }

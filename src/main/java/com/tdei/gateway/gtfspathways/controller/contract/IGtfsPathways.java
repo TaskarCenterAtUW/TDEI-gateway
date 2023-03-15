@@ -135,6 +135,10 @@ public interface IGtfsPathways {
             produces = {"application/json"},
             method = RequestMethod.GET)
         //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<List<Station>> listStations(Principal principal);
+    ResponseEntity<List<Station>> listStations(Principal principal, HttpServletRequest httpServletRequest, @Parameter(in = ParameterIn.QUERY, description = "A tdei-assigned id for an organization. org_ids can be retrieved using the path /api/v1/organizations.",
+            schema = @Schema()) @Valid @RequestParam(value = "owner_org", required = false) Optional<String> ownerOrg,
+                                               @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 1.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false, defaultValue = "1") Integer pageNo,
+                                               @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 1 to 50, defaults to 10.",
+                                                       schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "10") Integer pageSize);
 
 }

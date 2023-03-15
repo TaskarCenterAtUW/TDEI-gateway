@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,9 +32,9 @@ public class CommonController implements ICommon {
     }
 
     @Override
-    public ResponseEntity<PageableResponse<Organization>> listOrganizations(Principal principal) {
+    public ResponseEntity<List<Organization>> listOrganizations(Principal principal, HttpServletRequest httpServletRequest, Integer pageNo, Integer pageSize) {
 
-        PageableResponse response = commonService.listOrganizations(principal);
+        var response = commonService.listOrganizations(principal, httpServletRequest, pageNo, pageSize);
         return ResponseEntity.ok(response);
     }
 

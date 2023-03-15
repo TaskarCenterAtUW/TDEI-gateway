@@ -17,13 +17,17 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -80,23 +84,18 @@ public class CommonControllerTests {
     @Test
     void listAgencies() {
         Principal mockPrincipal = mock(Principal.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
-        PageableResponse response = new PageableResponse();
+        List<Organization> response = new ArrayList<>();
         Organization agency = new Organization();
         agency.setOrgName("SDOT");
-        response.setList(Arrays.asList(agency));
-        Pageable pg = new Pageable();
-        pg.setCurrentPage(1);
-        pg.setNumPages(1);
-        pg.setTotalItems(1);
-        pg.setTotalPages(1);
-        response.setPageable(pg);
+        response.add(agency);
 
-        when(commonService.listOrganizations(any(Principal.class))).thenReturn(response);
-        var result = commonController.listOrganizations(mockPrincipal);
+        when(commonService.listOrganizations(any(Principal.class), any(), anyInt(), anyInt())).thenReturn(response);
+        var result = commonController.listOrganizations(mockPrincipal, request, 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().getList().stream().findFirst().get().getOrgName()).isEqualTo("SDOT");
+        assertThat(result.getBody().stream().findFirst().get().getOrgName()).isEqualTo("SDOT");
     }
 
 

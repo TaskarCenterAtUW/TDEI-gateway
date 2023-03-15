@@ -9,5 +9,5 @@ public class GtfsFlexServiceModel {
     private String serviceName = null;
 
     @JsonProperty("tdei_service_id")
-    private Integer tdeiServiceId = null;
+    private String tdeiServiceId = null;
 }
