@@ -21,4 +21,7 @@ public class Organization {
     @Schema(required = true, description = "org_name name. For transit agencies, typically the agency name used in GTFS releases.")
     private String org_name = null;
 
+    @Schema(required = true, description = "geo-json polygon.")
+    private Object polygon = null;
+
 }

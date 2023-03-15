@@ -1,10 +1,10 @@
 package com.tdei.gateway.unit.gtfspathways;
 
 import com.tdei.gateway.gtfspathways.controller.GtfsPathwaysController;
+import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
-import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.Test;
