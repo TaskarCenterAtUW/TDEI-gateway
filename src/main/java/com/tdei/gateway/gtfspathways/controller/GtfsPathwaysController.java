@@ -1,10 +1,10 @@
 package com.tdei.gateway.gtfspathways.controller;
 
 import com.tdei.gateway.gtfspathways.controller.contract.IGtfsPathways;
+import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
-import com.tdei.gateway.main.model.common.dto.Station;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

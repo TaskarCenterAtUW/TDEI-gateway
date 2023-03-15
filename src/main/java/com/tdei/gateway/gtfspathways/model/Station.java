@@ -2,9 +2,11 @@ package com.tdei.gateway.gtfspathways.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 
+@Data
 public class Station {
 
     /**
@@ -27,4 +29,6 @@ public class Station {
     @JsonProperty("station_name")
     private String stationName = null;
 
+    @Schema(required = true, description = "geo-json polygon.")
+    private Object polygon = null;
 }
