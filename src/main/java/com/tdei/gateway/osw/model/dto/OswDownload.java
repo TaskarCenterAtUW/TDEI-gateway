@@ -1,5 +1,6 @@
 package com.tdei.gateway.osw.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tdei.gateway.main.model.common.dto.Polygon;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -8,7 +9,7 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 /**
  * Describes a osw file meta data.
@@ -31,7 +32,8 @@ public class OswDownload {
     @NotNull
     @Valid
     @JsonProperty("collection_date")
-    private OffsetDateTime collectionDate = null;
+    @JsonFormat(shape = JsonFormat.Shape.ANY, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private LocalDateTime collectionDate = null;
 
     @Schema(required = true, description = "Method by which the data was collected. See Best Practices document for information on how to format this string.")
     @NotNull
@@ -42,12 +44,14 @@ public class OswDownload {
     @NotNull
     @Valid
     @JsonProperty("valid_from")
-    private OffsetDateTime validFrom = null;
+    @JsonFormat(shape = JsonFormat.Shape.ANY, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private LocalDateTime validFrom = null;
 
     @Schema(description = "date until which this data is valid")
     @Valid
     @JsonProperty("valid_to")
-    private OffsetDateTime validTo = null;
+    @JsonFormat(shape = JsonFormat.Shape.ANY, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+    private LocalDateTime validTo = null;
 
     @Schema(required = true, description = "tdei-generated confidence level. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).")
     @NotNull
