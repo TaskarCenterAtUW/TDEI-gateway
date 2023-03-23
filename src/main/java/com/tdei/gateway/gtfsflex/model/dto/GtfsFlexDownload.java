@@ -2,7 +2,7 @@ package com.tdei.gateway.gtfsflex.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tdei.gateway.main.model.common.dto.Polygon;
+import com.tdei.gateway.main.model.common.dto.GeoJsonObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
@@ -66,7 +66,7 @@ public class GtfsFlexDownload {
     @Schema(required = true, description = "")
     @NotNull
     @JsonProperty("polygon")
-    private Polygon polygon = null;
+    private GeoJsonObject polygon = null;
 
     @Schema(required = true, description = "unique id identifying the file in the tdei system, can be used to retrieve the file itself.")
     @NotNull
