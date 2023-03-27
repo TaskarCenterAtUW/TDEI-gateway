@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +54,7 @@ public interface IGtfsFlexService {
                                          Optional<Double[]> bbox,
                                          Optional<Integer> confidenceLevel,
                                          Optional<String> flexSchemaVersion,
-                                         Optional<Date> dateTime,
+                                         Optional<String> dateTime,
                                          Optional<String> tdeiOrgId,
                                          Optional<String> tdeiRecordId,
                                          Integer pageNo,

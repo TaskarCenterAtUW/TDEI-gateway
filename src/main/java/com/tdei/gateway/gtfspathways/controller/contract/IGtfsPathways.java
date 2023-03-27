@@ -14,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +28,6 @@ import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,8 +78,8 @@ public interface IGtfsPathways {
 //                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Optional<Integer> confidenceLevel,
             @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1/gtfs-pathways/versions path",
                     schema = @Schema()) @Valid @RequestParam(value = "pathways_schema_version", required = false) Optional<String> pathwaysSchemaVersion,
-            @Parameter(in = ParameterIn.QUERY, description = "date-time (Format. YYYY-MM-DD) for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
-                    schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<Date> dateTime,
+            @Parameter(in = ParameterIn.QUERY, description = "date-time for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
+                    schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) Optional<String> dateTime,
             @Parameter(in = ParameterIn.QUERY, description = "tdei-assigned organization id. Necessary to ensure that agency ids are unique. Represented as a UUID.",
                     schema = @Schema()) @Valid @RequestParam(value = "tdei_org_id", required = false) Optional<String> tdeiOrgId,
             @Parameter(in = ParameterIn.QUERY, description = "if included, returns the metadata for the specified file, all other parameters will be ignored.",

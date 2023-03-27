@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +45,7 @@ public class GtfsPathwaysController implements IGtfsPathways {
     @Override
     public ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(Principal principal, HttpServletRequest req, Optional<Double[]> bbox, Optional<String> tdeiStationId,
 //                                                                        Optional<Integer> confidenceLevel,
-                                                                        Optional<String> pathwaysSchemaVersion, Optional<Date> dateTime, Optional<String> tdeiOrgId, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
+                                                                        Optional<String> pathwaysSchemaVersion, Optional<String> dateTime, Optional<String> tdeiOrgId, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
 
         return ResponseEntity.ok(gtfsPathwaysService.listPathwaysFiles(principal, req.getServletPath(), bbox, tdeiStationId, Optional.empty(), pathwaysSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }

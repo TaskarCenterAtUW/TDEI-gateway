@@ -24,7 +24,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -71,7 +74,7 @@ public class OswControllerTests {
                 //Optional.of(1),
                 Optional.of("test"),
                 Optional.of("test"),
-                Optional.of(new Date()),
+                Optional.of("2023-03-03T03:04:00+05:30"),
                 Optional.of("test"),
                 1, 1);
 

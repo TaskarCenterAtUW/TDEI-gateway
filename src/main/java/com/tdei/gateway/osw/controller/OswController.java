@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +42,7 @@ public class OswController implements IOsw {
     }
 
     @Override
-    public ResponseEntity<List<OswDownload>> listOswFiles(Principal principal, HttpServletRequest req, Optional<Double[]> bbox, Optional<String> oswSchemaVersion, Optional<String> tdeiOrgId, Optional<Date> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
+    public ResponseEntity<List<OswDownload>> listOswFiles(Principal principal, HttpServletRequest req, Optional<Double[]> bbox, Optional<String> oswSchemaVersion, Optional<String> tdeiOrgId, Optional<String> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
         return ResponseEntity.ok(oswService.listOswFiles(principal, req.getServletPath(), Optional.empty(), bbox, oswSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }
 

@@ -88,14 +88,14 @@ public class CommonControllerTests {
 
         List<Organization> response = new ArrayList<>();
         Organization agency = new Organization();
-        agency.setOrgName("SDOT");
+        agency.setOrg_name("SDOT");
         response.add(agency);
 
         when(commonService.listOrganizations(any(Principal.class), any(), anyInt(), anyInt())).thenReturn(response);
         var result = commonController.listOrganizations(mockPrincipal, request, 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getOrgName()).isEqualTo("SDOT");
+        assertThat(result.getBody().stream().findFirst().get().getOrg_name()).isEqualTo("SDOT");
     }
 
 

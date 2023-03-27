@@ -34,11 +34,9 @@ import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.tdei.gateway.core.utils.Utils.formatDate;
 import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -120,7 +118,7 @@ public class OswService implements IOswService {
                                           Optional<Integer> confidenceLevel,
                                           Optional<Double[]> bbox,
                                           Optional<String> oswSchemaVersion,
-                                          Optional<Date> dateTime,
+                                          Optional<String> dateTime,
                                           Optional<String> tdeiOrgId,
                                           Optional<String> tdeiRecordId,
                                           Integer pageNo,
@@ -138,7 +136,7 @@ public class OswService implements IOswService {
             if (oswSchemaVersion.isPresent())
                 uri.queryParam("osw_schema_version", oswSchemaVersion.get());
             if (dateTime.isPresent())
-                uri.queryParam("date_time", formatDate(dateTime.get(), Optional.empty()));
+                uri.queryParam("date_time", dateTime.get());
             if (tdeiOrgId.isPresent())
                 uri.queryParam("tdei_org_id", tdeiOrgId.get());
             if (tdeiRecordId.isPresent())

@@ -36,11 +36,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.tdei.gateway.core.utils.Utils.formatDate;
 import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -135,7 +133,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
                                                         Optional<String> tdeiStationId,
                                                         Optional<Integer> confidenceLevel,
                                                         Optional<String> pathwaysSchemaVersion,
-                                                        Optional<Date> dateTime,
+                                                        Optional<String> dateTime,
                                                         Optional<String> tdeiOrgId,
                                                         Optional<String> tdeiRecordId,
                                                         Integer pageNo,
@@ -155,7 +153,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             if (pathwaysSchemaVersion.isPresent())
                 uri.queryParam("pathways_schema_version", pathwaysSchemaVersion.get());
             if (dateTime.isPresent())
-                uri.queryParam("date_time", formatDate(dateTime.get(), Optional.empty()));
+                uri.queryParam("date_time", dateTime.get());
             if (tdeiOrgId.isPresent())
                 uri.queryParam("tdei_org_id", tdeiOrgId.get());
             if (tdeiRecordId.isPresent())

@@ -6,7 +6,6 @@ import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,7 +24,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.*;
@@ -90,7 +92,7 @@ public class GtfsPathwaysControllerTests {
                 //Optional.of(1),
                 Optional.of("test"),
                 Optional.of("test"),
-                Optional.of(new Date()),
+                Optional.of("2023-02-02T04:04+05:30"),
                 Optional.of("test"),
                 Optional.of("test"),
                 1, 1);
@@ -117,7 +119,7 @@ public class GtfsPathwaysControllerTests {
     }
 
     @Test
-    void uploadPathwaysFile() throws FileUploadException {
+    void uploadPathwaysFile() throws Exception {
 
         Principal mockPrincipal = mock(Principal.class);
         MockMultipartFile file

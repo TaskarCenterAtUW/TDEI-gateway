@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +54,7 @@ public interface IOswService {
                                    Optional<Integer> confidenceLevel,
                                    Optional<Double[]> bbox,
                                    Optional<String> oswSchemaVersion,
-                                   Optional<Date> dateTime,
+                                   Optional<String> dateTime,
                                    Optional<String> tdeiOrgId,
                                    Optional<String> tdeiRecordId,
                                    Integer pageNo,

@@ -1,6 +1,5 @@
 package com.tdei.gateway.gtfsflex.service;
 
-
 import com.tdei.gateway.core.config.ApplicationProperties;
 import com.tdei.gateway.core.config.exception.handler.ApiError;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
@@ -90,8 +89,8 @@ public class GtfsFlexService implements IGtfsFlexService {
             }
             throw ex;
         } catch (Exception ex) {
-            log.error("Error while uploading the flex file", ex);
-            throw new ApplicationException("Error while uploading the flex file.");
+            log.error("Error while fetching the flex file", ex);
+            throw new ApplicationException("Error while fetching the flex file.");
         }
     }
 
@@ -128,7 +127,7 @@ public class GtfsFlexService implements IGtfsFlexService {
                                                 Optional<Double[]> bbox,
                                                 Optional<Integer> confidenceLevel,
                                                 Optional<String> flexSchemaVersion,
-                                                Optional<Date> dateTime,
+                                                Optional<String> dateTime,
                                                 Optional<String> tdeiOrgId,
                                                 Optional<String> tdeiRecordId,
                                                 Integer pageNo,
@@ -153,7 +152,7 @@ public class GtfsFlexService implements IGtfsFlexService {
             if (flexSchemaVersion.isPresent())
                 uri.queryParam("flex_schema_version", flexSchemaVersion.get());
             if (dateTime.isPresent())
-                uri.queryParam("date_time", formatDate(dateTime.get(), Optional.empty()));
+                uri.queryParam("date_time", dateTime.get());
             if (tdeiOrgId.isPresent())
                 uri.queryParam("tdei_org_id", tdeiOrgId.get());
             if (tdeiRecordId.isPresent())
