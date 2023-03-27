@@ -2,6 +2,7 @@ package com.tdei.gateway.gtfspathways.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
+import com.tdei.gateway.core.config.exception.handler.exceptions.MetadataValidationException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
 import com.tdei.gateway.core.model.authclient.UserProfile;
 import com.tdei.gateway.gtfspathways.model.Station;
@@ -79,7 +80,15 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             log.info(filePath);
             return filePath;
         } catch (WebClientResponseException ex) {
-            throw new FileUploadException(ex.getResponseBodyAsString());
+            if (ex.getStatusCode().value() == 404) {
+                throw new ResourceNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
+            }
+            if(ex.getStatusCode().equals(HttpStatus.BAD_REQUEST) && ! ex.getResponseBodyAsString().isEmpty()){
+
+                throw new MetadataValidationException("Metadata validation exception",ex.getResponseBodyAsByteArray());
+
+            }
+            throw ex;
         } catch (Exception ex) {
             log.error("Error while uploading file ", ex);
             throw new FileUploadException("Error while uploading file");
