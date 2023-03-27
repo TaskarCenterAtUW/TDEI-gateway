@@ -1,6 +1,5 @@
 package com.tdei.gateway.gtfsflex.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tdei.gateway.main.model.common.dto.GeoJsonObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 /**
  * Represents a gtfs_flex data file.
@@ -32,8 +30,7 @@ public class GtfsFlexDownload {
     @NotNull
     @Valid
     @JsonProperty("collection_date")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime collectionDate = null;
+    private String collectionDate = null;
 
     @Schema(required = true, description = "Method by which the data was collected. See Best Practices document for information on how to format this string.")
     @NotNull
@@ -44,14 +41,12 @@ public class GtfsFlexDownload {
     @NotNull
     @Valid
     @JsonProperty("valid_from")
-    @JsonFormat(shape = JsonFormat.Shape.ANY, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime validFrom = null;
+    private String validFrom = null;
 
     @Schema(description = "date until which this data is valid")
     @Valid
     @JsonProperty("valid_to")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime validTo = null;
+    private String validTo = null;
 
     @Schema(required = true, description = "tdei-generated confidence level. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).")
     @NotNull

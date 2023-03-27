@@ -36,11 +36,9 @@ import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.security.Principal;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static com.tdei.gateway.core.utils.Utils.formatDate;
 import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -123,7 +121,7 @@ public class GtfsFlexService implements IGtfsFlexService {
                                                 Optional<Double[]> bbox,
                                                 Optional<Integer> confidenceLevel,
                                                 Optional<String> flexSchemaVersion,
-                                                Optional<Date> dateTime,
+                                                Optional<String> dateTime,
                                                 Optional<String> tdeiOrgId,
                                                 Optional<String> tdeiRecordId,
                                                 Integer pageNo,
@@ -148,7 +146,7 @@ public class GtfsFlexService implements IGtfsFlexService {
             if (flexSchemaVersion.isPresent())
                 uri.queryParam("flex_schema_version", flexSchemaVersion.get());
             if (dateTime.isPresent())
-                uri.queryParam("date_time", formatDate(dateTime.get(), Optional.empty()));
+                uri.queryParam("date_time", dateTime.get());
             if (tdeiOrgId.isPresent())
                 uri.queryParam("tdei_org_id", tdeiOrgId.get());
             if (tdeiRecordId.isPresent())

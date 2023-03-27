@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +43,7 @@ public class GtfsFlexController implements IGtfsFlex {
         return ResponseEntity.ok().body(resource);
     }
 
-    public ResponseEntity<List<GtfsFlexDownload>> listFlexFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiServiceId, Optional<Double[]> bbox, Optional<String> flexSchemaVersion, Optional<String> tdeiOrgId, Optional<Date> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
+    public ResponseEntity<List<GtfsFlexDownload>> listFlexFiles(Principal principal, HttpServletRequest req, Optional<String> tdeiServiceId, Optional<Double[]> bbox, Optional<String> flexSchemaVersion, Optional<String> tdeiOrgId, Optional<String> dateTime, Optional<String> tdeiRecordId, Integer pageNo, Integer pageSize) throws FileNotFoundException {
         return ResponseEntity.ok(gtfsFlexService.listFlexFiles(principal, req.getServletPath(), tdeiServiceId, bbox, Optional.of(0), flexSchemaVersion, dateTime, tdeiOrgId, tdeiRecordId, pageNo, pageSize));
     }
 
@@ -57,7 +56,7 @@ public class GtfsFlexController implements IGtfsFlex {
     public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
         return ResponseEntity.accepted().body(gtfsFlexService.uploadFlexFile(principal, meta, file));
     }
-    
+
     @Override
     public ResponseEntity<List<GtfsFlexServiceModel>> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
         List<GtfsFlexServiceModel> response = gtfsFlexService.listFlexServices(principal, httpServletRequest, ownerOrg, pageNo, pageSize);

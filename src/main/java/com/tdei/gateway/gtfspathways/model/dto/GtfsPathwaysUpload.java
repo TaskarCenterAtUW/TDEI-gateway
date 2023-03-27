@@ -1,6 +1,5 @@
 package com.tdei.gateway.gtfspathways.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tdei.gateway.main.model.common.dto.GeoJsonObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 /**
  * Describes a gtfs pathways file meta data. Same as gtfs_pathways, but adds uri.
@@ -32,30 +30,27 @@ public class GtfsPathwaysUpload {
     @JsonProperty("collected_by")
     private String collectedBy = null;
 
-    @Schema(required = true, description = "date-time that data was collected")
+    @Schema(required = true, description = "date-time that data was collected", example = "2016-07-08T12:30:00+05:30")
     @NotNull
     @Valid
     @JsonProperty("collection_date")
-    @JsonFormat(shape = JsonFormat.Shape.ANY, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime collectionDate = null;
+    private String collectionDate = null;
 
     @Schema(required = true, description = "Method by which the data was collected.")
     @NotNull
     @JsonProperty("collection_method")
     private String collectionMethod = null;
 
-    @Schema(required = true, description = "date from which this file is valid")
+    @Schema(required = true, description = "date from which this file is valid", example = "2016-07-08T12:30:00+05:30")
     @NotNull
     @Valid
     @JsonProperty("valid_from")
-    @JsonFormat(shape = JsonFormat.Shape.ANY, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime validFrom = null;
+    private String validFrom = null;
 
-    @Schema(description = "date until which this data is valid")
+    @Schema(description = "date until which this data is valid", example = "2016-07-08T12:30:00+05:30")
     @Valid
     @JsonProperty("valid_to")
-    @JsonFormat(shape = JsonFormat.Shape.ANY, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-    private LocalDateTime validTo = null;
+    private String validTo = null;
 
     @Schema(required = true, description = "Description of data source or sources from which the data was collected.")
     @NotNull
