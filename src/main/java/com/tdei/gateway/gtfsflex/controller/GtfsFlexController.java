@@ -1,5 +1,6 @@
 package com.tdei.gateway.gtfsflex.controller;
 
+import com.tdei.gateway.core.config.exception.handler.exceptions.MetadataValidationException;
 import com.tdei.gateway.gtfsflex.controller.contract.IGtfsFlex;
 import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
@@ -54,7 +55,7 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+    public ResponseEntity<String> uploadGtfsFlexFile(Principal principal, GtfsFlexUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException, MetadataValidationException {
         return ResponseEntity.accepted().body(gtfsFlexService.uploadFlexFile(principal, meta, file));
     }
     
