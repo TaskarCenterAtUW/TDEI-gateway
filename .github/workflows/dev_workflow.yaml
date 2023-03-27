@@ -40,4 +40,4 @@ jobs:
       with:
         app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: ${{ secrets.REGISTRY_DOMAIN }}/${{ secrets.REGISTRY_REPO }}:${{ github.ref_name == 'main' && 'prod' || github.ref_name }}${{ github.ref_name != 'main' && '-latest' || 'latest' }}
+        images: ${{ secrets.REGISTRY_DOMAIN }}/${{ secrets.REGISTRY_REPO }}:${{ github.sha }}
