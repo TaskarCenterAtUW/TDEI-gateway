@@ -21,6 +21,10 @@ public class GtfsFlexDownload {
     @JsonProperty("tdei_org_id")
     private String tdeiOrgId = null;
 
+    @Schema(required = true, description = "tdei-assigned service id. Represented as UUID. Station ids can be retrieved using the /api/v1/services path.")
+    @JsonProperty("tdei_service_id")
+    private String tdeiServiceId = null;
+
     @Schema(required = true, description = "Description of who data was collected by. See Best Practices document for information on how to format this string.")
     @NotNull
     @JsonProperty("collected_by")
