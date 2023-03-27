@@ -1,5 +1,6 @@
 package com.tdei.gateway.gtfspathways.controller;
 
+import com.tdei.gateway.core.config.exception.handler.exceptions.MetadataValidationException;
 import com.tdei.gateway.gtfspathways.controller.contract.IGtfsPathways;
 import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
@@ -57,7 +58,7 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<String> uploadPathwaysFile(Principal principal, GtfsPathwaysUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException {
+    public ResponseEntity<String> uploadPathwaysFile(Principal principal, GtfsPathwaysUpload meta, MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException, MetadataValidationException {
         return ResponseEntity.accepted().body(gtfsPathwaysService.uploadPathwaysFile(principal, meta, file));
     }
 
