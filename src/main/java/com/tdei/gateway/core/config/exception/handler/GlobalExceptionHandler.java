@@ -1,9 +1,8 @@
 package com.tdei.gateway.core.config.exception.handler;
 
-import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
-import com.tdei.gateway.core.config.exception.handler.exceptions.InvalidAccessTokenException;
-import com.tdei.gateway.core.config.exception.handler.exceptions.InvalidCredentialsException;
-import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tdei.gateway.common.model.MetaValidationError;
+import com.tdei.gateway.core.config.exception.handler.exceptions.*;
 import com.tdei.gateway.core.utils.Utils;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpHeaders;
@@ -184,6 +183,25 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.UNAUTHORIZED, "Invalid Access Token", details);
 
         return ResponseEntityBuilder.build(err);
+    }
+
+    @ExceptionHandler(MetadataValidationException.class)
+    public ResponseEntity<Object> handleMetadataValidationException(MetadataValidationException ex) throws IOException {
+
+        List<String> errors = new ArrayList<>();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+
+            MetaValidationError metaValidationError = mapper.readValue(ex.getErrorData(), MetaValidationError.class);
+            ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.BAD_REQUEST, metaValidationError.getMessage(), metaValidationError.getErrors());
+            return ResponseEntityBuilder.build(err);
+        }
+        catch (IOException exception){
+            System.out.println(exception);
+        }
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.BAD_REQUEST, ex.getMessage(), errors);
+    return  ResponseEntityBuilder.build(err);
+
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
