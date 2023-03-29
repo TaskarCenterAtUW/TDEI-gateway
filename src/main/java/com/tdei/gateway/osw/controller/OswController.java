@@ -1,6 +1,6 @@
 package com.tdei.gateway.osw.controller;
 
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.osw.controller.contract.IOsw;
 import com.tdei.gateway.osw.model.dto.OswDownload;
 import com.tdei.gateway.osw.model.dto.OswUpload;
@@ -26,7 +26,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/osw")
-@Tag(name = "OSW", description = "OSW operations")
+@Tag(name = "OSW")
 @Slf4j
 public class OswController implements IOsw {
     private final OswService oswService;
@@ -47,7 +47,7 @@ public class OswController implements IOsw {
     }
 
     @Override
-    public ResponseEntity<List<VersionSpec>> listOswVersions(Principal principal) {
+    public ResponseEntity<VersionList> listOswVersions(Principal principal) {
 
         return ResponseEntity.ok(oswService.listOswVersions(principal));
     }

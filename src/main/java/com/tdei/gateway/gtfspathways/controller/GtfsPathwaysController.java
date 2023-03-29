@@ -5,7 +5,7 @@ import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/gtfs-pathways")
-@Tag(name = "GTFS-Pathways", description = "GTFS pathways operations")
+@Tag(name = "GTFS-Pathways")
 @Slf4j
 public class GtfsPathwaysController implements IGtfsPathways {
     private final GtfsPathwaysService gtfsPathwaysService;
@@ -50,7 +50,7 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<List<VersionSpec>> listPathwaysVersions(Principal principal) {
+    public ResponseEntity<VersionList> listPathwaysVersions(Principal principal) {
 
         return ResponseEntity.ok(gtfsPathwaysService.listPathwaysVersions(principal));
     }
@@ -61,8 +61,8 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<List<Station>> listStations(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
-        List<Station> response = gtfsPathwaysService.listStations(principal, httpServletRequest, ownerOrg, pageNo, pageSize);
+    public ResponseEntity<List<Station>> listStations(Principal principal, HttpServletRequest httpServletRequest, Optional<String> tdei_org_id, Integer pageNo, Integer pageSize) {
+        List<Station> response = gtfsPathwaysService.listStations(principal, httpServletRequest, tdei_org_id, pageNo, pageSize);
         return ResponseEntity.ok(response);
     }
 }

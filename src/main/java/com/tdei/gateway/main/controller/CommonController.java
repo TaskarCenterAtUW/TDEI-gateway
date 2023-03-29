@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-@Tag(name = "General", description = "Common operations")
+@Tag(name = "General")
 public class CommonController implements ICommon {
     private final AuthService authService;
     private final CommonService commonService;

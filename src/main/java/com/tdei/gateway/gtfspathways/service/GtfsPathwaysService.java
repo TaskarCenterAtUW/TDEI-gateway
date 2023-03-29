@@ -8,6 +8,7 @@ import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.contract.IGtfsPathwaysService;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -174,12 +175,14 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     }
 
     @Override
-    public List<VersionSpec> listPathwaysVersions(Principal principal) {
-        return null;
+    public VersionList listPathwaysVersions(Principal principal) {
+        var result = new VersionList();
+        result.setVersions(List.of(new VersionSpec()));
+        return result;
     }
 
     @Override
-    public List<Station> listStations(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
+    public List<Station> listStations(Principal principal, HttpServletRequest httpServletRequest, Optional<String> tdei_org_id, Integer pageNo, Integer pageSize) {
         try {
             //Get auth info
             String apiKey = httpServletRequest.getHeader("x-api-key");
@@ -190,8 +193,8 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementSvc().getStationUrl());
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
-            if (ownerOrg.isPresent())
-                uri.queryParam("owner_org", ownerOrg.get());
+            if (tdei_org_id.isPresent())
+                uri.queryParam("tdei_org_id", tdei_org_id.get());
 
             Mono<ResponseEntity<List<Station>>> entity = webClient.get()
                     .uri(uriBuilder -> uri

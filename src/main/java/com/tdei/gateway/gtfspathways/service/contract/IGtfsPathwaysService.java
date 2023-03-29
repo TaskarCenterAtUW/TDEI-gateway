@@ -3,7 +3,7 @@ package com.tdei.gateway.gtfspathways.service.contract;
 import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.util.function.Tuple2;
@@ -65,7 +65,7 @@ public interface IGtfsPathwaysService {
      * @param principal
      * @return
      */
-    List<VersionSpec> listPathwaysVersions(Principal principal);
+    VersionList listPathwaysVersions(Principal principal);
 
 
     /**

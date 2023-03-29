@@ -3,7 +3,7 @@ package com.tdei.gateway.gtfspathways.controller.contract;
 import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -40,33 +40,34 @@ public interface IGtfsPathways {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success. Returns the file as application/octet-stream.", content = @Content(mediaType = "application/octet-stream")),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
 
-            @ApiResponse(responseCode = "404", description = "File not found. The file may have failed a validation check or the metadata may have been invalid.", content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "A file with the specified tdei_record_id was not found. Use the /api/v1/gtfs-pathways endpoints to find valid file ids.", content = @Content(mediaType = "application/json")),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "{tdei_record_id}",
             produces = {"application/octet-stream", "application/json"},
             method = RequestMethod.GET)
-        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<?> getPathwaysFile(Principal principal, @Parameter(in = ParameterIn.PATH, description = "tdei_record_id for a file, represented as a uuid", required = true, schema = @Schema()) @PathVariable("tdei_record_id") String tdeiRecordId, HttpServletResponse response) throws IOException;
 
-    @Operation(summary = "List pathways files meeting criteria.", description = "This endpoint returns a json list of all gtfs pathways files stored in the TDEI system that meet the specified criteria. Criteria that can be specified include: bounding box, minimum confidence level, pathways version, date time and agency id.  This endpoint can be used by an application developer to obtain a list of gtfs pathways files in the TDEI system meeting the specified criteria. This endpoint returns a list of file-metadata including the uris of the file, which can be used to fetch the files themselves.", security = {
+    @Operation(summary = "List pathways files meeting criteria.", description = "This endpoint returns a json list of all gtfs pathways files stored in the TDEI system that meet the specified criteria. Criteria that can be specified include: polygon (bounding box), minimum confidence level, pathways version, date time and agency id.\n" +
+            "\n" +
+            "This endpoint can be used by an application developer to obtain a list of gtfs pathways files in the TDEI system meeting the specified criteria. This endpoint returns a list of file-metadata including the uris of the file, which can be used to fetch the files themselves.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `gtfs_pathways_download` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsPathwaysDownload.class)))),
+            @ApiResponse(responseCode = "200", description = "Successful response - returns an array of `GtfsPathwaysDownload` entities.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = GtfsPathwaysDownload.class)))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/json"},
             method = RequestMethod.GET)
-        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<List<GtfsPathwaysDownload>> listPathwaysFiles(
             Principal principal,
             HttpServletRequest req,
             @Parameter(in = ParameterIn.QUERY,
+                    example = "[23.5, 34.65, 89.50, 65.98]",
                     description = "A bounding box which specifies the area to be searched. A bounding box is specified by a string providing the lat/lon coordinates of the corners of the bounding box. Coordinate should be specified as west, south, east, north.",
                     array = @ArraySchema(minItems = 4, maxItems = 4, schema = @Schema(implementation = Double.class))
             )
@@ -76,13 +77,13 @@ public interface IGtfsPathways {
 //            @Parameter(in = ParameterIn.QUERY,
 //                    description = "Minimum confidence level required by application. Data returned will be at this confidence level or higher. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).",
 //                    schema = @Schema()) @Valid @RequestParam(value = "confidence_level", required = false) Optional<Integer> confidenceLevel,
-            @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1/gtfs-pathways/versions path",
+            @Parameter(in = ParameterIn.QUERY, description = "version name of the pathways schema version that the application requests. list of versions can be found with /api/v1/gtfs-pathways/versions",
                     schema = @Schema()) @Valid @RequestParam(value = "pathways_schema_version", required = false) Optional<String> pathwaysSchemaVersion,
             @Parameter(in = ParameterIn.QUERY, description = "date-time for which the caller is interested in obtaining files. all files that are valid at the specified date-time and meet the other criteria will be returned.",
                     schema = @Schema()) @Valid @RequestParam(value = "date_time", required = false) Optional<String> dateTime,
-            @Parameter(in = ParameterIn.QUERY, description = "tdei-assigned organization id. Necessary to ensure that agency ids are unique. Represented as a UUID.",
+            @Parameter(in = ParameterIn.QUERY, description = "tdei-assigned organization id. Represented as a UUID.",
                     schema = @Schema()) @Valid @RequestParam(value = "tdei_org_id", required = false) Optional<String> tdeiOrgId,
-            @Parameter(in = ParameterIn.QUERY, description = "if included, returns the metadata for the specified file, all other parameters will be ignored.",
+            @Parameter(in = ParameterIn.QUERY, description = "tdei_record_id, unique id represents file.",
                     schema = @Schema()) @Valid @RequestParam(value = "tdei_record_id", required = false) Optional<String> tdeiRecordId,
             @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 1.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false, defaultValue = "1") Integer pageNo,
             @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 1 to 50, defaults to 10.",
@@ -91,26 +92,23 @@ public interface IGtfsPathways {
     @Operation(summary = "List available GTFS Pathways versions", description = "Lists the versions of GTFS pathways data which are supported by TDEI. Returns a json list of the GTFS pathways versions supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of GTFS Pathways versions suppored by TDEI.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VersionSpec.class)))),
+            @ApiResponse(responseCode = "200", description = "List of GTFS Pathways versions suppored by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionList.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
-        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<List<VersionSpec>> listPathwaysVersions(Principal principal);
+    ResponseEntity<VersionList> listPathwaysVersions(Principal principal);
 
     @Operation(summary = "create pathways file", description = "This call allows a user to upload or create a new gtfs pathways file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Pathways"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "202", description = "The request has been accepted for processing.  returns the tdei_record_id, unique identifier for uploaded file.", content = @Content(mediaType = "application/text", schema = @Schema(implementation = String.class))),
-
-            @ApiResponse(responseCode = "400", description = "The request was invalid. The file may have failed a validation check or the metadata may have been invalid.", content = @Content),
-
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
-
+            @ApiResponse(responseCode = "400", description = "The request was invalid.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
+            @ApiResponse(responseCode = "403", description = "This request is unauthenticated.", content = @Content),
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "",
             produces = {"application/text"},
@@ -121,20 +119,23 @@ public interface IGtfsPathways {
                                               @RequestPart("file") @NotNull MultipartFile file, HttpServletRequest httpServletRequest) throws FileUploadException;
 
 
-    @Operation(summary = "List Stations", description = "Path used to retrieve the list of stations with data in the TDEI system. Allows callers to get the tdei_station_id id for a station.  Returns the tdei_station_id and station information for all stations with data in the TDEI system. ", security = {
+    @Operation(summary = "List Stations", description = "Path used to retrieve the list of stations with data in the TDEI system. Allows callers to get the tdei_station_id id for a station.\n" +
+            "\n" +
+            "Returns the tdei_station_id and station information for all stations with data in the TDEI system.\n" +
+            "\n" +
+            "If tdei_org_id param is specified, will return stations for that organization. ", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Returns an array of `Station` entities. ", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Station.class)))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "stations",
             produces = {"application/json"},
             method = RequestMethod.GET)
-        //@PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
-    ResponseEntity<List<Station>> listStations(Principal principal, HttpServletRequest httpServletRequest, @Parameter(in = ParameterIn.QUERY, description = "A tdei-assigned id for an organization. org_ids can be retrieved using the path /api/v1/organizations.",
-            schema = @Schema()) @Valid @RequestParam(value = "owner_org", required = false) Optional<String> ownerOrg,
+    ResponseEntity<List<Station>> listStations(Principal principal, HttpServletRequest httpServletRequest, @Parameter(in = ParameterIn.QUERY, description = "TDEI organization id.", schema = @Schema()
+    ) @Valid @RequestParam(value = "tdei_org_id", required = false) Optional<String> tdei_org_id,
                                                @Parameter(in = ParameterIn.QUERY, description = "Integer, defaults to 1.", schema = @Schema()) @Valid @RequestParam(value = "page_no", required = false, defaultValue = "1") Integer pageNo,
                                                @Parameter(in = ParameterIn.QUERY, description = "page size. integer, between 1 to 50, defaults to 10.",
                                                        schema = @Schema()) @Valid @RequestParam(value = "page_size", required = false, defaultValue = "10") Integer pageSize);

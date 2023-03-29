@@ -5,7 +5,7 @@ import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.GtfsFlexService;
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +27,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/gtfs-flex")
-@Tag(name = "GTFS-Flex", description = "GTFS flex operations")
+@Tag(name = "GTFS-Flex")
 @Slf4j
 public class GtfsFlexController implements IGtfsFlex {
     private final GtfsFlexService gtfsFlexService;
@@ -48,7 +48,7 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<List<VersionSpec>> listFlexVersions(Principal principal) {
+    public ResponseEntity<VersionList> listFlexVersions(Principal principal) {
         return ResponseEntity.ok(gtfsFlexService.listFlexVersions(principal));
     }
 
@@ -58,8 +58,8 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<List<GtfsFlexServiceModel>> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
-        List<GtfsFlexServiceModel> response = gtfsFlexService.listFlexServices(principal, httpServletRequest, ownerOrg, pageNo, pageSize);
+    public ResponseEntity<List<GtfsFlexServiceModel>> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> tdei_org_id, Integer pageNo, Integer pageSize) {
+        List<GtfsFlexServiceModel> response = gtfsFlexService.listFlexServices(principal, httpServletRequest, tdei_org_id, pageNo, pageSize);
         return ResponseEntity.ok(response);
     }
 }

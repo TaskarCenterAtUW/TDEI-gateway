@@ -5,6 +5,7 @@ import com.tdei.gateway.gtfspathways.model.Station;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysDownload;
 import com.tdei.gateway.gtfspathways.model.dto.GtfsPathwaysUpload;
 import com.tdei.gateway.gtfspathways.service.GtfsPathwaysService;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,14 +65,14 @@ public class GtfsPathwaysControllerTests {
 
         List<Station> response = new ArrayList<>();
         Station station = new Station();
-        station.setStationName("TACOMA");
+        station.setStation_name("TACOMA");
         response.add(station);
 
         when(gtfsPathwaysService.listStations(any(Principal.class), any(MockHttpServletRequest.class), any(), anyInt(), anyInt())).thenReturn(response);
         var result = gtfsPathwaysController.listStations(mockPrincipal, request, Optional.of("test"), 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getStationName()).isEqualTo("TACOMA");
+        assertThat(result.getBody().stream().findFirst().get().getStation_name()).isEqualTo("TACOMA");
     }
 
     @Test
@@ -105,17 +106,17 @@ public class GtfsPathwaysControllerTests {
     void listPathwaysVersions() {
         Principal mockPrincipal = mock(Principal.class);
 
-        List<VersionSpec> response;
+        VersionList response = new VersionList();
         VersionSpec spec = new VersionSpec();
         spec.setVersion("v1");
-        response = Arrays.asList(spec);
+        response.setVersions(Arrays.asList(spec));
 
 
         when(gtfsPathwaysService.listPathwaysVersions(mockPrincipal)).thenReturn(response);
         var result = gtfsPathwaysController.listPathwaysVersions(mockPrincipal);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getVersion()).isEqualTo("v1");
+        assertThat(result.getBody().getVersions().stream().findFirst().get().getVersion()).isEqualTo("v1");
     }
 
     @Test

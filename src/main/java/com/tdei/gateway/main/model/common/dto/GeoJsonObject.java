@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.util.ArrayList;
 
+@Schema(description = "geo-json polygon")
 @Data
 public class GeoJsonObject {
     @JsonProperty("type")

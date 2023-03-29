@@ -8,6 +8,7 @@ import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.contract.IGtfsFlexService;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -172,12 +172,14 @@ public class GtfsFlexService implements IGtfsFlexService {
     }
 
     @Override
-    public List<VersionSpec> listFlexVersions(Principal principal) {
-        return Arrays.asList();
+    public VersionList listFlexVersions(Principal principal) {
+        var result = new VersionList();
+        result.setVersions(List.of(new VersionSpec()));
+        return result;
     }
 
     @Override
-    public List<GtfsFlexServiceModel> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> ownerOrg, Integer pageNo, Integer pageSize) {
+    public List<GtfsFlexServiceModel> listFlexServices(Principal principal, HttpServletRequest httpServletRequest, Optional<String> tdei_org_id, Integer pageNo, Integer pageSize) {
         try {
             //Get auth info
             String apiKey = httpServletRequest.getHeader("x-api-key");
@@ -188,8 +190,8 @@ public class GtfsFlexService implements IGtfsFlexService {
             UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementSvc().getServiceUrl());
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
-            if (ownerOrg.isPresent())
-                uri.queryParam("owner_org", ownerOrg.get());
+            if (tdei_org_id.isPresent())
+                uri.queryParam("tdei_org_id", tdei_org_id.get());
 
             Mono<ResponseEntity<List<GtfsFlexServiceModel>>> entity = webClient.get()
                     .uri(uriBuilder -> uri

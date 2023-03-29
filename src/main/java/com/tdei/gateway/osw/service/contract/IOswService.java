@@ -1,6 +1,6 @@
 package com.tdei.gateway.osw.service.contract;
 
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.osw.model.dto.OswDownload;
 import com.tdei.gateway.osw.model.dto.OswUpload;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -66,5 +66,5 @@ public interface IOswService {
      * @param principal
      * @return
      */
-    List<VersionSpec> listOswVersions(Principal principal);
+    VersionList listOswVersions(Principal principal);
 }
