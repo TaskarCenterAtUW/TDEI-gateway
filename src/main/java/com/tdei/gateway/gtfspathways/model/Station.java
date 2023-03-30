@@ -18,7 +18,7 @@ public class Station {
     @Schema(required = true, example = "4e991e7a-5c16-4ebf-ad31-3a3625bcca10", description = "tdei assigned station id. Necessary to ensure that station ids are unique.")
     @NotNull
     @JsonProperty("tdei_station_id")
-    private String tdei_station_id = null;
+    private String tdeiStationId = null;
 
     /**
      * typically the station_name used in GTFS files
@@ -28,7 +28,7 @@ public class Station {
     @Schema(required = true, example = "Northgate", description = "typically the station_name used in GTFS files")
     @NotNull
     @JsonProperty("station_name")
-    private String station_name = null;
+    private String stationName = null;
 
     @Schema(required = true, description = "geo-json polygon.")
     private GeoJsonObject polygon = null;
