@@ -41,7 +41,7 @@ public class ApiDocConfig implements WebMvcConfigurer {
                 .scheme("bearer")
                 .type(SecurityScheme.Type.HTTP)
                 .in(SecurityScheme.In.HEADER)
-                //.bearerFormat("JWT")
+                .description("Authorization Token required by all applications that use the TDEI Consumer API to perform authorized actions.")
                 .name(HttpHeaders.AUTHORIZATION);
     }
 
@@ -49,6 +49,7 @@ public class ApiDocConfig implements WebMvcConfigurer {
         return new SecurityScheme()
                 .type(SecurityScheme.Type.APIKEY)
                 .in(SecurityScheme.In.HEADER)
+                .description("Api Key required by all applications that use the TDEI Consumer API.")
                 .name("x-api-key");
     }
 }

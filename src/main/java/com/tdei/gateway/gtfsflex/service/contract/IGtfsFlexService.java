@@ -3,7 +3,7 @@ package com.tdei.gateway.gtfsflex.service.contract;
 import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,7 +66,7 @@ public interface IGtfsFlexService {
      * @param principal
      * @return
      */
-    List<VersionSpec> listFlexVersions(Principal principal);
+    VersionList listFlexVersions(Principal principal);
 
     /**
      * List GTFS Flex Services

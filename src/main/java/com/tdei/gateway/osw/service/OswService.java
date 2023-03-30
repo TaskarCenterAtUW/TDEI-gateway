@@ -4,6 +4,7 @@ import com.tdei.gateway.core.config.ApplicationProperties;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
 import com.tdei.gateway.core.model.authclient.UserProfile;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.osw.model.dto.OswDownload;
 import com.tdei.gateway.osw.model.dto.OswUpload;
@@ -33,7 +34,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -103,7 +103,7 @@ public class OswService implements IOswService {
             return clientResponse.block();
         } catch (WebClientResponseException ex) {
             if (ex.getStatusCode().value() == 404) {
-                throw new ResourceNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
+                throw new ResourceNotFoundException("A file with the specified tdei_record_id was not found. Use the /api/v1/osw endpoints to find valid file ids.");
             }
             throw ex;
         } catch (Exception ex) {
@@ -166,7 +166,9 @@ public class OswService implements IOswService {
     }
 
     @Override
-    public List<VersionSpec> listOswVersions(Principal principal) {
-        return new ArrayList<>();
+    public VersionList listOswVersions(Principal principal) {
+        var result = new VersionList();
+        result.setVersions(List.of(new VersionSpec()));
+        return result;
     }
 }

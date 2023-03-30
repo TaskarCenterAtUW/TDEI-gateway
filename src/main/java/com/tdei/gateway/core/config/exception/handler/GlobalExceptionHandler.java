@@ -158,7 +158,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         List<String> details = new ArrayList<>();
         details.add(ex.getMessage());
 
-        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND, "Unauthorized request", details);
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.UNAUTHORIZED, "Unauthorized request", details);
 
         return ResponseEntityBuilder.build(err);
     }
@@ -180,7 +180,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
         List<String> details = new ArrayList<>();
         details.add(ex.getMessage());
 
-        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.NOT_FOUND, "Invalid Access Token", details);
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.UNAUTHORIZED, "Invalid Access Token", details);
 
         return ResponseEntityBuilder.build(err);
     }
@@ -247,10 +247,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler imple
     @ExceptionHandler(value = {AccessDeniedException.class})
     public void commence(HttpServletRequest request, HttpServletResponse response, AccessDeniedException ex) throws IOException {
         response.setContentType("application/json");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         List<String> details = new ArrayList<>();
         details.add(ex.getMessage());
-        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.UNAUTHORIZED, "Unauthorized request", details);
+        ApiError err = new ApiError(LocalDateTime.now(), HttpStatus.FORBIDDEN, "This request is unauthorized.", details);
         response.getOutputStream().println(Utils.asJsonString(err));
     }
 }

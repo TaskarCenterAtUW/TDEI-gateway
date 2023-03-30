@@ -5,6 +5,7 @@ import com.tdei.gateway.gtfsflex.model.GtfsFlexServiceModel;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexDownload;
 import com.tdei.gateway.gtfsflex.model.dto.GtfsFlexUpload;
 import com.tdei.gateway.gtfsflex.service.GtfsFlexService;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.junit.jupiter.api.Test;
@@ -88,16 +89,16 @@ public class GtfsFlexControllerTests {
     void listFlexVersions() {
         Principal mockPrincipal = mock(Principal.class);
 
-        List<VersionSpec> versions = new ArrayList<>();
+        VersionList response = new VersionList();
         VersionSpec spec = new VersionSpec();
         spec.setVersion("v1");
-        versions.addAll(Arrays.asList(spec));
+        response.setVersions(Arrays.asList(spec));
 
-        when(gtfsFlexService.listFlexVersions(mockPrincipal)).thenReturn(versions);
+        when(gtfsFlexService.listFlexVersions(mockPrincipal)).thenReturn(response);
         var result = gtfsFlexController.listFlexVersions(mockPrincipal);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getVersion()).isEqualTo("v1");
+        assertThat(result.getBody().getVersions().stream().findFirst().get().getVersion()).isEqualTo("v1");
     }
 
     @Test
@@ -126,7 +127,7 @@ public class GtfsFlexControllerTests {
 
         List<GtfsFlexServiceModel> response = new ArrayList<>();
         GtfsFlexServiceModel service = new GtfsFlexServiceModel();
-        service.setServiceName("Terminal");
+        service.setService_name("Terminal");
         response.addAll(Arrays.asList(service));
 
 
@@ -134,6 +135,6 @@ public class GtfsFlexControllerTests {
         var result = gtfsFlexController.listFlexServices(mockPrincipal, request, Optional.of("test"), 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getServiceName()).isEqualTo("Terminal");
+        assertThat(result.getBody().stream().findFirst().get().getService_name()).isEqualTo("Terminal");
     }
 }

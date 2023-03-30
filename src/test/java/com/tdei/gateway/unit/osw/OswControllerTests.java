@@ -1,5 +1,6 @@
 package com.tdei.gateway.unit.osw;
 
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.osw.controller.OswController;
 import com.tdei.gateway.osw.model.dto.OswDownload;
@@ -86,16 +87,16 @@ public class OswControllerTests {
     void listOswVersions() {
         Principal mockPrincipal = mock(Principal.class);
 
-        List<VersionSpec> response = new ArrayList<>();
+        VersionList response = new VersionList();
         VersionSpec spec = new VersionSpec();
         spec.setVersion("v1");
-        response.addAll(Arrays.asList(spec));
+        response.setVersions(Arrays.asList(spec));
 
         when(oswService.listOswVersions(mockPrincipal)).thenReturn(response);
         var result = oswController.listOswVersions(mockPrincipal);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getVersion()).isEqualTo("v1");
+        assertThat(result.getBody().getVersions().stream().findFirst().get().getVersion()).isEqualTo("v1");
     }
 
     @Test
