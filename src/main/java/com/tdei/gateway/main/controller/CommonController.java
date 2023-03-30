@@ -6,6 +6,7 @@ import com.tdei.gateway.core.service.auth.AuthService;
 import com.tdei.gateway.main.controller.contract.ICommon;
 import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
+import com.tdei.gateway.main.model.common.dto.RecordStatus;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.main.service.CommonService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,5 +44,10 @@ public class CommonController implements ICommon {
 
         PageableResponse response = commonService.listApiVersions(principal);
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<RecordStatus> getStatus(String tdeiRecordId) {
+        return ResponseEntity.ok(commonService.getStatus(tdeiRecordId));
     }
 }
