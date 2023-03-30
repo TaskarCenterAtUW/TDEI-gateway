@@ -13,3 +13,4 @@ management-svc:
   station-url: https://tdei-usermanagement-ts-dev.azurewebsites.net/api/v1/station
   service-url: https://tdei-usermanagement-ts-dev.azurewebsites.net/api/v1/service
   org-url: https://tdei-usermanagement-ts-dev.azurewebsites.net/api/v1/organization
+  logger-url: http://tdei-logger-dev.azurewebsites.net/status

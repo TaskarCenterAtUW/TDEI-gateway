@@ -9,6 +9,7 @@ import com.tdei.gateway.core.model.authclient.LoginModel;
 import com.tdei.gateway.core.model.authclient.TokenResponse;
 import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
+import com.tdei.gateway.main.model.common.dto.RecordStatus;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -77,6 +78,19 @@ public interface ICommon {
             method = RequestMethod.GET)
 //    @PreAuthorize("@authService.hasPermission(#principal, 'tdei-user')")
     ResponseEntity<PageableResponse<VersionSpec>> listApiVersions(Principal principal);
+
+    @Operation(summary = "Get status", description = "Fetches the status of an uploaded record", tags = {"General"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns status of record", content = @Content(mediaType = "application/json", schema = @Schema(implementation = RecordStatus.class))),
+            @ApiResponse(responseCode = "400", description = "Record not found", content = @Content),
+
+//            @ApiResponse(responseCode = "401", description = "This request is unauthorized. appID is invalid. Please obtain a valid application ID (appID).", content = @Content),
+
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
+    @RequestMapping(value = "status",
+    produces = {"application/json"},
+    method = RequestMethod.GET)
+    ResponseEntity<RecordStatus> getStatus(@Parameter(in = ParameterIn.QUERY,description = "tdeiRecordId received during upload")String tdeiRecordId);
 
 }
 

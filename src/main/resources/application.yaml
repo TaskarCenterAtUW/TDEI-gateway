@@ -18,6 +18,7 @@ management-svc:
   station-url: http://localhost:3004/api/v1/station
   service-url: http://localhost:3004/api/v1/service
   org-url: http://localhost:3004/api/v1/organization
+  logger-url: http://localhost:300/status
 spring-doc:
   swagger-ui:
     operationsSorter: alpha

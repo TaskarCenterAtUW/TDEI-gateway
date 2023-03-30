@@ -2,6 +2,7 @@ package com.tdei.gateway.main.service.contract;
 
 import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.PageableResponse;
+import com.tdei.gateway.main.model.common.dto.RecordStatus;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,5 +26,7 @@ public interface ICommonService {
      * @return Paginated list of api versions
      */
     PageableResponse<VersionSpec> listApiVersions(Principal principal);
+
+    RecordStatus getStatus(String tdeiRecordId);
 
 }

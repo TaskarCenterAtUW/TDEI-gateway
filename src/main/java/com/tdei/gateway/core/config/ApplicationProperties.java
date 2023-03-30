@@ -22,6 +22,7 @@ public class ApplicationProperties {
         private String stationUrl;
         private String serviceUrl;
         private String orgUrl;
+        private String loggerUrl;
     }
 
     @Data
