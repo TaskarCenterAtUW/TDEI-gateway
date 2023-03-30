@@ -30,7 +30,6 @@ public
 class AuthInterceptor extends OncePerRequestFilter {
 
     private static final String[] AUTH_WHITELIST = {
-            "/status",
             "/authenticate",
             "/swagger-resources",
             "/swagger-ui",
