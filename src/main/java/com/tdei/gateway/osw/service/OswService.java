@@ -169,7 +169,7 @@ public class OswService implements IOswService {
     public VersionList listOswVersions(Principal principal) {
         var result = new VersionList();
         var version = new VersionSpec();
-        version.setVersion("v1.0");
+        version.setVersion("v0.1");
         version.setDocumentation("https://tdei-gateway-dev.azurewebsites.net/");
         version.setSpecification("https://github.com/OpenSidewalks/OpenSidewalks-Schema");
         result.setVersions(List.of(version));
