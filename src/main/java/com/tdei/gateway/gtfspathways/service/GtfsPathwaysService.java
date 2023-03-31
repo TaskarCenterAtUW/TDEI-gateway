@@ -83,9 +83,9 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             if (ex.getStatusCode().value() == 404) {
                 throw new ResourceNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
             }
-            if(ex.getStatusCode().equals(HttpStatus.BAD_REQUEST) && ! ex.getResponseBodyAsString().isEmpty()){
+            if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST) && !ex.getResponseBodyAsString().isEmpty()) {
 
-                throw new MetadataValidationException("Metadata validation exception",ex.getResponseBodyAsByteArray());
+                throw new MetadataValidationException("Metadata validation exception", ex.getResponseBodyAsByteArray());
 
             }
             throw ex;
@@ -186,7 +186,11 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     @Override
     public VersionList listPathwaysVersions(Principal principal) {
         var result = new VersionList();
-        result.setVersions(List.of(new VersionSpec()));
+        var version = new VersionSpec();
+        version.setVersion("v1.0");
+        version.setDocumentation("https://tdei-gateway-dev.azurewebsites.net/");
+        version.setSpecification("https://gtfs.org/schedule/examples/pathways/");
+        result.setVersions(List.of(version));
         return result;
     }
 

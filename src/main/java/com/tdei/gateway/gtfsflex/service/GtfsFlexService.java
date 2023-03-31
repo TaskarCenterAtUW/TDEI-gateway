@@ -1,7 +1,6 @@
 package com.tdei.gateway.gtfsflex.service;
 
 import com.tdei.gateway.core.config.ApplicationProperties;
-import com.tdei.gateway.core.config.exception.handler.ApiError;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.MetadataValidationException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
@@ -40,9 +39,7 @@ import java.io.SequenceInputStream;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.*;
 
-import static com.tdei.gateway.core.utils.Utils.formatDate;
 import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -85,9 +82,9 @@ public class GtfsFlexService implements IGtfsFlexService {
             if (ex.getStatusCode().value() == 404) {
                 throw new ResourceNotFoundException("File not found, Uploaded file might have been invalidated due to possible validations issues.");
             }
-            if(ex.getStatusCode().equals(HttpStatus.BAD_REQUEST) && ! ex.getResponseBodyAsString().isEmpty()){
+            if (ex.getStatusCode().equals(HttpStatus.BAD_REQUEST) && !ex.getResponseBodyAsString().isEmpty()) {
 
-                throw new MetadataValidationException("Metadata validation exception",ex.getResponseBodyAsByteArray());
+                throw new MetadataValidationException("Metadata validation exception", ex.getResponseBodyAsByteArray());
 
             }
             throw ex;
@@ -183,7 +180,11 @@ public class GtfsFlexService implements IGtfsFlexService {
     @Override
     public VersionList listFlexVersions(Principal principal) {
         var result = new VersionList();
-        result.setVersions(List.of(new VersionSpec()));
+        var version = new VersionSpec();
+        version.setVersion("v2.0");
+        version.setDocumentation("https://tdei-gateway-dev.azurewebsites.net/");
+        version.setSpecification("https://github.com/MobilityData/gtfs-flex");
+        result.setVersions(List.of(version));
         return result;
     }
 

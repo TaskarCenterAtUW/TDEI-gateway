@@ -127,7 +127,7 @@ public class GtfsFlexControllerTests {
 
         List<GtfsFlexServiceModel> response = new ArrayList<>();
         GtfsFlexServiceModel service = new GtfsFlexServiceModel();
-        service.setService_name("Terminal");
+        service.setServiceName("Terminal");
         response.addAll(Arrays.asList(service));
 
 
@@ -135,6 +135,6 @@ public class GtfsFlexControllerTests {
         var result = gtfsFlexController.listFlexServices(mockPrincipal, request, Optional.of("test"), 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getService_name()).isEqualTo("Terminal");
+        assertThat(result.getBody().stream().findFirst().get().getServiceName()).isEqualTo("Terminal");
     }
 }
