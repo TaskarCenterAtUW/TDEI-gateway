@@ -65,14 +65,14 @@ public class GtfsPathwaysControllerTests {
 
         List<Station> response = new ArrayList<>();
         Station station = new Station();
-        station.setStation_name("TACOMA");
+        station.setStationName("TACOMA");
         response.add(station);
 
         when(gtfsPathwaysService.listStations(any(Principal.class), any(MockHttpServletRequest.class), any(), anyInt(), anyInt())).thenReturn(response);
         var result = gtfsPathwaysController.listStations(mockPrincipal, request, Optional.of("test"), 1, 1);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().stream().findFirst().get().getStation_name()).isEqualTo("TACOMA");
+        assertThat(result.getBody().stream().findFirst().get().getStationName()).isEqualTo("TACOMA");
     }
 
     @Test
