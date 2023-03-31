@@ -37,16 +37,21 @@ public class OswDownload {
     @JsonProperty("collection_method")
     private String collectionMethod = null;
 
-    @Schema(required = true, example = "2018-02-10T09:30Z", description = "date from which this file is valid")
-    @NotNull
-    @Valid
-    @JsonProperty("valid_from")
-    private String validFrom = null;
+//    @Schema(required = true, example = "2018-02-10T09:30Z", description = "date from which this file is valid")
+//    @NotNull
+//    @Valid
+//    @JsonProperty("valid_from")
+//    private String validFrom = null;
+//
+//    @Schema(example = "2018-02-10T09:30Z", description = "date until which this data is valid")
+//    @Valid
+//    @JsonProperty("valid_to")
+//    private String validTo = null;
 
-    @Schema(example = "2018-02-10T09:30Z", description = "date until which this data is valid")
+    @Schema(description = "Date of publication of the file", example = "2023-03-02T04:22:42.493Z")
     @Valid
-    @JsonProperty("valid_to")
-    private String validTo = null;
+    @JsonProperty("publication_date")
+    private String publicationDate = null;
 
     @Schema(required = true, example = "41", description = "tdei-generated confidence level. Confidence level range is: 0 (very low confidence) to 100 (very high confidence).")
     @NotNull
