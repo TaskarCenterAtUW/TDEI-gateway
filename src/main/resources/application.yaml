@@ -1,24 +1,26 @@
 server:
   port: '8080'
-
+spring:
+  config:
+    import: optional:developer-local-properties.yaml
 application:
   app-name: tdei-gateway
-  auth-server-url: https://tdei-auth-n-z-dev.azurewebsites.net
+  auth-server-url: "${APPLICATION_AUTH_SERVER_URL}"
 
 gtfs-flex:
-  upload-url: http://localhost:8084/api/gtfsflex/v1/uploadFile
-  data-url: http://localhost:3005/api/v1/gtfsflex
+  upload-url: "${GTFS_FLEX_UPLOAD_URL}"
+  data-url: "${GTFS_FLEX_DATA_URL}"
 gtfs-pathways:
-  upload-url: http://localhost:8084/api/gtfspathways/v1/uploadFile
-  data-url: http://localhost:3001/api/v1/gtfspathways
+  upload-url: "${GTFS_PATHWAYS_UPLOAD_URL}"
+  data-url: "${GTFS_PATHWAYS_DATA_URL}"
 osw:
-  upload-url: http://localhost:8084/api/osw/v1/uploadFile
-  data-url: http://localhost:3002/api/v1/osw
+  upload-url: "${OSW_UPLOAD_URL}"
+  data-url: "${OSW_DATA_URL}"
 management-svc:
-  station-url: http://localhost:3004/api/v1/station
-  service-url: http://localhost:3004/api/v1/service
-  org-url: http://localhost:3004/api/v1/organization
-  logger-url: http://localhost:300/status
+  station-url: "${MANAGEMENT_SVC_STATION_URL}"
+  service-url: "${MANAGEMENT_SVC_SERVICE_URL}"
+  org-url: "${MANAGEMENT_SVC_ORG_URL}"
+  logger-url: "${MANAGEMENT_SVC_LOGGER_URL}"
 spring-doc:
   swagger-ui:
     operationsSorter: alpha
