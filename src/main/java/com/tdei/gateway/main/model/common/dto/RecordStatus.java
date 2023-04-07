@@ -18,10 +18,6 @@ public class RecordStatus {
     @Schema(description = "Current stage of the file processing")
     private String stage = null;
 
-    @JsonProperty("filePath")
-    @Schema(description = "File path of the uploaded file. Can be empty if upload validation fails")
-    private String filePath = null;
-
     @JsonProperty("status")
     @Schema(description = "Current status of processing. (failed, in progress or complete). If failed, shows the failure reason")
     private String status = null;
