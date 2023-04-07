@@ -1,11 +1,11 @@
 package com.tdei.gateway.main.service.contract;
 
 import com.tdei.gateway.main.model.common.dto.Organization;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.RecordStatus;
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public interface ICommonService {
      * @param principal - current user
      * @return Paginated list of api versions
      */
-    PageableResponse<VersionSpec> listApiVersions(Principal principal);
+    VersionList listApiVersions(Principal principal, HttpServletRequest req) throws MalformedURLException;
 
     RecordStatus getStatus(String tdeiRecordId);
 
