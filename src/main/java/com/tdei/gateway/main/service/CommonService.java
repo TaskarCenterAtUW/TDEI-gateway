@@ -4,8 +4,8 @@ import com.tdei.gateway.core.config.ApplicationProperties;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ApplicationException;
 import com.tdei.gateway.core.config.exception.handler.exceptions.ResourceNotFoundException;
 import com.tdei.gateway.main.model.common.dto.Organization;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
 import com.tdei.gateway.main.model.common.dto.RecordStatus;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.main.service.contract.ICommonService;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientException;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.Principal;
 import java.util.List;
 
@@ -65,8 +66,26 @@ public class CommonService implements ICommonService {
     }
 
     @Override
-    public PageableResponse<VersionSpec> listApiVersions(Principal principal) {
-        return new PageableResponse<>();
+    public VersionList listApiVersions(Principal principal, HttpServletRequest req) throws MalformedURLException {
+
+        URL url = new URL(req.getRequestURL().toString());
+        String protocol = url.getProtocol();
+        String host = url.getHost();
+        int port = url.getPort();
+        String domainURL = "";
+// if the port is not explicitly specified in the input, it will be -1.
+        if (port == -1) {
+            domainURL = String.format("%s://%s", protocol, host);
+        } else {
+            domainURL = String.format("%s://%s:%d", protocol, host, port);
+        }
+        var result = new VersionList();
+        var version = new VersionSpec();
+        version.setVersion("v1.0");
+        version.setDocumentation(domainURL);
+        version.setSpecification(domainURL + "/v3/api-docs");
+        result.setVersions(List.of(version));
+        return result;
     }
 
     // Get status API inclusion
@@ -92,15 +111,13 @@ public class CommonService implements ICommonService {
 
             var response = status.single().block().getBody();
             return response;
-        } catch (WebClientResponseException exception){
+        } catch (WebClientResponseException exception) {
             log.error("Webclient exception", exception);
-             if(exception.getStatusCode() == HttpStatus.NOT_FOUND){
-                 throw new ResourceNotFoundException("Record Not found for "+tdeiRecordId);
-             }
+            if (exception.getStatusCode() == HttpStatus.NOT_FOUND) {
+                throw new ResourceNotFoundException("Record Not found for " + tdeiRecordId);
+            }
             throw exception;
-        }
-
-        catch (Exception e){
+        } catch (Exception e) {
             log.error("Error while listing organization ", e);
 
             throw new ApplicationException("Error while fetching status");
