@@ -6,8 +6,7 @@ import com.tdei.gateway.core.model.authclient.TokenResponse;
 import com.tdei.gateway.core.service.auth.AuthService;
 import com.tdei.gateway.main.controller.CommonController;
 import com.tdei.gateway.main.model.common.dto.Organization;
-import com.tdei.gateway.main.model.common.dto.Pageable;
-import com.tdei.gateway.main.model.common.dto.PageableResponse;
+import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import com.tdei.gateway.main.service.CommonService;
 import org.junit.jupiter.api.DisplayName;
@@ -19,6 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -100,24 +100,19 @@ public class CommonControllerTests {
 
 
     @Test
-    void listApiVersions() {
+    void listApiVersions() throws MalformedURLException {
         Principal mockPrincipal = mock(Principal.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
-        PageableResponse response = new PageableResponse();
-        VersionSpec vspec = new VersionSpec();
-        vspec.setVersion("v1");
-        response.setList(Arrays.asList(vspec));
-        Pageable pg = new Pageable();
-        pg.setCurrentPage(1);
-        pg.setNumPages(1);
-        pg.setTotalItems(1);
-        pg.setTotalPages(1);
-        response.setPageable(pg);
+        VersionList response = new VersionList();
+        VersionSpec spec = new VersionSpec();
+        spec.setVersion("v1");
+        response.setVersions(Arrays.asList(spec));
 
-        when(commonService.listApiVersions(mockPrincipal)).thenReturn(response);
-        var result = commonController.listApiVersions(mockPrincipal);
+        when(commonService.listApiVersions(mockPrincipal, request)).thenReturn(response);
+        var result = commonController.listApiVersions(mockPrincipal, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
-        assertThat(result.getBody().getList().stream().findFirst().get().getVersion()).isEqualTo("v1");
+        assertThat(result.getBody().getVersions().stream().findFirst().get().getVersion()).isEqualTo("v1");
     }
 }
