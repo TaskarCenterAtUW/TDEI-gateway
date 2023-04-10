@@ -8,9 +8,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.util.function.Tuple2;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -66,5 +68,5 @@ public interface IOswService {
      * @param principal
      * @return
      */
-    VersionList listOswVersions(Principal principal);
+    VersionList listOswVersions(Principal principal, HttpServletRequest req) throws MalformedURLException;
 }

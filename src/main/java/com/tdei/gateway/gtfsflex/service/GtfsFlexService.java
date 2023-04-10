@@ -36,10 +36,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tdei.gateway.core.utils.Utils.getDomainURL;
 import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -178,11 +180,12 @@ public class GtfsFlexService implements IGtfsFlexService {
     }
 
     @Override
-    public VersionList listFlexVersions(Principal principal) {
+    public VersionList listFlexVersions(Principal principal, HttpServletRequest req) throws MalformedURLException {
+        String domainURL = getDomainURL(req);
         var result = new VersionList();
         var version = new VersionSpec();
         version.setVersion("v2.0");
-        version.setDocumentation("https://tdei-gateway-dev.azurewebsites.net/");
+        version.setDocumentation(domainURL);
         version.setSpecification("https://github.com/MobilityData/gtfs-flex");
         result.setVersions(List.of(version));
         return result;

@@ -31,13 +31,16 @@ import reactor.core.publisher.Mono;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.SequenceInputStream;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import static com.tdei.gateway.core.utils.Utils.getDomainURL;
 import static org.springframework.http.MediaType.ALL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -85,7 +88,7 @@ public class OswService implements IOswService {
 
             }
             throw ex;
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             log.error("Error while uploading file ", ex);
             throw new FileUploadException("Error while uploading file");
         }
@@ -177,11 +180,13 @@ public class OswService implements IOswService {
     }
 
     @Override
-    public VersionList listOswVersions(Principal principal) {
+    public VersionList listOswVersions(Principal principal, HttpServletRequest req) throws MalformedURLException {
+        String domainURL = getDomainURL(req);
+
         var result = new VersionList();
         var version = new VersionSpec();
         version.setVersion("v0.1");
-        version.setDocumentation("https://tdei-gateway-dev.azurewebsites.net/");
+        version.setDocumentation(domainURL);
         version.setSpecification("https://github.com/OpenSidewalks/OpenSidewalks-Schema");
         result.setVersions(List.of(version));
         return result;

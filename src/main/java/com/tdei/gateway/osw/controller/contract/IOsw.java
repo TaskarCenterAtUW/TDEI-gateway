@@ -25,6 +25,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -92,7 +93,7 @@ public interface IOsw {
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<VersionList> listOswVersions(Principal principal);
+    ResponseEntity<VersionList> listOswVersions(Principal principal, HttpServletRequest req) throws MalformedURLException;
 
     @Operation(summary = "Path used to upload/create a new osw data file.", description = "This path allows a user to upload or create a new osw file. The caller must provide metadata about the file - includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"OSW"})
