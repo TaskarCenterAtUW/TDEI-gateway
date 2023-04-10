@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -51,9 +52,9 @@ public class GtfsPathwaysController implements IGtfsPathways {
     }
 
     @Override
-    public ResponseEntity<VersionList> listPathwaysVersions(Principal principal) {
+    public ResponseEntity<VersionList> listPathwaysVersions(Principal principal, HttpServletRequest req) throws MalformedURLException {
 
-        return ResponseEntity.ok(gtfsPathwaysService.listPathwaysVersions(principal));
+        return ResponseEntity.ok(gtfsPathwaysService.listPathwaysVersions(principal, req));
     }
 
     @Override

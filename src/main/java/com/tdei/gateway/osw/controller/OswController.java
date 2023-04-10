@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -47,9 +48,9 @@ public class OswController implements IOsw {
     }
 
     @Override
-    public ResponseEntity<VersionList> listOswVersions(Principal principal) {
+    public ResponseEntity<VersionList> listOswVersions(Principal principal, HttpServletRequest req) throws MalformedURLException {
 
-        return ResponseEntity.ok(oswService.listOswVersions(principal));
+        return ResponseEntity.ok(oswService.listOswVersions(principal, req));
     }
 
     @Override

@@ -20,10 +20,10 @@ import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.Principal;
 import java.util.List;
 
+import static com.tdei.gateway.core.utils.Utils.getDomainURL;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Service
@@ -68,17 +68,7 @@ public class CommonService implements ICommonService {
     @Override
     public VersionList listApiVersions(Principal principal, HttpServletRequest req) throws MalformedURLException {
 
-        URL url = new URL(req.getRequestURL().toString());
-        String protocol = url.getProtocol();
-        String host = url.getHost();
-        int port = url.getPort();
-        String domainURL = "";
-// if the port is not explicitly specified in the input, it will be -1.
-        if (port == -1) {
-            domainURL = String.format("%s://%s", protocol, host);
-        } else {
-            domainURL = String.format("%s://%s:%d", protocol, host, port);
-        }
+        String domainURL = getDomainURL(req);
         var result = new VersionList();
         var version = new VersionSpec();
         version.setVersion("v1.0");
@@ -87,6 +77,7 @@ public class CommonService implements ICommonService {
         result.setVersions(List.of(version));
         return result;
     }
+
 
     // Get status API inclusion
 
