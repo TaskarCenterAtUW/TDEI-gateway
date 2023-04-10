@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -101,7 +102,7 @@ public interface IGtfsFlex {
     @RequestMapping(value = "versions",
             produces = {"application/json"},
             method = RequestMethod.GET)
-    ResponseEntity<VersionList> listFlexVersions(Principal principal);
+    ResponseEntity<VersionList> listFlexVersions(Principal principal, HttpServletRequest req) throws MalformedURLException;
 
     @Operation(summary = "upload a new gtfs_flex file", description = "This call allows a user to upload or create a new gtfs flex file. The caller must provide metadata about the file. Required metadata includes information about how and when the data was collected and valid dates of the file. Returns the tdei_record_id of the uploaded file.", security = {
             @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})

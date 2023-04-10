@@ -3,6 +3,10 @@ server:
 spring:
   config:
     import: optional:developer-local-properties.yaml
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
 application:
   app-name: tdei-gateway
   auth-server-url: "${APPLICATION_AUTH_SERVER_URL}"

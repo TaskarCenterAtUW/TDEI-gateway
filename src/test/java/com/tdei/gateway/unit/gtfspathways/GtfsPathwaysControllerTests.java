@@ -24,6 +24,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,8 +104,9 @@ public class GtfsPathwaysControllerTests {
     }
 
     @Test
-    void listPathwaysVersions() {
+    void listPathwaysVersions() throws MalformedURLException {
         Principal mockPrincipal = mock(Principal.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
         VersionList response = new VersionList();
         VersionSpec spec = new VersionSpec();
@@ -112,8 +114,8 @@ public class GtfsPathwaysControllerTests {
         response.setVersions(Arrays.asList(spec));
 
 
-        when(gtfsPathwaysService.listPathwaysVersions(mockPrincipal)).thenReturn(response);
-        var result = gtfsPathwaysController.listPathwaysVersions(mockPrincipal);
+        when(gtfsPathwaysService.listPathwaysVersions(mockPrincipal, request)).thenReturn(response);
+        var result = gtfsPathwaysController.listPathwaysVersions(mockPrincipal, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody().getVersions().stream().findFirst().get().getVersion()).isEqualTo("v1");

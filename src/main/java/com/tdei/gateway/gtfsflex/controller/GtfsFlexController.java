@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -49,8 +50,8 @@ public class GtfsFlexController implements IGtfsFlex {
     }
 
     @Override
-    public ResponseEntity<VersionList> listFlexVersions(Principal principal) {
-        return ResponseEntity.ok(gtfsFlexService.listFlexVersions(principal));
+    public ResponseEntity<VersionList> listFlexVersions(Principal principal, HttpServletRequest req) throws MalformedURLException {
+        return ResponseEntity.ok(gtfsFlexService.listFlexVersions(principal, req));
     }
 
     @Override

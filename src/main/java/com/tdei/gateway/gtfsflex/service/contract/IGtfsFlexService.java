@@ -12,6 +12,7 @@ import reactor.util.function.Tuple2;
 import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +67,7 @@ public interface IGtfsFlexService {
      * @param principal
      * @return
      */
-    VersionList listFlexVersions(Principal principal);
+    VersionList listFlexVersions(Principal principal, HttpServletRequest req) throws MalformedURLException;
 
     /**
      * List GTFS Flex Services

@@ -25,6 +25,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,16 +87,17 @@ public class GtfsFlexControllerTests {
     }
 
     @Test
-    void listFlexVersions() {
+    void listFlexVersions() throws MalformedURLException {
         Principal mockPrincipal = mock(Principal.class);
+        MockHttpServletRequest request = new MockHttpServletRequest();
 
         VersionList response = new VersionList();
         VersionSpec spec = new VersionSpec();
         spec.setVersion("v1");
         response.setVersions(Arrays.asList(spec));
 
-        when(gtfsFlexService.listFlexVersions(mockPrincipal)).thenReturn(response);
-        var result = gtfsFlexController.listFlexVersions(mockPrincipal);
+        when(gtfsFlexService.listFlexVersions(mockPrincipal, request)).thenReturn(response);
+        var result = gtfsFlexController.listFlexVersions(mockPrincipal, request);
 
         assertThat(result.getStatusCode().value()).isEqualTo(HttpStatus.OK.value());
         assertThat(result.getBody().getVersions().stream().findFirst().get().getVersion()).isEqualTo("v1");
