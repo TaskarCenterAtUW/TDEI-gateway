@@ -38,9 +38,9 @@ public interface ICommon {
     @Operation(summary = "Authenticates the user to the TDEI system.", description = "Authenticates the user to the TDEI system. Returns access token.",
             tags = {"General"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successful response - Returns the access token for the validated user.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TokenResponse.class)))),
+            @ApiResponse(responseCode = "200", description = "Successful response - Returns the access token for the validated user.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TokenResponse.class))),
 
-            @ApiResponse(responseCode = "401", description = "This request is unauthorized.", content = @Content),
+            @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
 
             @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
     @RequestMapping(value = "authenticate",
