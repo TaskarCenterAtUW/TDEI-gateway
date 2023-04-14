@@ -94,7 +94,7 @@ public interface IGtfsFlex {
     @Operation(summary = "List available GTFS flex versions", description = "List GTFS flex versions supported by TDEI.  Returns a json list of the GTFS flex versions supported by TDEI.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"GTFS-Flex"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns a list of flex versions supported by TDEI.", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = VersionList.class)))),
+            @ApiResponse(responseCode = "200", description = "Returns a list of flex versions supported by TDEI.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionList.class))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
 
