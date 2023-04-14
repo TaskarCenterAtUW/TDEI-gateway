@@ -63,7 +63,7 @@ public class OswUpload {
     @JsonProperty("polygon")
     private GeoJsonObject polygon = null;
 
-    @Schema(required = true, example = "v1.1", description = "version of osw schema this file conforms to")
+    @Schema(required = true, example = "v0.1", description = "version of osw schema this file conforms to")
     @NotNull
     @JsonProperty("osw_schema_version")
     private String oswSchemaVersion = null;
