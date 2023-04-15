@@ -10,7 +10,6 @@ import com.tdei.gateway.core.model.authclient.TokenResponse;
 import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.RecordStatus;
 import com.tdei.gateway.main.model.common.dto.VersionList;
-import com.tdei.gateway.main.model.common.dto.VersionSpec;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -69,7 +68,7 @@ public interface ICommon {
     @Operation(summary = "List available API versions", description = "Returns a json list of the versions of the TDEI API which are available.", security = {
             @SecurityRequirement(name = "ApiKey"), @SecurityRequirement(name = "AuthorizationToken")}, tags = {"General"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Returns a list of versions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionSpec.class))),
+            @ApiResponse(responseCode = "200", description = "Returns a list of versions", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VersionList.class))),
 
             @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
 
