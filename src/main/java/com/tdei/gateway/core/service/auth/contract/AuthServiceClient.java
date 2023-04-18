@@ -28,6 +28,10 @@ public interface AuthServiceClient {
     @Headers({"Content-Type: application/json"})
     TokenResponse authenticate(LoginModel loginModel);
 
+    @RequestLine("POST /api/v1/refreshToken")
+    @Headers({"Content-Type: application/json"})
+    TokenResponse refreshToken(String refreshToken);
+
     @RequestLine("POST /api/v1/validateAccessToken")
     @Headers({"Content-Type: text/plain"})
     UserProfile validateAccessToken(String token);

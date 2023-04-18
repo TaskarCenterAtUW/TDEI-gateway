@@ -8,9 +8,9 @@ import com.tdei.gateway.main.model.common.dto.Organization;
 import com.tdei.gateway.main.model.common.dto.RecordStatus;
 import com.tdei.gateway.main.model.common.dto.VersionList;
 import com.tdei.gateway.main.service.CommonService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +22,6 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-@Tag(name = "General")
 public class CommonController implements ICommon {
     private final AuthService authService;
     private final CommonService commonService;
@@ -47,5 +46,10 @@ public class CommonController implements ICommon {
     @Override
     public ResponseEntity<RecordStatus> getStatus(String tdeiRecordId) {
         return ResponseEntity.ok(commonService.getStatus(tdeiRecordId));
+    }
+
+    @Override
+    public ResponseEntity<TokenResponse> refreshToken(@RequestBody String refreshToken) {
+        return ResponseEntity.ok(authService.refreshToken(refreshToken.replaceAll("^\"|\"$", "")));
     }
 }

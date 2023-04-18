@@ -50,4 +50,12 @@ public interface IAuthService {
      * @return
      */
     boolean hasOrgPermission(Principal principal, String tdeiOrgId, String... permissions);
+
+    /**
+     * Reissues new access token provided valid refresh token
+     *
+     * @param refreshToken
+     * @return
+     */
+    TokenResponse refreshToken(String refreshToken);
 }

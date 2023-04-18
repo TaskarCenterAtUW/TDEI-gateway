@@ -30,6 +30,8 @@ public
 class AuthInterceptor extends OncePerRequestFilter {
 
     private static final String[] AUTH_WHITELIST = {
+            "/refresh-token",
+            "/health/ping",
             "/authenticate",
             "/swagger-resources",
             "/swagger-ui",

@@ -35,7 +35,7 @@ import java.util.List;
 @Validated
 public interface ICommon {
     @Operation(summary = "Authenticates the user to the TDEI system.", description = "Authenticates the user to the TDEI system. Returns access token.",
-            tags = {"General"})
+            tags = {"Authentication"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successful response - Returns the access token for the validated user.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TokenResponse.class))),
 
@@ -90,5 +90,18 @@ public interface ICommon {
             method = RequestMethod.GET)
     ResponseEntity<RecordStatus> getStatus(@Parameter(in = ParameterIn.QUERY, description = "tdeiRecordId received during upload") String tdeiRecordId);
 
+    @Operation(summary = "Re-issue access token", description = "Re-issues access token provided the valid refresh token",
+            tags = {"Authentication"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successful validation of refresh token - Returns the refreshed access token.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = TokenResponse.class))),
+
+            @ApiResponse(responseCode = "401", description = "This request is unauthenticated.", content = @Content),
+
+            @ApiResponse(responseCode = "500", description = "An server error occurred.", content = @Content)})
+    @RequestMapping(value = "refresh-token",
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.POST)
+    ResponseEntity<TokenResponse> refreshToken(@RequestBody String refreshToken);
 }
 

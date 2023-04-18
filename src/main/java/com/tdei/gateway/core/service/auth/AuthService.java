@@ -47,7 +47,23 @@ public class AuthService implements IAuthService {
             return tokenResponse;
         } catch (FeignException e) {
             if (e.status() == HttpStatus.UNAUTHORIZED.value()) {
-                throw new InvalidCredentialsException("Invalid Credentials");
+                throw new InvalidCredentialsException("This request is unauthenticated.");
+            }
+            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public TokenResponse refreshToken(String refreshToken) {
+        try {
+            AuthServiceClient authServiceClient = AuthServiceClient.connect(applicationProperties.getApplication().getAuthServerUrl());
+            TokenResponse tokenResponse = authServiceClient.refreshToken(refreshToken);
+            return tokenResponse;
+        } catch (FeignException e) {
+            if (e.status() == HttpStatus.UNAUTHORIZED.value()) {
+                throw new InvalidCredentialsException("This request is unauthenticated.");
             }
             throw new RuntimeException(e);
         } catch (Exception e) {
