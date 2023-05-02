@@ -63,7 +63,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             builder.part("tdeiOrgId", body.getTdeiOrgId());
             builder.part("userId", user.getId());
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getUploadUrl()).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getFileUploadBaseUrl() + "/gtfspathways/v1/uploadFile").build();
 
             Mono<String> flux = webClient.post()
                     .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -101,7 +101,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
     public Tuple2<InputStream, HttpHeaders> getPathwaysFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
         try {
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathways().getDataUrl() + "/" + tdeiRecordId).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsPathwaysDataUrl() + "/" + tdeiRecordId).build();
 
             var clientResponse = webClient.get()
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
@@ -146,7 +146,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
             WebClient webClient = WebClient.builder()
                     .build();
 
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getGtfsPathways().getDataUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getGtfsPathwaysDataUrl());
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
             if (tdeiStationId.isPresent())
@@ -206,7 +206,7 @@ public class GtfsPathwaysService implements IGtfsPathwaysService {
 
             WebClient webClient = WebClient.builder()
                     .build();
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementSvc().getStationUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementBaseUrl() + "/station");
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
             if (tdei_org_id.isPresent())

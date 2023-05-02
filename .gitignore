@@ -36,3 +36,4 @@ build/
 /.idea/
 applicationinsights.log
 developer-local-properties.yaml
+developer-stage-properties.yaml

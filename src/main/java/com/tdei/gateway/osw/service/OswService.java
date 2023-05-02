@@ -60,7 +60,7 @@ public class OswService implements IOswService {
             builder.part("tdeiOrgId", body.getTdeiOrgId());
             builder.part("userId", user.getId());
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getOsw().getUploadUrl()).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getFileUploadBaseUrl() + "/osw/v1/uploadFile").build();
 
             Mono<String> flux = webClient.post()
                     .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -98,7 +98,7 @@ public class OswService implements IOswService {
     public Tuple2<InputStream, HttpHeaders> getOswFile(Principal principal, String tdeiRecordId) {
         try {
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getOsw().getDataUrl() + "/" + tdeiRecordId).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getOswDataUrl() + "/" + tdeiRecordId).build();
 
             var clientResponse = webClient.get()
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
@@ -142,7 +142,7 @@ public class OswService implements IOswService {
             WebClient webClient = WebClient.builder()
                     .build();
 
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getOsw().getDataUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getOswDataUrl());
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
             if (confidenceLevel.isPresent())

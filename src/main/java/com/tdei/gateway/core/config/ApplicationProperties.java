@@ -11,46 +11,20 @@ import org.springframework.stereotype.Component;
 public class ApplicationProperties {
     private SwaggerProperties swagger;
     private AppProperties application;
-    private GtfsFlexProperties gtfsFlex;
-    private GtfsPathwaysProperties gtfsPathways;
-    private OswProperties osw;
-    private ManagementSvcProperties managementSvc;
+    
+    private String managementBaseUrl;
+    private String authServerUrl;
+    private String loggerUrl;
+    private String gtfsPathwaysDataUrl;
+    private String gtfsFlexDataUrl;
+    private String oswDataUrl;
+    private String fileUploadBaseUrl;
 
-    @Data
-    @NoArgsConstructor
-    public static class ManagementSvcProperties {
-        private String stationUrl;
-        private String serviceUrl;
-        private String orgUrl;
-        private String loggerUrl;
-    }
-
-    @Data
-    @NoArgsConstructor
-    public static class GtfsFlexProperties {
-        private String uploadUrl;
-        private String dataUrl;
-    }
-
-    @Data
-    @NoArgsConstructor
-    public static class GtfsPathwaysProperties {
-        private String uploadUrl;
-        private String dataUrl;
-    }
-
-    @Data
-    @NoArgsConstructor
-    public static class OswProperties {
-        private String uploadUrl;
-        private String dataUrl;
-    }
 
     @Data
     @NoArgsConstructor
     public static class AppProperties {
         private String appName;
-        private String authServerUrl;
     }
 
     @Data

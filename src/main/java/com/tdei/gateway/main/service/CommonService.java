@@ -41,7 +41,7 @@ public class CommonService implements ICommonService {
 
             WebClient webClient = WebClient.builder()
                     .build();
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementSvc().getOrgUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementBaseUrl() + "/organization");
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
 
@@ -87,7 +87,7 @@ public class CommonService implements ICommonService {
         try {
             WebClient webClient = WebClient.builder()
                     .build();
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementSvc().getLoggerUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getLoggerUrl());
             uri.queryParam("tdeiRecordId", tdeiRecordId);
             Mono<ResponseEntity<RecordStatus>> status = webClient.get()
                     .uri(uriBuilder -> uri

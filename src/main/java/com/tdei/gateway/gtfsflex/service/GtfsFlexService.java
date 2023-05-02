@@ -62,7 +62,7 @@ public class GtfsFlexService implements IGtfsFlexService {
             builder.part("tdeiOrgId", body.getTdeiOrgId());
             builder.part("userId", user.getId());
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsFlex().getUploadUrl()).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getFileUploadBaseUrl() + "/gtfsflex/v1/uploadFile").build();
 
             Mono<String> flux = webClient.post()
                     .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -100,7 +100,7 @@ public class GtfsFlexService implements IGtfsFlexService {
     public Tuple2<InputStream, HttpHeaders> getFlexFile(Principal principal, String tdeiRecordId) throws FileNotFoundException {
         try {
 
-            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsFlex().getDataUrl() + "/" + tdeiRecordId).build();
+            WebClient webClient = WebClient.builder().baseUrl(applicationProperties.getGtfsFlexDataUrl() + "/" + tdeiRecordId).build();
 
             var clientResponse = webClient.get()
                     .accept(MediaType.APPLICATION_OCTET_STREAM)
@@ -139,7 +139,7 @@ public class GtfsFlexService implements IGtfsFlexService {
             WebClient webClient = WebClient.builder()
                     .build();
 
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getGtfsFlex().getDataUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getGtfsFlexDataUrl());
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
             if (tdeiServiceId.isPresent())
@@ -200,7 +200,7 @@ public class GtfsFlexService implements IGtfsFlexService {
 
             WebClient webClient = WebClient.builder()
                     .build();
-            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementSvc().getServiceUrl());
+            UriComponentsBuilder uri = UriComponentsBuilder.fromUriString(applicationProperties.getManagementBaseUrl() + "/service");
             uri.queryParam("page_no", pageNo);
             uri.queryParam("page_size", pageSize);
             if (tdei_org_id.isPresent())
