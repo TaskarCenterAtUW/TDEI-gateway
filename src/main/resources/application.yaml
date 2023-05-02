@@ -7,24 +7,18 @@ spring:
     multipart:
       max-file-size: 30MB
       max-request-size: 30MB
+
+auth-server-url: "${AUTH_SERVER_URL}"
+management-base-url: "${MANAGEMENT_BASE_URL}"
+file-upload-base-url: "${FILE_UPLOAD_BASE_URL}}"
+gtfs-flex-data-url: "${GTFS_FLEX_DATA_URL}"
+gtfs-pathways-data-url: "${GTFS_PATHWAYS_DATA_URL}"
+osw-data-url: "${OSW_DATA_URL}"
+logger-url: "${LOGGER_URL}"
+
 application:
   app-name: tdei-gateway
-  auth-server-url: "${APPLICATION_AUTH_SERVER_URL}"
 
-gtfs-flex:
-  upload-url: "${GTFS_FLEX_UPLOAD_URL}"
-  data-url: "${GTFS_FLEX_DATA_URL}"
-gtfs-pathways:
-  upload-url: "${GTFS_PATHWAYS_UPLOAD_URL}"
-  data-url: "${GTFS_PATHWAYS_DATA_URL}"
-osw:
-  upload-url: "${OSW_UPLOAD_URL}"
-  data-url: "${OSW_DATA_URL}"
-management-svc:
-  station-url: "${MANAGEMENT_SVC_STATION_URL}"
-  service-url: "${MANAGEMENT_SVC_SERVICE_URL}"
-  org-url: "${MANAGEMENT_SVC_ORG_URL}"
-  logger-url: "${MANAGEMENT_SVC_LOGGER_URL}"
 spring-doc:
   swagger-ui:
     operationsSorter: alpha
