@@ -1,9 +1,24 @@
 # Introduction
 
-This is an API for applications consuming data from and publishing
-data to the Transportation Data Equity Initiative (TDEI) data system. This API
-supports consuming and publishing of GTFS-Pathways, GTFS-Flex v2 and OpenSidewalks
-data from and to the TDEI
+An API gateway is a service which is the entry point into the TDEI application from the outside world.
+It's responsible for request routing, API composition, and other functions, such as authentication, authorization of the
+requests.
+
+## System flow
+
+Diagram describes Gateway functionality at high level.
+
+```mermaid
+graph LR;
+    A(Client) --->|HTTP Requests| B(Gateway) 
+    B -->|Authenticate| C(Auth Service) 
+    B -->|Authorize| C(Auth Service) 
+    B -->|Redirects| D(GTFS Flex Data Service)
+    B -->|Redirects| E(GTFS Pathways Data Service)
+    B -->|Redirects| F(OSW Data Service)
+    B -->|Redirects| G(File Service)
+    B -->|Redirects| H(Logger Service)
+```
 
 ## System requirements
 
@@ -78,22 +93,6 @@ http://localhost:8080/swagger-ui/index.html
 $ mvn test
 ```
 
-## CI/CD [Azure Pipeline]
-
-### Continuous Integration (CI)
-
-Currently CI is not implemented as part of Azure pipeline. Test automated integration will be taken up in next
-development cycle.
-
-### Continuous Deployment (CD)
-
-Check-in to the master branch triggers the Azure pipeline [gateway] CI/CD process which will build the source code,
-generate the package and create the docker image. Docker image will then be deployed to Azure app services.
-
-Process Flow Diagram:
-
-![](src/main/resources/static/images/deployment-pipeline.png)
-
-Development API documentation link
+### Development API documentation link
 
 https://tdei-gateway.azurewebsites.net/swagger-ui/index.html
