@@ -46,6 +46,33 @@ Clone the project from source controller
 $ git clone https://TDEI-UW@dev.azure.com/TDEI-UW/TDEI/_git/gateway
 ```
 
+## Secrets
+
+Application secrets are not included in the code repository. Below are the instruction for each environment
+
+###### DEV
+
+Create **developer-local-properties.yaml** file under root of `resource` folder and override the application.yaml
+placeholders.
+
+```src/main/resources/developer-local-properties.yaml```
+
+###### PROD
+
+Secrets are configured as an environment variables on the deployment server.
+
+###### Environment variable
+
+|  Name   | Description                      |
+|-----|----------------------------------|
+|  AUTH_SERVER_URL | Auth service base url            |
+|  MANAGEMENT_BASE_URL  | User management service base url |
+|  FILE_UPLOAD_BASE_URL | File service base url            |
+|  GTFS_FLEX_DATA_URL | Flex data service base url       |
+|  GTFS_PATHWAYS_DATA_URL | Pathways data service base url   |
+|  OSW_DATA_URL | OSW data service base url        |
+|  LOGGER_URL | LOgger service base url          |
+
 ## Building the project
 
 ### IDE
