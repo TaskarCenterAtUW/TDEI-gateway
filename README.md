@@ -1,8 +1,8 @@
 # Introduction
 
-An API gateway is a service which is the entry point into the TDEI application from the outside world.
-It's responsible for request routing, API composition, and other functions, such as authentication, authorization of the
-requests.
+An API gateway is the entry point into the TDEI application from the outside world.
+It is responsible for request routing, API composition, and other functions, such as authentication, authorization of
+the requests.
 
 ## System flow
 
@@ -36,8 +36,7 @@ Intellij (https://www.jetbrains.com/idea/download)
 
 ## Dependencies
 
-Other third-party dependencies used in the project please browse the Maven pom.xml file for details of libraries and
-versions used.
+Please browse the Maven pom.xml file for details of libraries and versions of third-party dependencies used.
 
 ## Cloning the project
 
@@ -95,4 +94,4 @@ $ mvn test
 
 ### Development API documentation link
 
-https://tdei-gateway.azurewebsites.net/swagger-ui/index.html
+https://tdei-gateway-dev.azurewebsites.net/swagger-ui/index.html
