@@ -59,7 +59,7 @@ placeholders.
 
 ###### PROD
 
-Secrets are configured as an environment variables on the deployment server.
+Secrets are configured as environment variables on the deployment server.
 
 ###### Environment variable
 
