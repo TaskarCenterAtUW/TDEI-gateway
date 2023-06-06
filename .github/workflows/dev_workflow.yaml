@@ -47,4 +47,4 @@ jobs:
     steps:
       - name: Auto generate Api client
         run : |
-          bash update-api-client.sh ${{ secrets.PERSONAL_ACCESS_TOKEN}}
+          bash update-api-client.sh ${{ secrets.PERSONAL_ACCESS_TOKEN}} dev
