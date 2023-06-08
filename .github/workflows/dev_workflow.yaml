@@ -45,6 +45,7 @@ jobs:
     needs: Deploy
     runs-on : ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Auto generate Api client
         run : |
           bash update-api-client.sh ${{ secrets.PERSONAL_ACCESS_TOKEN}} dev
