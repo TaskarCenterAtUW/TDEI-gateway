@@ -30,4 +30,4 @@ RUN chmod 777 krakend.json
 
 EXPOSE 8080
 
-CMD [ "run", "-c", "/etc/krakend/krakend.json" ]
+CMD [ "run", "-c", "krakend.json" ]
