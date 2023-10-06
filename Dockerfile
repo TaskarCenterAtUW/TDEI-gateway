@@ -29,5 +29,5 @@ COPY --from=plugin-build-stage /app/tdei-plugin.so ./tdei-plugin/
 RUN chmod 777 krakend.json
 
 EXPOSE 8080
-ENV CONFIG_FILE=krakend.json
-CMD ["run", "-d", "-c"]
+
+CMD [ "run", "-c", "/etc/krakend/krakend.json" ]
