@@ -27,4 +27,7 @@ FROM devopsfaith/krakend:2.4.3
 COPY --from=builder /tmp/krakend.json .
 COPY --from=plugin-build-stage /app/tdei-plugin.so ./tdei-plugin/
 RUN chmod 777 krakend.json
+
 EXPOSE 8080
+ENV CONFIG_FILE=krakend.json
+CMD ["run", "-d", "-c"]
