@@ -17,17 +17,17 @@ Building the docker image runs the Dockerfile, which builds the configuration 'k
 
 ## Building for Development
 
-docker build --build-arg ENV=dev -t tdei-api-krakend:v1 .
+docker build --build-arg ENV=dev -t tdei-api-gateway:v1 .
 
 ## Building for Staging
 
-docker build --build-arg ENV=stage -t tdei-api-krakend:v1 .
+docker build --build-arg ENV=stage -t tdei-api-gateway:v1 .
 
 ## Building for Production
 
-docker build --build-arg ENV=prod -t tdei-api-krakend:v1 .
+docker build --build-arg ENV=prod -t tdei-api-gateway:v1 .
 
 ## Deploying
 
-docker run -p 8080:8080 tdei-api-krakend:v1 run -d -c krakend.json
+docker run -p 8080:8080 tdei-api-gateway:v1 -d -c krakend.json
 
