@@ -38,7 +38,7 @@
         },
         "router": {
             "auto_options": true,
-            "health_path": "/ping/health"
+            "health_path": "/health/ping"
         }
     }
 }
