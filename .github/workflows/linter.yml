@@ -15,7 +15,7 @@ on:
       - '**'
     # Remove the line above to run when pushing to master
   pull_request:
-    branches: [master, dev]
+    branches: [master, dev, stage]
 
 ###############
 # Set the Job #
