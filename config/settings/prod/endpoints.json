@@ -14,13 +14,13 @@
         },
         {
             "endpoint": "/api/v1/status",
-            "backend_url_pattern": "/api/v1/status",
+            "backend_url_pattern": "/status",
             "http_method": "GET",
             "backend_host": "https://tdei-logger-prod.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/organizations",
-            "backend_url_pattern": "/api/v1/organization",
+            "endpoint": "/api/v1/project-group",
+            "backend_url_pattern": "/api/v1/project-group",
             "http_method": "GET",
             "backend_host": "https://tdei-usermanagement-prod.azurewebsites.net"
         },
