@@ -1,0 +1,44 @@
+{
+    "port": 8080,
+    "environment": "PRODUCTION",
+    "timeout": "30s",
+    "cache_ttl": "3s",
+    "output_encoding": "json",
+    "plugin": {
+        "pattern": ".so",
+        "folder": "./tdei-plugin/"
+    },
+    "extra_config": {
+        "plugin/http-server": {
+            "name": [
+                "tdei-api-gateway"
+            ],
+            "tdei-api-gateway": {
+                "api_key_header": "x-api-key",
+                "auth_server": "https://tdei-auth-n-z-prod.azurewebsites.net",
+                "pass-through-urls": "refresh-token,authenticate,health",
+                "tdei-api-documentation-url": "",
+                "tdei-api-specification-url": ""
+            }
+        },
+        "security/cors": {
+            "allow_origins": [
+                "*"
+            ],
+            "allow_methods": [
+                "GET",
+                "HEAD",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE",
+                "OPTIONS"
+            ],
+            "debug": true
+        },
+        "router": {
+            "auto_options": true,
+            "health_path": "/health/ping"
+        }
+    }
+}
