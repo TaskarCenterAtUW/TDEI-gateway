@@ -17,8 +17,8 @@
                 "api_key_header": "x-api-key",
                 "auth_server": "https://tdei-auth-n-z-stage.azurewebsites.net",
                 "pass-through-urls": "refresh-token,authenticate,health",
-                "tdei-api-documentation-url": "",
-                "tdei-api-specification-url": ""
+                "tdei-api-documentation-url": "https://tdei-api-gateway-spec.azurewebsites.net",
+                "tdei-api-specification-url": "https://raw.githubusercontent.com/TaskarCenterAtUW/TDEI-ExternalAPIs/stage/tdei-api-gateway.json"
             }
         },
         "security/cors": {
