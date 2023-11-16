@@ -1,5 +1,5 @@
 FROM devopsfaith/krakend:2.4.3 as builder
-ARG ENV=dev
+ARG ENV
 
 COPY krakend.tmpl .
 COPY config .
