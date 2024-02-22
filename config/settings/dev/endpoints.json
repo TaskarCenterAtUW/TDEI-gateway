@@ -7,6 +7,12 @@
             "backend_host": "https://tdei-auth-n-z-dev.azurewebsites.net"
         },
         {
+            "endpoint": "/api/v1/login",
+            "backend_url_pattern": "/api/v1/authenticate",
+            "http_method": "POST",
+            "backend_host": "https://tdei-auth-n-z-dev.azurewebsites.net"
+        },
+        {
             "endpoint": "/api/v1/authenticate",
             "backend_url_pattern": "/api/v1/authenticate",
             "http_method": "POST",
