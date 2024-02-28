@@ -19,6 +19,36 @@
             "backend_host": "https://tdei-logger-stage.azurewebsites.net"
         },
         {
+            "endpoint": "/api/v1/osw/dataset-flattern/{tdei_record_id}",
+            "backend_url_pattern": "/api/v1/osw/dataset-flattern/{tdei_record_id}",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/osw/dataset-flattern/status/{job_id}",
+            "backend_url_pattern": "/api/v1/osw/dataset-flattern/status/{job_id}",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/osw/dataset-bbox",
+            "backend_url_pattern": "/api/v1/osw/dataset-bbox",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/osw/dataset-bbox/status/{job_id}",
+            "backend_url_pattern": "/api/v1/osw/dataset-bbox/status/{job_id}",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/osw/dataset-bbox/download/{job_id}",
+            "backend_url_pattern": "/api/v1/osw/dataset-bbox/download/{job_id}",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
             "endpoint": "/api/v1/osw/upload/status/{tdei_record_id}",
             "backend_url_pattern": "/api/v1/osw/upload/status/{tdei_record_id}",
             "http_method": "GET",
