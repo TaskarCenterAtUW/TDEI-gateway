@@ -19,14 +19,14 @@
             "backend_host": "https://tdei-logger-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/dataset-flattern/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/osw/dataset-flattern/{tdei_record_id}",
+            "endpoint": "/api/v1/osw/dataset-flatten/{tdei_datatset_id}",
+            "backend_url_pattern": "/api/v1/osw/dataset-flatten/{tdei_datatset_id}",
             "http_method": "POST",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/dataset-flattern/status/{job_id}",
-            "backend_url_pattern": "/api/v1/osw/dataset-flattern/status/{job_id}",
+            "endpoint": "/api/v1/job",
+            "backend_url_pattern": "/api/v1/job",
             "http_method": "GET",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
@@ -37,44 +37,14 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/dataset-bbox/status/{job_id}",
-            "backend_url_pattern": "/api/v1/osw/dataset-bbox/status/{job_id}",
-            "http_method": "GET",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/osw/dataset-bbox/download/{job_id}",
-            "backend_url_pattern": "/api/v1/osw/dataset-bbox/download/{job_id}",
-            "http_method": "GET",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/osw/upload/status/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/osw/upload/status/{tdei_record_id}",
-            "http_method": "GET",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/osw/publish/status/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/osw/publish/status/{tdei_record_id}",
-            "http_method": "GET",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/osw/validate/status/{job_id}",
-            "backend_url_pattern": "/api/v1/osw/validate/status/{job_id}",
-            "http_method": "GET",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
             "endpoint": "/api/v1/project-group",
             "backend_url_pattern": "/api/v1/project-group",
             "http_method": "GET",
             "backend_host": "https://tdei-usermanagement-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/osw/{tdei_record_id}",
+            "endpoint": "/api/v1/dataset/{tdei_datatset_id}",
+            "backend_url_pattern": "/api/v1/dataset/{tdei_datatset_id}",
             "http_method": "DELETE",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
@@ -85,8 +55,8 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/osw/{tdei_record_id}",
+            "endpoint": "/api/v1/osw/{tdei_datatset_id}",
+            "backend_url_pattern": "/api/v1/osw/{tdei_datatset_id}",
             "http_method": "GET",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
@@ -103,8 +73,8 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/publish/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/osw/publish/{tdei_record_id}",
+            "endpoint": "/api/v1/osw/publish/{tdei_datatset_id}",
+            "backend_url_pattern": "/api/v1/osw/publish/{tdei_datatset_id}",
             "http_method": "POST",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
@@ -115,15 +85,9 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/confidence/calculate",
-            "backend_url_pattern": "/api/v1/osw/confidence/calculate",
+            "endpoint": "/api/v1/osw/confidence/calculate/{tdei_datatset_id}",
+            "backend_url_pattern": "/api/v1/osw/confidence/calculate/{tdei_datatset_id}",
             "http_method": "POST",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/osw/confidence/status/{job_id}",
-            "backend_url_pattern": "/api/v1/osw/confidence/status/{job_id}",
-            "http_method": "GET",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
@@ -133,14 +97,8 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/convert/status/{job_id}",
-            "backend_url_pattern": "/api/v1/osw/convert/status/{job_id}",
-            "http_method": "GET",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/osw/convert/download/{job_id}",
-            "backend_url_pattern": "/api/v1/osw/convert/download/{job_id}",
+            "endpoint": "/api/v1/job/download/{job_id}",
+            "backend_url_pattern": "/api/v1/job/download/{job_id}",
             "http_method": "GET",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
