@@ -103,64 +103,82 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/gtfs-pathways",
-            "backend_url_pattern": "/api/v1/gtfs-pathways",
-            "http_method": "GET",
-            "backend_host": "https://tdei-pathways-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/gtfs-pathways/versions",
-            "backend_url_pattern": "/api/v1/gtfs-pathways/versions/info",
-            "http_method": "GET",
-            "backend_host": "https://tdei-pathways-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/gtfs-pathways/stations",
-            "backend_url_pattern": "/api/v1/station",
-            "http_method": "GET",
-            "backend_host": "https://tdei-usermanagement-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/gtfs-pathways/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/gtfs-pathways/{tdei_record_id}",
-            "http_method": "GET",
-            "backend_host": "https://tdei-pathways-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/gtfs-pathways",
-            "backend_url_pattern": "/api/v1/gtfs-pathways",
-            "http_method": "POST",
-            "backend_host": "https://tdei-pathways-datasvc-stage.azurewebsites.net"
-        },
-        {
             "endpoint": "/api/v1/gtfs-flex",
             "backend_url_pattern": "/api/v1/gtfs-flex",
             "http_method": "GET",
-            "backend_host": "https://tdei-flex-datasvc-stage.azurewebsites.net"
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/gtfs-flex/{tdei_record_id}",
-            "backend_url_pattern": "/api/v1/gtfs-flex/{tdei_record_id}",
+            "endpoint": "/api/v1/gtfs-flex/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/gtfs-flex/{tdei_dataset_id}",
             "http_method": "GET",
-            "backend_host": "https://tdei-flex-datasvc-stage.azurewebsites.net"
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
             "endpoint": "/api/v1/gtfs-flex/versions",
             "backend_url_pattern": "/api/v1/gtfs-flex/versions/info",
             "http_method": "GET",
-            "backend_host": "https://tdei-flex-datasvc-stage.azurewebsites.net"
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-flex/upload/{tdei_project_group_id}/{tdei_service_id}",
+            "backend_url_pattern": "/api/v1/gtfs-flex/upload/{tdei_project_group_id}/{tdei_service_id}",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-flex/publish/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/gtfs-flex/publish/{tdei_dataset_id}",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-flex/validate",
+            "backend_url_pattern": "/api/v1/gtfs-flex/validate",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-pathways",
+            "backend_url_pattern": "/api/v1/gtfs-pathways",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-pathways/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/gtfs-pathways/{tdei_dataset_id}",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-pathways/versions",
+            "backend_url_pattern": "/api/v1/gtfs-pathways/versions/info",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-pathways/upload/{tdei_project_group_id}/{tdei_service_id}",
+            "backend_url_pattern": "/api/v1/gtfs-pathways/upload/{tdei_project_group_id}/{tdei_service_id}",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-pathways/publish/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/gtfs-pathways/publish/{tdei_dataset_id}",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/gtfs-pathways/validate",
+            "backend_url_pattern": "/api/v1/gtfs-pathways/validate",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
             "endpoint": "/api/v1/services",
             "backend_url_pattern": "/api/v1/service",
             "http_method": "GET",
             "backend_host": "https://tdei-usermanagement-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/gtfs-flex",
-            "backend_url_pattern": "/api/v1/gtfs-flex",
-            "http_method": "POST",
-            "backend_host": "https://tdei-flex-datasvc-stage.azurewebsites.net"
         },
         {
             "endpoint": "/api/v1/api",
