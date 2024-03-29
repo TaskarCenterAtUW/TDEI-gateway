@@ -19,14 +19,8 @@
             "backend_host": "https://tdei-logger-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/dataset-flatten/{tdei_datatset_id}",
-            "backend_url_pattern": "/api/v1/osw/dataset-flatten/{tdei_datatset_id}",
-            "http_method": "POST",
-            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
-        },
-        {
-            "endpoint": "/api/v1/job",
-            "backend_url_pattern": "/api/v1/job",
+            "endpoint": "/api/v1/jobs",
+            "backend_url_pattern": "/api/v1/jobs",
             "http_method": "GET",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
@@ -37,7 +31,7 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/project-group",
+            "endpoint": "/api/v1/project-groups",
             "backend_url_pattern": "/api/v1/project-group",
             "http_method": "GET",
             "backend_host": "https://tdei-usermanagement-stage.azurewebsites.net"
@@ -49,8 +43,8 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/dataset",
-            "backend_url_pattern": "/api/v1/dataset",
+            "endpoint": "/api/v1/datasets",
+            "backend_url_pattern": "/api/v1/datasets",
             "http_method": "GET",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
@@ -85,8 +79,8 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/confidence/calculate/{tdei_datatset_id}",
-            "backend_url_pattern": "/api/v1/osw/confidence/calculate/{tdei_datatset_id}",
+            "endpoint": "/api/v1/osw/confidence/{tdei_datatset_id}",
+            "backend_url_pattern": "/api/v1/osw/confidence/{tdei_datatset_id}",
             "http_method": "POST",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
