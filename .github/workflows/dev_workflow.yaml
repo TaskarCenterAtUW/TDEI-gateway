@@ -28,9 +28,12 @@ jobs:
       name: Development
     runs-on: ubuntu-latest
     steps:
+    - name: Login to Azure
+      uses: azure/login@v2.0.0
+      with:
+        creds: ${{secrets.TDEI_CORE_AZURE_CREDS}}
     - name: Deploy to Dev
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         images: ${{ secrets.REGISTRY_DOMAIN }}/${{ secrets.REGISTRY_REPO }}:${{ github.sha }}
