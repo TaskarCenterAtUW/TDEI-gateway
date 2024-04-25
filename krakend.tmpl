@@ -11,6 +11,7 @@
   "endpoints": [{{ range $idx, $endpoint := .endpoints.endpoints }}{{if $idx}},{{end}}
     {
         "endpoint": "{{ $endpoint.endpoint }}",
+        "timeout": "{{ with $endpoint.timeout }}{{ . }}{{ else }}90s{{ end }}",
         "method": "{{ $endpoint.http_method }}",
         "output_encoding": "no-op",
         "input_query_strings": [
