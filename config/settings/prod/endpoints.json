@@ -58,6 +58,7 @@
             "endpoint": "/api/v1/osw/{tdei_datatset_id}",
             "backend_url_pattern": "/api/v1/osw/{tdei_datatset_id}",
             "http_method": "GET",
+            "timeout": "500s",
             "backend_host": "https://tdei-osw-datasvc-prod.azurewebsites.net"
         },
         {
@@ -100,6 +101,7 @@
             "endpoint": "/api/v1/job/download/{job_id}",
             "backend_url_pattern": "/api/v1/job/download/{job_id}",
             "http_method": "GET",
+            "timeout": "500s",
             "backend_host": "https://tdei-osw-datasvc-prod.azurewebsites.net"
         },
         {
