@@ -43,6 +43,12 @@
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
         {
+            "endpoint": "/api/v1/osw/spatial-join",
+            "backend_url_pattern": "/api/v1/osw/spatial-join",
+            "http_method": "POST",
+            "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
+        },
+        {
             "endpoint": "/api/v1/project-groups",
             "backend_url_pattern": "/api/v1/project-group",
             "http_method": "GET",
@@ -106,6 +112,12 @@
         {
             "endpoint": "/api/v1/osw/confidence/{tdei_dataset_id}",
             "backend_url_pattern": "/api/v1/osw/confidence/{tdei_dataset_id}",
+            "http_method": "POST",
+            "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/osw/quality-metric/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/osw/quality-metric/{tdei_dataset_id}",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
