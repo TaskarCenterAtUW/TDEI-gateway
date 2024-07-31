@@ -9,6 +9,7 @@ jobs:
   Build:
     environment: Production
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
       - uses: azure/docker-login@v1
