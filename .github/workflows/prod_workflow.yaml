@@ -1,7 +1,8 @@
 on:
-  push:
-    tags:
-      - "v*.*.*" # Eg. v1.0.0
+  pull_request:
+    branches: [master]
+    types:
+      - closed
   workflow_dispatch:
 
 jobs:
