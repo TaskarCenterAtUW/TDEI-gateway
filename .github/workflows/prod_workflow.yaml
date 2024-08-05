@@ -1,13 +1,15 @@
 on:
-  push:
-    tags:
-      - 'prod-latest'
+  pull_request:
+    branches: [master]
+    types:
+      - closed
   workflow_dispatch:
-    
+
 jobs:
   Build:
     environment: Production
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
       - uses: azure/docker-login@v1
@@ -25,12 +27,12 @@ jobs:
       name: Production
     runs-on: ubuntu-latest
     steps:
-    - name: Login to Azure
-      uses: azure/login@v2.0.0
-      with:
-        creds: ${{secrets.TDEI_CORE_AZURE_CREDS}}
-    - name: Deploy to Prod
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        images: '${{ secrets.REGISTRY_DOMAIN }}/${{ secrets.REGISTRY_REPO }}:${{ github.ref_name }}'
+      - name: Login to Azure
+        uses: azure/login@v2.0.0
+        with:
+          creds: ${{secrets.TDEI_CORE_AZURE_CREDS}}
+      - name: Deploy to Prod
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          images: "${{ secrets.REGISTRY_DOMAIN }}/${{ secrets.REGISTRY_REPO }}:${{ github.ref_name }}"
