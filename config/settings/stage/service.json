@@ -1,0 +1,44 @@
+{
+    "port": 8080,
+    "environment": "STAGING",
+    "timeout": "90s",
+    "cache_ttl": "3s",
+    "output_encoding": "json",
+    "plugin": {
+        "pattern": ".so",
+        "folder": "./tdei-plugin/"
+    },
+    "extra_config": {
+        "plugin/http-server": {
+            "name": [
+                "tdei-api-gateway"
+            ],
+            "tdei-api-gateway": {
+                "api_key_header": "x-api-key",
+                "auth_server": "https://tdei-auth-n-z-stage.azurewebsites.net",
+                "pass-through-urls": "refresh-token,authenticate,health",
+                "tdei-api-documentation-url": "https://tdei-api-gateway-spec-stage.azurewebsites.net",
+                "tdei-api-specification-url": "https://raw.githubusercontent.com/TaskarCenterAtUW/TDEI-ExternalAPIs/stage/tdei-api-gateway.json"
+            }
+        },
+        "security/cors": {
+            "allow_origins": [
+                "*"
+            ],
+            "allow_methods": [
+                "GET",
+                "HEAD",
+                "POST",
+                "PUT",
+                "PATCH",
+                "DELETE",
+                "OPTIONS"
+            ],
+            "debug": true
+        },
+        "router": {
+            "auto_options": true,
+            "health_path": "/health/ping"
+        }
+    }
+}
