@@ -98,8 +98,8 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/quality-metric/{tdei_dataset_id}",
-            "backend_url_pattern": "/api/v1/osw/quality-metric/{tdei_dataset_id}",
+            "endpoint": "/api/v1/osw/quality-metric/ixn/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/osw/quality-metric/ixn/{tdei_dataset_id}",
             "http_method": "POST",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
