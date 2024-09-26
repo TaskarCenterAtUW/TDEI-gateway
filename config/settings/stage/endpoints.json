@@ -37,6 +37,12 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
+            "endpoint": "/api/v1/osw/dataset-inclination/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/osw/dataset-inclination/{tdei_dataset_id}",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
             "endpoint": "/api/v1/project-groups",
             "backend_url_pattern": "/api/v1/project-group",
             "http_method": "GET",
@@ -98,8 +104,8 @@
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
         {
-            "endpoint": "/api/v1/osw/quality-metric/{tdei_dataset_id}",
-            "backend_url_pattern": "/api/v1/osw/quality-metric/{tdei_dataset_id}",
+            "endpoint": "/api/v1/osw/quality-metric/ixn/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/osw/quality-metric/ixn/{tdei_dataset_id}",
             "http_method": "POST",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         },
@@ -199,6 +205,30 @@
             "backend_url_pattern": "/api/v1/api",
             "http_method": "GET",
             "backend_host": "https://tdei-gateway-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/system-metrics",
+            "backend_url_pattern": "/api/v1/system-metrics",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/data-metrics",
+            "backend_url_pattern": "/api/v1/data-metrics",
+            "http_method": "GET",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/recover-password",
+            "backend_url_pattern": "/api/v1/recover-password",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
+        },
+        {
+            "endpoint": "/api/v1/verify-email",
+            "backend_url_pattern": "/api/v1/verify-email",
+            "http_method": "POST",
+            "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
         }
     ]
 }
