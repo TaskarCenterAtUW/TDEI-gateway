@@ -19,6 +19,12 @@
             "backend_host": "https://tdei-datasvc-prod.azurewebsites.net"
         },
         {
+            "endpoint": "/api/v1/osw/union",
+            "backend_url_pattern": "/api/v1/osw/union",
+            "http_method": "POST",
+            "backend_host": "https://tdei-datasvc-prod.azurewebsites.net"
+        },
+        {
             "endpoint": "/api/v1/osw/dataset-bbox",
             "backend_url_pattern": "/api/v1/osw/dataset-bbox",
             "http_method": "POST",
