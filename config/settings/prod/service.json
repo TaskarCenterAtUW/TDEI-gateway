@@ -16,7 +16,7 @@
             "tdei-api-gateway": {
                 "api_key_header": "x-api-key",
                 "auth_server": "https://tdei-auth-n-z-prod.azurewebsites.net",
-                "pass-through-urls": "refresh-token,authenticate,health",
+                "pass-through-urls": "refresh-token,authenticate,health,recover-password,verify-email",
                 "tdei-api-documentation-url": "https://tdei-api-gateway-spec-prod.azurewebsites.net",
                 "tdei-api-specification-url": "https://raw.githubusercontent.com/TaskarCenterAtUW/TDEI-ExternalAPIs/main/tdei-api-gateway-prod.json"
             }
