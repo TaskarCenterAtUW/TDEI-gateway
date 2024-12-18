@@ -210,7 +210,7 @@
             "endpoint": "/api/v1/api",
             "backend_url_pattern": "/api/v1/api",
             "http_method": "GET",
-            "backend_host": "https://tdei-gateway-prod.azurewebsites.net"
+            "backend_host": "https://api.tdei.us"
         },
         {
             "endpoint": "/api/v1/system-metrics",
