@@ -52,7 +52,7 @@
             "endpoint": "/api/v1/project-groups",
             "backend_url_pattern": "/api/v1/project-group",
             "http_method": "GET",
-            "backend_host": "https://tdei-usermanagement-prod.azurewebsites.net"
+            "backend_host": "https://portal-api.tdei.us"
         },
         {
             "endpoint": "/api/v1/dataset/{tdei_datatset_id}",
@@ -204,7 +204,7 @@
             "endpoint": "/api/v1/services",
             "backend_url_pattern": "/api/v1/service",
             "http_method": "GET",
-            "backend_host": "https://tdei-usermanagement-prod.azurewebsites.net"
+            "backend_host": "https://portal-api.tdei.us"
         },
         {
             "endpoint": "/api/v1/api",
