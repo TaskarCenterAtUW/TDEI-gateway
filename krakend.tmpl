@@ -14,7 +14,8 @@
         "timeout": "{{ with $endpoint.timeout }}{{ . }}{{ else }}90s{{ end }}",
         "method": "{{ $endpoint.http_method }}",
         "output_encoding": "no-op",
-        "input_query_strings": [
+        "extra_config": {{ with $endpoint.extra_config }}{{ . | toJson }}{{ else }}{}{{ end }},       
+       "input_query_strings": [
         "*"
         ],
         "input_headers": [
