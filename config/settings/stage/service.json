@@ -37,6 +37,10 @@
             "debug": true
         },
         "router": {
+            "forwarded_by_client_ip": true,
+            "remote_ip_headers": [
+                "X-Forwarded-For"
+            ],
             "auto_options": true,
             "health_path": "/health/ping"
         }
