@@ -112,6 +112,7 @@
         {
             "endpoint": "/api/v1/osw/upload/{tdei_project_group_id}/{tdei_service_id}",
             "backend_url_pattern": "/api/v1/osw/upload/{tdei_project_group_id}/{tdei_service_id}",
+            "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
@@ -124,6 +125,7 @@
         {
             "endpoint": "/api/v1/osw/validate",
             "backend_url_pattern": "/api/v1/osw/validate",
+            "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
@@ -148,6 +150,7 @@
         {
             "endpoint": "/api/v1/osw/convert",
             "backend_url_pattern": "/api/v1/osw/convert",
+            "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
@@ -173,6 +176,7 @@
         {
             "endpoint": "/api/v1/gtfs-flex/upload/{tdei_project_group_id}/{tdei_service_id}",
             "backend_url_pattern": "/api/v1/gtfs-flex/upload/{tdei_project_group_id}/{tdei_service_id}",
+            "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
@@ -185,6 +189,7 @@
         {
             "endpoint": "/api/v1/gtfs-flex/validate",
             "backend_url_pattern": "/api/v1/gtfs-flex/validate",
+            "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
@@ -203,6 +208,7 @@
         {
             "endpoint": "/api/v1/gtfs-pathways/upload/{tdei_project_group_id}/{tdei_service_id}",
             "backend_url_pattern": "/api/v1/gtfs-pathways/upload/{tdei_project_group_id}/{tdei_service_id}",
+            "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
@@ -215,6 +221,7 @@
         {
             "endpoint": "/api/v1/gtfs-pathways/validate",
             "backend_url_pattern": "/api/v1/gtfs-pathways/validate",
+            "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-dataservice-dev.azurewebsites.net"
         },
