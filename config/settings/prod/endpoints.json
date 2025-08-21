@@ -55,8 +55,8 @@
             "backend_host": "https://tdei-datasvc-prod.azurewebsites.net"
         },
         {
-            "endpoint": "/dataset/generate/pm-tiles/{tdei_dataset_id}",
-            "backend_url_pattern": "/dataset/generate/pm-tiles/{tdei_dataset_id}",
+            "endpoint": "/api/v1/osw/dataset/generate/pm-tiles/{tdei_dataset_id}",
+            "backend_url_pattern": "/api/v1/osw/dataset/generate/pm-tiles/{tdei_dataset_id}",
             "http_method": "POST",
             "backend_host": "https://tdei-datasvc-prod.azurewebsites.net"
         },
