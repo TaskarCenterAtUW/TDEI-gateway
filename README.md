@@ -1,18 +1,13 @@
-# Introduction
+# TDEI API Gateway
 The TDEI API Gateway is the primary entry point to the TDEI system. It plays a pivotal role in authenticating users and applications, ensuring secure access. Additionally, it facilitates custom analytics, enabling data-driven decision-making within the TDEI ecosystem. This repository contains the essential code and configurations for the TDEI API Gateway.
 
 ## System Requirement
 Linux Latest LTS ( >= Ubuntu 22.04)
-
 golang 1.20.6
-
 krakenD 2.4.3
-
 Docker
 
-
 ## Building the Docker Image
-
 Building the docker image runs the Dockerfile, which builds the configuration 'krakend.json' file by running the krakend.tmpl file with environment specific defined values. 
 
 ## Building & deploying for local development
