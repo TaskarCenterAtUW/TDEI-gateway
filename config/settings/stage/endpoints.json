@@ -173,7 +173,7 @@
         },
         {
             "endpoint": "/api/v1/osw/sanitize",
-            "backend_url_pattern": "/sanitize",
+            "backend_url_pattern": "/api/v1/osw/sanitize",
             "timeout": "900s",
             "http_method": "POST",
             "backend_host": "https://tdei-osw-datasvc-stage.azurewebsites.net"
