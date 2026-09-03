@@ -62,8 +62,8 @@ func (r registerer) registerHandlers(_ context.Context, extra map[string]interfa
 		fmt.Println("Entered HTTP handler")
 
 		// In KrakenD Community Edition, backend 30x responses are followed by the gateway.
-		// To preserve browser redirect behavior for SSO entrypoint, redirect from gateway directly.
-		if req.URL.Path == "/api/v1/sso-redirect" {
+		// To preserve browser redirect behavior for SSO entrypoints, redirect from gateway directly.
+		if req.URL.Path == common.SSORedirectEndpoint || req.URL.Path == common.SSOLogoutEndpoint {
 			redirectURL := strings.TrimRight(pluginConfig.AuthServer, "/") + req.URL.RequestURI()
 			http.Redirect(w, req, redirectURL, http.StatusFound)
 			return
