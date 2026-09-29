@@ -4,6 +4,8 @@ const ApiDocsURL string = "/api/docs"
 const ValidateAccessTokenURL string = "/api/v1/validateAccessToken"
 const ValidateApiKeyURL string = "/api/v1/validateApiKey"
 const TdeiAPIEndpoint string = "/api/v1/api"
+const SSORedirectEndpoint string = "/api/v1/sso-redirect"
+const SSOLogoutEndpoint string = "/api/v1/sso-logout"
 
 
 
