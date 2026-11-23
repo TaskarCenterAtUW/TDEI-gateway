@@ -34,6 +34,12 @@
                 "DELETE",
                 "OPTIONS"
             ],
+            "expose_headers": [
+                "X-Total-Count",
+                "X-Page-No",
+                "X-Page-Size",
+                "Link"
+            ],
             "debug": true
         },
         "router": {
